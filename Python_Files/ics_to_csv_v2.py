@@ -22,9 +22,7 @@ def parse_recurring_events(component, start_dt, end_dt, rrule_str):
     
     # Convert timezone-aware datetime to naive for rrule parsing
     if hasattr(start_dt, 'tzinfo') and start_dt.tzinfo is not None:
-        # Store original timezone
         original_tz = start_dt.tzinfo
-        # Convert to naive datetime for rrule
         start_dt_naive = start_dt.replace(tzinfo=None)
     else:
         original_tz = None
@@ -34,9 +32,7 @@ def parse_recurring_events(component, start_dt, end_dt, rrule_str):
     try:
         rrule = rrulestr(rrule_str, dtstart=start_dt_naive, ignoretz=True)
     except ValueError:
-        # If ignoretz doesn't work, force convert UNTIL to naive as well
         import re
-        # Remove timezone info from UNTIL in the rrule string
         rrule_str_modified = re.sub(r'UNTIL=\d{8}T\d{6}Z', 
                                      lambda m: m.group(0).replace('Z', ''), 
                                      rrule_str)
@@ -44,7 +40,6 @@ def parse_recurring_events(component, start_dt, end_dt, rrule_str):
     
     # Generate all occurrences
     for occurrence_start in rrule:
-        # Add timezone back if original had one
         if original_tz:
             occurrence_start = occurrence_start.replace(tzinfo=original_tz)
             occurrence_end = occurrence_start + duration
@@ -52,7 +47,7 @@ def parse_recurring_events(component, start_dt, end_dt, rrule_str):
             occurrence_end = occurrence_start + duration
             
         event = {
-            'summary': str(component.get('summary', '')),
+            'course_id': str(component.get('summary', '')),
             'start': occurrence_start,
             'end': occurrence_end,
             'description': str(component.get('description', '')),
@@ -64,13 +59,15 @@ def parse_recurring_events(component, start_dt, end_dt, rrule_str):
     
     return events
 
-def ics_to_dataframe(ics_file_path, expand_recurring=True):
+def ics_to_dataframe(ics_file_path, expand_recurring=True, classes_filter=None):
     """
     Convert .ics calendar file to pandas DataFrame
     
     Args:
         ics_file_path (str): Path to the .ics file
         expand_recurring (bool): If True, expands recurring events into individual rows
+        classes_filter (list): Optional list of class names to include (e.g., ['ISTM-622-601', 'ISTM-624-601'])
+                              If None, includes all classes
     
     Returns:
         pd.DataFrame: DataFrame containing calendar events
@@ -81,45 +78,34 @@ def ics_to_dataframe(ics_file_path, expand_recurring=True):
     
     events = []
     
-    # Extract timezone from calendar if available
-    tz = None
-    for component in calendar.walk():
-        if component.name == "VTIMEZONE":
-            tz_id = str(component.get('tzid', ''))
-            if tz_id:
-                try:
-                    tz = pytz.timezone(tz_id)
-                except:
-                    tz = pytz.timezone('America/Chicago')  # Default to Central Time
-    
     # Process each event
     for component in calendar.walk():
         if component.name == "VEVENT":
-            # Get start and end times
             dtstart = component.get('dtstart')
             dtend = component.get('dtend')
             
             if dtstart and dtend:
                 start_dt = dtstart.dt if hasattr(dtstart, 'dt') else dtstart
                 end_dt = dtend.dt if hasattr(dtend, 'dt') else dtend
+                course_id = str(component.get('summary', ''))
                 
-                # Check for recurring events
+                # Apply filter if specified
+                if classes_filter and course_id not in classes_filter:
+                    continue
+                
                 rrule = component.get('rrule')
                 
                 if rrule and expand_recurring:
-                    # Build RRULE string for parsing
                     rrule_str = f"DTSTART:{start_dt.strftime('%Y%m%dT%H%M%S')}\n"
                     rrule_str += f"RRULE:{rrule.to_ical().decode('utf-8')}"
                     
-                    # Expand recurring events
                     recurring_events = parse_recurring_events(
                         component, start_dt, end_dt, rrule_str
                     )
                     events.extend(recurring_events)
                 else:
-                    # Single event
                     event = {
-                        'summary': str(component.get('summary', '')),
+                        'course_id': course_id,
                         'start': start_dt,
                         'end': end_dt,
                         'description': str(component.get('description', '')),
@@ -132,7 +118,6 @@ def ics_to_dataframe(ics_file_path, expand_recurring=True):
     # Create DataFrame
     df = pd.DataFrame(events)
     
-    # Sort by start date
     if not df.empty and 'start' in df.columns:
         df = df.sort_values('start').reset_index(drop=True)
         
@@ -149,15 +134,19 @@ def ics_to_dataframe(ics_file_path, expand_recurring=True):
         df['end_time'] = df['end'].apply(
             lambda x: x.strftime('%I:%M %p') if isinstance(x, datetime) else ''
         )
+        
+        # Add total_classes column - shows total count for each course
+        class_counts = df['course_id'].value_counts().to_dict()
+        df['total_classes'] = df['course_id'].map(class_counts)
     
     # Reorder columns for readability
-    column_order = ['summary', 'date', 'day_of_week', 'start_time', 'end_time', 
-                    'start', 'end', 'location', 'description', 'status', 'uid']
+    column_order = ['course_id', 'total_classes', 'date', 'day_of_week', 'start_time', 
+                    'end_time', 'location', 'description', 'status', 'start', 'end', 'uid']
     df = df[[col for col in column_order if col in df.columns]]
     
     return df
 
-def ics_to_csv(ics_file_path, csv_output_path, expand_recurring=True):
+def ics_to_csv(ics_file_path, csv_output_path, expand_recurring=True, classes_filter=None):
     """
     Convert .ics calendar file to CSV
     
@@ -165,54 +154,36 @@ def ics_to_csv(ics_file_path, csv_output_path, expand_recurring=True):
         ics_file_path (str): Path to the .ics file
         csv_output_path (str): Output CSV file path
         expand_recurring (bool): If True, expands recurring events
+        classes_filter (list): Optional list of class names to include
     
     Returns:
         pd.DataFrame: The created DataFrame
     """
-    df = ics_to_dataframe(ics_file_path, expand_recurring)
-    df.to_csv(csv_output_path, index=False, encoding='utf-8')
-    print(f"✓ Calendar exported to {csv_output_path}")
-    print(f"✓ Total events: {len(df)}")
+    df = ics_to_dataframe(ics_file_path, expand_recurring, classes_filter)
+    df.to_csv(csv_output_path, index=False, encoding='utf-8', sep='|')
     return df
 
 # Example usage with your TAMU schedule
 if __name__ == "__main__":
+    from datetime import datetime as dt_now
+    
     ics_file = r"C:\Users\mekal\OneDrive\Desktop\schedule.ics"
-    csv_file = r"C:\Users\mekal\Downloads\tamu_schedule.csv"
-
-    # Create additional CSV with only specific columns
-    #df[['summary', 'date', 'day_of_week', 'start_time', 'end_time']].to_csv('simple_schedule.csv', index=False)
-    #print("✓ Simple schedule saved to simple_schedule.csv")
+    
+    # Generate filename with timestamp
+    timestamp = dt_now.now().strftime("%Y%m%d_%H%M%S")
+    csv_file = rf"C:\Users\mekal\Downloads\tamu_schedule_{timestamp}.csv"
+    
+    # OPTIONAL: Filter specific classes (uncomment and modify if needed)
+    # classes_to_include = ['ISTM-622-601', 'ISTM-624-601']  # Add your class codes here
+    # Or set to None to include ALL classes
+    classes_to_include = None  # This includes ALL classes
     
     try:
-        # Convert to DataFrame (with recurring events expanded)
-        df = ics_to_dataframe(ics_file, expand_recurring=True)
-        
-        print("=" * 60)
-        print("CALENDAR CONVERSION SUCCESSFUL")
-        print("=" * 60)
-        print(f"\nTotal class sessions: {len(df)}")
-        print(f"\nCourses found: {df['summary'].nunique()}")
-        print(f"Course list: {', '.join(df['summary'].unique())}")
-        
-        print("\n" + "=" * 60)
-        print("FIRST 10 SESSIONS")
-        print("=" * 60)
-        print(df[['summary', 'date', 'day_of_week', 'start_time', 'end_time']].head(10).to_string(index=False))
-        
-        # Export to CSV
-        print("\n" + "=" * 60)
-        ics_to_csv(ics_file, csv_file, expand_recurring=True)
-        print("=" * 60)
-        
-        # Summary statistics
-        print("\nCLASS SCHEDULE SUMMARY:")
-        print(df.groupby('summary').size().to_string())
+        # Convert to CSV silently
+        df = ics_to_csv(ics_file, csv_file, expand_recurring=True, classes_filter=classes_to_include)
+        print("✓ Schedule loaded into CSV successfully!")
         
     except FileNotFoundError:
         print(f"Error: Could not find '{ics_file}'")
-        print("Please ensure the file is in the same directory as this script")
     except Exception as e:
         print(f"Error: {e}")
-        import traceback
-        traceback.print_exc()
