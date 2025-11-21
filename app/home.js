@@ -117,13 +117,6 @@ export default function HomeScreen() {
         </View>
 
         {/* Development Status */}
-        <View style={styles.statusCard}>
-          <Ionicons name="information-circle-outline" size={20} color={Colors.info} />
-          <Text style={styles.statusText}>
-            <Text style={styles.statusBold}>Backend API Complete! </Text>
-            Configure ApiConfig.js with your IP, then test upload flow.
-          </Text>
-        </View>
       </ScrollView>
     </View>
   );
@@ -250,23 +243,4 @@ const styles = StyleSheet.create({
     paddingTop: 4,
   },
 
-  // Status card
-  statusCard: {
-    flexDirection: 'row',
-    backgroundColor: '#E3F2FD',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'flex-start',
-  },
-  statusText: {
-    fontSize: 12,
-    color: Colors.text.secondary,
-    lineHeight: 18,
-    marginLeft: 8,
-    flex: 1,
-  },
-  statusBold: {
-    fontWeight: '600',
-    color: Colors.info,
-  },
 });

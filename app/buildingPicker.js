@@ -438,15 +438,6 @@ export default function BuildingPickerScreen() {
           </View>
         )}
 
-        {/* Development Note */}
-        <View style={styles.devNoteContainer}>
-          <Ionicons name="information-circle-outline" size={20} color={Colors.info} />
-          <Text style={styles.devNoteText}>
-            <Text style={styles.devNoteBold}>Development Note: </Text>
-            Using mock classes for UI testing. GET /api/buildings is working. 
-            POST /api/schedule/add-locations requires Phase 2.3.
-          </Text>
-        </View>
       </ScrollView>
 
       {/* Finish Button (Fixed at bottom) */}
@@ -596,6 +587,7 @@ const styles = StyleSheet.create({
   // Classes
   classesContainer: {
     marginBottom: 20,
+    overflow: 'visible',  // Allow dropdown to extend beyond container
   },
   classCard: {
     backgroundColor: Colors.surface,
@@ -604,6 +596,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderWidth: 1,
     borderColor: Colors.border,
+    overflow: 'visible',  // Allow dropdown to extend beyond card boundaries
   },
   classHeader: {
     flexDirection: 'row',
@@ -639,7 +632,8 @@ const styles = StyleSheet.create({
   },
   buildingSelector: {
     marginTop: 8,
-    zIndex: 1,
+    position: 'relative',  // Create stacking context
+    zIndex: 1000,  // Higher z-index to match dropdown container
   },
   selectorLabel: {
     fontSize: 14,
@@ -667,27 +661,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 22,
     paddingHorizontal: 40,
-  },
-
-  // Development note
-  devNoteContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#E3F2FD',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'flex-start',
-    marginTop: 20,
-  },
-  devNoteText: {
-    fontSize: 12,
-    color: Colors.text.secondary,
-    lineHeight: 18,
-    marginLeft: 8,
-    flex: 1,
-  },
-  devNoteBold: {
-    fontWeight: '600',
-    color: Colors.info,
   },
 
   // Finish button

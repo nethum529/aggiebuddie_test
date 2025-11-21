@@ -31,9 +31,11 @@ export default function BuildingDropdown({
   placeholder = "Select Building",
   disabled = false,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const searchInputRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState(
+    selectedBuilding?.address || selectedBuilding?.name || ''
+  );
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const inputRef = useRef(null);
 
   // Filter buildings based on search query
   const filteredBuildings = buildings.filter(building =>
@@ -41,114 +43,108 @@ export default function BuildingDropdown({
     (building.address && building.address.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  // Auto-focus search input when dropdown opens
+  // Show suggestions when user starts typing
   useEffect(() => {
-    if (isOpen && searchInputRef.current) {
-      // Small delay to ensure render is complete
-      setTimeout(() => {
-        searchInputRef.current.focus();
-      }, 50);
+    if (searchQuery.length > 0 && !selectedBuilding) {
+      setShowSuggestions(true);
+    } else if (selectedBuilding) {
+      setShowSuggestions(false);
     }
-  }, [isOpen]);
+  }, [searchQuery, selectedBuilding]);
+
+  // Update input when building selected
+  useEffect(() => {
+    if (selectedBuilding) {
+      setSearchQuery(selectedBuilding.address || selectedBuilding.name || '');
+      setShowSuggestions(false);
+    }
+  }, [selectedBuilding]);
 
   const handleSelect = (building) => {
     onSelect(building);
-    setIsOpen(false);
-    setSearchQuery('');
+    setSearchQuery(building.address || building.name || '');
+    setShowSuggestions(false);
+    inputRef.current?.blur();
   };
 
-  const handleToggle = () => {
-    if (!disabled) {
-      setIsOpen(!isOpen);
+  const handleInputChange = (text) => {
+    setSearchQuery(text);
+    // Clear selection if user modifies input
+    if (selectedBuilding && text !== (selectedBuilding.address || selectedBuilding.name)) {
+      onSelect(null);
     }
   };
 
-  const handleClose = () => {
-    setIsOpen(false);
-    setSearchQuery('');
+  const handleInputFocus = () => {
+    if (searchQuery.length > 0 && !selectedBuilding) {
+      setShowSuggestions(true);
+    }
+  };
+
+  const handleCloseSuggestions = () => {
+    setShowSuggestions(false);
   };
 
   return (
-    <View style={styles.container}>
-      {/* Dropdown Button */}
-      <TouchableOpacity
+    <View style={[
+      styles.container,
+      showSuggestions && styles.containerOpen
+    ]}>
+      {/* Text Input - Always Visible */}
+      <View
         style={[
-          styles.dropdownButton,
-          disabled && styles.dropdownButtonDisabled,
-          selectedBuilding && styles.dropdownButtonSelected,
+          styles.inputContainer,
+          disabled && styles.inputContainerDisabled,
+          selectedBuilding && styles.inputContainerSelected,
         ]}
-        onPress={handleToggle}
-        disabled={disabled}
-        activeOpacity={0.7}
       >
-        <View style={styles.dropdownContent}>
-          <Ionicons
-            name={selectedBuilding ? "location" : "location-outline"}
-            size={20}
-            color={selectedBuilding ? Colors.success : Colors.text.secondary}
-          />
-          <Text
-            style={[
-              styles.dropdownText,
-              selectedBuilding && styles.dropdownTextSelected,
-              disabled && styles.dropdownTextDisabled,
-            ]}
-            numberOfLines={1}
-          >
-            {selectedBuilding ? selectedBuilding.name : placeholder}
-          </Text>
-        </View>
         <Ionicons
-          name="chevron-down"
+          name={selectedBuilding ? "location" : "search"}
           size={20}
-          color={disabled ? Colors.text.tertiary : Colors.text.secondary}
+          color={selectedBuilding ? Colors.success : Colors.text.secondary}
+          style={styles.inputIcon}
         />
-      </TouchableOpacity>
+        <TextInput
+          ref={inputRef}
+          style={styles.input}
+          placeholder={placeholder}
+          placeholderTextColor={Colors.text.tertiary}
+          value={searchQuery}
+          onChangeText={handleInputChange}
+          onFocus={handleInputFocus}
+          autoCapitalize="words"
+          autoCorrect={false}
+          editable={!disabled}
+        />
+        {searchQuery.length > 0 && (
+          <TouchableOpacity
+            onPress={() => {
+              setSearchQuery('');
+              onSelect(null);
+              setShowSuggestions(false);
+            }}
+            style={styles.clearButton}
+          >
+            <Ionicons name="close-circle" size={20} color={Colors.text.tertiary} />
+          </TouchableOpacity>
+        )}
+      </View>
 
-      {/* Inline Dropdown */}
-      {isOpen && (
+      {/* Suggestions Dropdown - Appears when typing */}
+      {showSuggestions && searchQuery.length > 0 && (
         <>
-          {/* Backdrop - close dropdown when clicking outside */}
+          {/* Backdrop - close suggestions when clicking outside */}
           <TouchableOpacity
             style={styles.backdrop}
             activeOpacity={1}
-            onPress={handleClose}
+            onPress={handleCloseSuggestions}
           />
 
-          {/* Dropdown Panel */}
+          {/* Suggestions Panel */}
           <View
-            style={styles.dropdownPanel}
+            style={styles.suggestionsPanel}
             onStartShouldSetResponder={() => true}
           >
-            {/* Search Bar */}
-            <View style={styles.searchContainer}>
-              <Ionicons
-                name="search"
-                size={20}
-                color={Colors.text.secondary}
-                style={styles.searchIcon}
-              />
-              <TextInput
-                ref={searchInputRef}
-                style={styles.searchInput}
-                placeholder="Search buildings..."
-                placeholderTextColor={Colors.text.tertiary}
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-                autoCapitalize="none"
-                autoCorrect={false}
-                autoFocus={true}
-              />
-              {searchQuery.length > 0 && (
-                <TouchableOpacity
-                  onPress={() => setSearchQuery('')}
-                  style={styles.clearButton}
-                >
-                  <Ionicons name="close-circle" size={20} color={Colors.text.tertiary} />
-                </TouchableOpacity>
-              )}
-            </View>
-
             {/* Building List */}
             <FlatList
               data={filteredBuildings}
@@ -156,16 +152,16 @@ export default function BuildingDropdown({
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={[
-                    styles.buildingItem,
-                    selectedBuilding?.id === item.id && styles.buildingItemSelected,
+                    styles.suggestionItem,
+                    selectedBuilding?.id === item.id && styles.suggestionItemSelected,
                   ]}
                   onPress={() => handleSelect(item)}
                   activeOpacity={0.7}
                 >
-                  <View style={styles.buildingInfo}>
-                    <Text style={styles.buildingName}>{item.name}</Text>
+                  <View style={styles.suggestionInfo}>
+                    <Text style={styles.suggestionName}>{item.name}</Text>
                     {item.address && (
-                      <Text style={styles.buildingAddress}>{item.address}</Text>
+                      <Text style={styles.suggestionAddress}>{item.address}</Text>
                     )}
                   </View>
                   {selectedBuilding?.id === item.id && (
@@ -177,13 +173,12 @@ export default function BuildingDropdown({
                 <View style={styles.emptyContainer}>
                   <Ionicons name="search-outline" size={48} color={Colors.text.tertiary} />
                   <Text style={styles.emptyText}>
-                    {searchQuery
-                      ? 'No buildings found matching your search'
-                      : 'No buildings available'}
+                    No buildings found matching "{searchQuery}"
                   </Text>
                 </View>
               }
-              contentContainerStyle={styles.listContent}
+              keyboardShouldPersistTaps="handled"
+              contentContainerStyle={styles.suggestionsList}
             />
           </View>
         </>
@@ -196,14 +191,16 @@ const styles = StyleSheet.create({
   // Container
   container: {
     position: 'relative',
-    zIndex: 1,
+    zIndex: 1000,  // Higher baseline z-index
+  },
+  containerOpen: {
+    zIndex: 10000,  // Much higher when dropdown is open
   },
 
-  // Dropdown button
-  dropdownButton: {
+  // Text Input
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     backgroundColor: Colors.surface,
     borderWidth: 1,
     borderColor: Colors.border,
@@ -212,32 +209,27 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     minHeight: 48,
   },
-  dropdownButtonDisabled: {
+  inputContainerDisabled: {
     backgroundColor: Colors.surface,
     opacity: 0.5,
   },
-  dropdownButtonSelected: {
+  inputContainerSelected: {
     borderColor: Colors.success,
     backgroundColor: Colors.accepted.background,
   },
-  dropdownContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
+  inputIcon: {
     marginRight: 8,
   },
-  dropdownText: {
-    fontSize: 16,
-    color: Colors.text.tertiary,
-    marginLeft: 8,
+  input: {
     flex: 1,
-  },
-  dropdownTextSelected: {
+    fontSize: 16,
     color: Colors.text.primary,
-    fontWeight: '500',
+    paddingVertical: 0,
+    paddingHorizontal: 0,
   },
-  dropdownTextDisabled: {
-    color: Colors.text.tertiary,
+  clearButton: {
+    padding: 4,
+    marginLeft: 8,
   },
 
   // Backdrop and Dropdown Panel
@@ -250,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     zIndex: 998,
   },
-  dropdownPanel: {
+  suggestionsPanel: {
     position: 'absolute',
     top: '100%',
     left: 0,
@@ -258,8 +250,8 @@ const styles = StyleSheet.create({
     marginTop: 4,
     backgroundColor: Colors.background,
     borderRadius: 12,
-    maxHeight: 400,
-    zIndex: 999,
+    maxHeight: 300,
+    zIndex: 10001,  // Highest z-index to ensure it appears above all content
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
@@ -269,64 +261,38 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
 
-  // Search
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.surface,
-    borderRadius: 8,
-    marginHorizontal: 16,
-    marginTop: 12,
-    marginBottom: 8,
-    paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: Colors.text.primary,
-    paddingVertical: 12,
-  },
-  clearButton: {
-    padding: 4,
-  },
-
-  // Building list
-  listContent: {
+  // Suggestions list
+  suggestionsList: {
     paddingHorizontal: 16,
     paddingTop: 8,
     paddingBottom: 8,
   },
-  buildingItem: {
+  suggestionItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 16,
+    paddingVertical: 12,
     paddingHorizontal: 12,
     backgroundColor: Colors.surface,
     borderRadius: 8,
     marginVertical: 4,
   },
-  buildingItemSelected: {
+  suggestionItemSelected: {
     backgroundColor: Colors.accepted.background,
     borderWidth: 1,
     borderColor: Colors.success,
   },
-  buildingInfo: {
+  suggestionInfo: {
     flex: 1,
     marginRight: 12,
   },
-  buildingName: {
+  suggestionName: {
     fontSize: 16,
     fontWeight: '600',
     color: Colors.text.primary,
     marginBottom: 2,
   },
-  buildingAddress: {
+  suggestionAddress: {
     fontSize: 14,
     color: Colors.text.secondary,
     lineHeight: 18,

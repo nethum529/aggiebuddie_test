@@ -85,6 +85,158 @@ const scheduleEvents = [
     color: '#F5E8A6',
     weekday: 1,
   },
+  
+  // TUESDAY (weekday: 2)
+  {
+    id: 'gym-tue',
+    title: 'Gym',
+    start: '07:00',
+    end: '07:45',
+    location: 'Rec Center',
+    color: '#F7A4A4',
+    weekday: 2,
+  },
+  {
+    id: 'engr-tue',
+    title: 'ENGR 102',
+    start: '09:35',
+    end: '10:50',
+    location: 'ZACH 105A',
+    color: '#BDEAB5',
+    weekday: 2,
+  },
+  {
+    id: 'atmo-tue',
+    title: 'ATMO 201',
+    start: '12:30',
+    end: '13:20',
+    location: 'Online',
+    color: '#C0F1FF',
+    weekday: 2,
+  },
+  {
+    id: 'lunch-tue',
+    title: 'Lunch',
+    start: '13:00',
+    end: '13:45',
+    location: 'See Options',
+    color: '#F5E8A6',
+    weekday: 2,
+  },
+  
+  // WEDNESDAY (weekday: 3) - Same as Monday (M/W/F pattern)
+  {
+    id: 'gym-wed',
+    title: 'Gym',
+    start: '07:00',
+    end: '07:45',
+    location: 'Polo Gym',
+    color: '#F7A4A4',
+    weekday: 3,
+  },
+  {
+    id: 'math-wed',
+    title: 'MATH 304',
+    start: '08:00',
+    end: '08:50',
+    location: 'BLOC 102',
+    color: '#BDEAB5',
+    weekday: 3,
+  },
+  {
+    id: 'csce-wed',
+    title: 'CSCE 221',
+    start: '10:20',
+    end: '11:10',
+    location: 'ZACH 350',
+    color: '#BDEAB5',
+    weekday: 3,
+  },
+  {
+    id: 'lunch-wed',
+    title: 'Lunch',
+    start: '13:00',
+    end: '13:45',
+    location: 'See Options',
+    color: '#F5E8A6',
+    weekday: 3,
+  },
+  
+  // THURSDAY (weekday: 4) - Same as Tuesday (T/Th pattern)
+  {
+    id: 'gym-thu',
+    title: 'Gym',
+    start: '07:00',
+    end: '07:45',
+    location: 'Rec Center',
+    color: '#F7A4A4',
+    weekday: 4,
+  },
+  {
+    id: 'engr-thu',
+    title: 'ENGR 102',
+    start: '09:35',
+    end: '10:50',
+    location: 'ZACH 105A',
+    color: '#BDEAB5',
+    weekday: 4,
+  },
+  {
+    id: 'atmo-thu',
+    title: 'ATMO 201',
+    start: '12:30',
+    end: '13:20',
+    location: 'Online',
+    color: '#C0F1FF',
+    weekday: 4,
+  },
+  {
+    id: 'lunch-thu',
+    title: 'Lunch',
+    start: '13:00',
+    end: '13:45',
+    location: 'See Options',
+    color: '#F5E8A6',
+    weekday: 4,
+  },
+  
+  // FRIDAY (weekday: 5) - Same as M/W (M/W/F pattern)
+  {
+    id: 'gym-fri',
+    title: 'Gym',
+    start: '07:00',
+    end: '07:45',
+    location: 'Polo Gym',
+    color: '#F7A4A4',
+    weekday: 5,
+  },
+  {
+    id: 'math-fri',
+    title: 'MATH 304',
+    start: '08:00',
+    end: '08:50',
+    location: 'BLOC 102',
+    color: '#BDEAB5',
+    weekday: 5,
+  },
+  {
+    id: 'csce-fri',
+    title: 'CSCE 221',
+    start: '10:20',
+    end: '11:10',
+    location: 'ZACH 350',
+    color: '#BDEAB5',
+    weekday: 5,
+  },
+  {
+    id: 'lunch-fri',
+    title: 'Lunch',
+    start: '12:00',
+    end: '12:45',
+    location: 'See Options',
+    color: '#F5E8A6',
+    weekday: 5,
+  },
 ];
 
 const minutesFromStart = (timeString) => {
@@ -134,6 +286,13 @@ export default function ScheduleScreen() {
   
   const [selectedDate, setSelectedDate] = useState(getCurrentWeekMonday);
   const [currentTime, setCurrentTime] = useState(new Date());
+
+  /**
+   * Handle back navigation
+   */
+  const handleBack = () => {
+    router.back();
+  };
 
   useEffect(() => {
     const interval = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -297,8 +456,18 @@ export default function ScheduleScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.handleContainer}>
-        <View style={styles.handle} />
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={handleBack}
+          style={styles.backButton}
+        >
+          <Ionicons name="arrow-back" size={24} color={Colors.text.primary} />
+        </TouchableOpacity>
+
+        <Text style={styles.headerTitle}>Schedule</Text>
+
+        <View style={styles.headerRight} />
       </View>
 
       <ScrollView style={styles.contentScroll} contentContainerStyle={styles.contentScrollContent} showsVerticalScrollIndicator={false}>
@@ -492,15 +661,31 @@ const styles = StyleSheet.create({
     paddingTop: 32,
     paddingHorizontal: 16,
   },
-  handleContainer: {
+  
+  // Header styles
+  header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    paddingTop: 48, // Account for status bar
+    backgroundColor: Colors.background,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
   },
-  handle: {
-    width: 80,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: Colors.divider,
+  backButton: {
+    padding: 8,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: Colors.text.primary,
+    flex: 1,
+    textAlign: 'center',
+  },
+  headerRight: {
+    width: 40, // Same as back button width for centering
   },
   contentScroll: {
     flex: 1,

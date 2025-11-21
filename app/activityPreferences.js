@@ -35,6 +35,52 @@ import * as api from '../services/api';
 import { useUser } from '../contexts/UserContext';
 import ErrorMessage from '../components/ErrorMessage';
 
+/**
+ * Convert 24-hour format to 12-hour format with AM/PM
+ * @param {string} time24 - Time in HH:MM format (e.g., "08:00", "18:00")
+ * @returns {string} Time in 12-hour format (e.g., "8:00 AM", "6:00 PM")
+ */
+const convert24To12Hour = (time24) => {
+  if (!time24 || !time24.includes(':')) return time24;
+  
+  const [hours24, minutes] = time24.split(':');
+  const hoursNum = parseInt(hours24, 10);
+  
+  if (isNaN(hoursNum) || hoursNum < 0 || hoursNum > 23) {
+    return time24;  // Return as-is if invalid
+  }
+  
+  const period = hoursNum >= 12 ? 'PM' : 'AM';
+  const hours12 = hoursNum === 0 ? 12 : hoursNum > 12 ? hoursNum - 12 : hoursNum;
+  
+  return `${hours12}:${minutes} ${period}`;
+};
+
+/**
+ * Convert 12-hour format to 24-hour format
+ * @param {string} time12 - Time in 12-hour format (e.g., "8:00 AM", "6:00 PM")
+ * @returns {string} Time in HH:MM format (e.g., "08:00", "18:00")
+ */
+const convert12To24Hour = (time12) => {
+  if (!time12) return time12;
+  
+  const match = time12.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return time12;  // Return as-is if doesn't match
+  
+  let hours = parseInt(match[1], 10);
+  const minutes = match[2];
+  const period = match[3].toUpperCase();
+  
+  if (period === 'PM' && hours !== 12) {
+    hours += 12;
+  } else if (period === 'AM' && hours === 12) {
+    hours = 0;
+  }
+  
+  const hours24 = hours.toString().padStart(2, '0');
+  return `${hours24}:${minutes}`;
+};
+
 export default function ActivityPreferencesScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
@@ -47,9 +93,13 @@ export default function ActivityPreferencesScreen() {
     setSuggestions,
   } = useUser();
 
-  // Form state - initialize from UserContext
-  const [startOfDay, setStartOfDay] = useState(activityPreferences.startOfDay);
-  const [endOfDay, setEndOfDay] = useState(activityPreferences.endOfDay);
+  // Form state - initialize from UserContext with 12-hour format conversion
+  const [startOfDay, setStartOfDay] = useState(
+    convert24To12Hour(activityPreferences.startOfDay)
+  );
+  const [endOfDay, setEndOfDay] = useState(
+    convert24To12Hour(activityPreferences.endOfDay)
+  );
   const [activityType, setActivityType] = useState(activityPreferences.activityType);
   const [duration, setDuration] = useState(activityPreferences.durationMinutes.toString());
 
@@ -59,11 +109,17 @@ export default function ActivityPreferencesScreen() {
   const [error, setError] = useState(null);
 
   /**
-   * Validate time format (HH:MM)
+   * Validate time format (H:MM AM/PM or HH:MM AM/PM)
    */
   const validateTimeFormat = (time) => {
-    const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-    return timeRegex.test(time);
+    const timeRegex = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i;
+    if (!timeRegex.test(time)) return false;
+    
+    const match = time.match(timeRegex);
+    const hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    
+    return hours >= 1 && hours <= 12 && minutes >= 0 && minutes <= 59;
   };
 
   /**
@@ -82,12 +138,12 @@ export default function ActivityPreferencesScreen() {
 
     // Validate start time format
     if (!validateTimeFormat(startOfDay)) {
-      newErrors.startOfDay = 'Invalid format. Use HH:MM (e.g., 08:00)';
+      newErrors.startOfDay = 'Invalid format. Use H:MM AM/PM (e.g., 8:00 AM)';
     }
 
     // Validate end time format
     if (!validateTimeFormat(endOfDay)) {
-      newErrors.endOfDay = 'Invalid format. Use HH:MM (e.g., 18:00)';
+      newErrors.endOfDay = 'Invalid format. Use H:MM AM/PM (e.g., 6:00 PM)';
     }
 
     // Validate end time is after start time
@@ -130,19 +186,23 @@ export default function ActivityPreferencesScreen() {
       const durationNum = parseInt(duration, 10);
       const currentStudentId = studentId || 'student_1';
 
-      // Save preferences to UserContext
+      // Convert 12-hour format to 24-hour format for backend
+      const startOfDay24 = convert12To24Hour(startOfDay);
+      const endOfDay24 = convert12To24Hour(endOfDay);
+
+      // Save preferences to UserContext (in 24-hour format for consistency)
       updateActivityPreferences({
-        startOfDay,
-        endOfDay,
+        startOfDay: startOfDay24,
+        endOfDay: endOfDay24,
         activityType,
         durationMinutes: durationNum,
       });
 
-      // Generate suggestions using Phase 4 API service
+      // Generate suggestions using Phase 4 API service (with 24-hour format)
       const result = await api.generateSuggestions(
         currentStudentId,
-        startOfDay,
-        endOfDay,
+        startOfDay24,
+        endOfDay24,
         durationNum,
         activityType
       );
@@ -231,10 +291,10 @@ export default function ActivityPreferencesScreen() {
               style={[styles.input, errors.startOfDay && styles.inputError]}
               value={startOfDay}
               onChangeText={setStartOfDay}
-              placeholder="08:00"
+              placeholder="8:00 AM"
               placeholderTextColor={Colors.text.tertiary}
               keyboardType="default"
-              maxLength={5}
+              maxLength={8}
             />
             {errors.startOfDay && (
               <View style={styles.errorContainer}>
@@ -252,10 +312,10 @@ export default function ActivityPreferencesScreen() {
               style={[styles.input, errors.endOfDay && styles.inputError]}
               value={endOfDay}
               onChangeText={setEndOfDay}
-              placeholder="18:00"
+              placeholder="6:00 PM"
               placeholderTextColor={Colors.text.tertiary}
               keyboardType="default"
-              maxLength={5}
+              maxLength={8}
             />
             {errors.endOfDay && (
               <View style={styles.errorContainer}>
@@ -338,15 +398,6 @@ export default function ActivityPreferencesScreen() {
           </View>
         </View>
 
-        {/* Development Note */}
-        <View style={styles.devNoteContainer}>
-          <Ionicons name="checkmark-circle" size={20} color={Colors.success} />
-          <Text style={styles.devNoteText}>
-            <Text style={styles.devNoteBold}>Backend Ready: </Text>
-            POST /api/generate-suggestions is fully functional and tested. 
-            This screen has real backend integration!
-          </Text>
-        </View>
       </ScrollView>
 
       {/* Generate Button (Fixed at bottom) */}
@@ -538,26 +589,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.text.secondary,
     lineHeight: 20,
-  },
-
-  // Development note
-  devNoteContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#E8F5E9',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'flex-start',
-  },
-  devNoteText: {
-    fontSize: 12,
-    color: Colors.text.secondary,
-    lineHeight: 18,
-    marginLeft: 8,
-    flex: 1,
-  },
-  devNoteBold: {
-    fontWeight: '600',
-    color: Colors.success,
   },
 
   // Generate button

@@ -293,15 +293,6 @@ export default function FileUploadScreen() {
           </Text>
         </View>
 
-        {/* Development Note */}
-        <View style={styles.devNoteContainer}>
-          <Ionicons name="information-circle-outline" size={20} color={Colors.info} />
-          <Text style={styles.devNoteText}>
-            <Text style={styles.devNoteBold}>Development Note: </Text>
-            Upload functionality requires backend Phase 1 (ScheduleService) and Phase 2.2 
-            (upload endpoint) to be complete. UI is ready for testing.
-          </Text>
-        </View>
       </ScrollView>
     </View>
   );
@@ -478,24 +469,5 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
-  // Development note
-  devNoteContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#E3F2FD',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'flex-start',
-  },
-  devNoteText: {
-    fontSize: 12,
-    color: Colors.text.secondary,
-    lineHeight: 18,
-    marginLeft: 8,
-    flex: 1,
-  },
-  devNoteBold: {
-    fontWeight: '600',
-    color: Colors.info,
-  },
 });
 
