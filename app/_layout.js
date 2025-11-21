@@ -24,6 +24,20 @@ export default function RootLayout() {
           headerBackVisible: false,
         }} 
       />
+      <Stack.Screen 
+        name="fileUpload" 
+        options={{ 
+          title: 'Upload Schedule',
+          headerShown: false  // Using custom header in component
+        }} 
+      />
+      <Stack.Screen 
+        name="buildingPicker" 
+        options={{ 
+          title: 'Assign Buildings',
+          headerShown: false  // Using custom header in component
+        }} 
+      />
     </Stack>
   );
 }
