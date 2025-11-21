@@ -1,0 +1,2386 @@
+{
+  "locations": [
+    {
+      "id": "commons-dining-hall",
+      "name": "Commons Dining Hall",
+      "type": "dining",
+      "address": "676 Lubbock St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61564,
+        "longitude": -96.3361
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "sbisa-dining-hall",
+      "name": "Sbisa Dining Hall",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "14:30"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "duncan-dining-hall",
+      "name": "Duncan Dining Hall",
+      "type": "dining",
+      "address": "777 Military Mall, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61189,
+        "longitude": -96.33523
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "13:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "13:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "13:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "13:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "13:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "1876-burgers",
+      "name": "1876 Burgers",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "10:30",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "10:30",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "10:30",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "10:30",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "10:30",
+          "close": "19:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "aggie-express",
+      "name": "Aggie Express",
+      "type": "dining",
+      "address": "306 University Dr, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61657,
+        "longitude": -96.34578
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "00:00"
+        },
+        "tuesday": {
+          "open": "08:00",
+          "close": "00:00"
+        },
+        "wednesday": {
+          "open": "08:00",
+          "close": "00:00"
+        },
+        "thursday": {
+          "open": "08:00",
+          "close": "00:00"
+        },
+        "friday": {
+          "open": "08:00",
+          "close": "00:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "chick-fil-a",
+      "name": "Chick-Fil-A",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "20:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "copperhead-jacks",
+      "name": "Copperhead Jack's",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "10:30",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "10:30",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "10:30",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "10:30",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "10:30",
+          "close": "19:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "einstein-bros-bagels",
+      "name": "Einstein Bros. Bagels",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "14:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "14:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "14:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "14:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "14:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "houston-street-subs",
+      "name": "Houston Street Subs",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "bagel-block",
+      "name": "Bagel Block",
+      "type": "dining",
+      "address": "155 Ireland St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61949,
+        "longitude": -96.34194
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "16:00"
+        },
+        "tuesday": {
+          "open": "08:00",
+          "close": "16:00"
+        },
+        "wednesday": {
+          "open": "08:00",
+          "close": "16:00"
+        },
+        "thursday": {
+          "open": "08:00",
+          "close": "16:00"
+        },
+        "friday": {
+          "open": "08:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "pizza--underground",
+      "name": "Pizza @ Underground",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "starbucks-coffee",
+      "name": "Starbucks Coffee",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "18:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "smoothie-king",
+      "name": "Smoothie King",
+      "type": "dining",
+      "address": "233 Houston St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61722,
+        "longitude": -96.34378
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "20:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "abu-omar-halal",
+      "name": "Abu Omar Halal",
+      "type": "dining",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61234,
+        "longitude": -96.34153
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "aggie-express",
+      "name": "Aggie Express",
+      "type": "dining",
+      "address": "400 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61657,
+        "longitude": -96.33824
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "cabo-grill",
+      "name": "Cabo Grill",
+      "type": "dining",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61234,
+        "longitude": -96.34153
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "chick-fil-a",
+      "name": "Chick-Fil-A",
+      "type": "dining",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61234,
+        "longitude": -96.34153
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "20:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "houston-street-subs",
+      "name": "Houston Street Subs",
+      "type": "dining",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61234,
+        "longitude": -96.34153
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "ilcb-food-truck",
+      "name": "ILCB Food Truck",
+      "type": "dining",
+      "address": "Lamar St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61246,
+        "longitude": -96.34305
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "market-at-lamar-st",
+      "name": "Market at Lamar St.",
+      "type": "dining",
+      "address": "212 Lamar St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61181,
+        "longitude": -96.34425
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "18:00"
+        },
+        "tuesday": {
+          "open": "08:00",
+          "close": "18:00"
+        },
+        "wednesday": {
+          "open": "08:00",
+          "close": "18:00"
+        },
+        "thursday": {
+          "open": "08:00",
+          "close": "18:00"
+        },
+        "friday": {
+          "open": "08:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "moore-family-creamery",
+      "name": "Moore Family Creamery",
+      "type": "dining",
+      "address": "Throckmorton Street, College Station, TX",
+      "coordinates": {
+        "latitude": 30.6105,
+        "longitude": -96.3367
+      },
+      "hours": {
+        "monday": {
+          "open": "14:00",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "14:00",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "14:00",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "14:00",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "14:00",
+          "close": "20:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "panda-express",
+      "name": "Panda Express",
+      "type": "dining",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61234,
+        "longitude": -96.34153
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "revs-american-grill",
+      "name": "Rev's American Grill",
+      "type": "dining",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61234,
+        "longitude": -96.34153
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "19:30"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "19:30"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "19:30"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "19:30"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "19:30"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "starbucks-coffee",
+      "name": "Starbucks Coffee",
+      "type": "dining",
+      "address": "400 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61729,
+        "longitude": -96.33904
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "17:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "shake-smart",
+      "name": "Shake Smart",
+      "type": "dining",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61234,
+        "longitude": -96.34153
+      },
+      "hours": {
+        "monday": {
+          "open": "09:00",
+          "close": "21:00"
+        },
+        "tuesday": {
+          "open": "09:00",
+          "close": "21:00"
+        },
+        "wednesday": {
+          "open": "09:00",
+          "close": "21:00"
+        },
+        "thursday": {
+          "open": "09:00",
+          "close": "21:00"
+        },
+        "friday": {
+          "open": "09:00",
+          "close": "21:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "spin--n-stone-pizza",
+      "name": "Spin  'N Stone Pizza",
+      "type": "dining",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61234,
+        "longitude": -96.34153
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "the-university-club",
+      "name": "The University Club",
+      "type": "dining",
+      "address": "401 Joe Routt Blvd, College",
+      "coordinates": {
+        "latitude": 30.61285,
+        "longitude": -96.34022
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "13:30"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "13:30"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "13:30"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "13:30"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "13:30"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "whoop-coop",
+      "name": "Whoop Coop",
+      "type": "dining",
+      "address": "408 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61672,
+        "longitude": -96.33809
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "aggie-express",
+      "name": "Aggie Express",
+      "type": "dining",
+      "address": "440 Lubbock St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.6152,
+        "longitude": -96.33564
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "02:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "02:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "02:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "02:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "23:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "starbucks-coffee",
+      "name": "Starbucks Coffee",
+      "type": "dining",
+      "address": "546 Coke St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61358,
+        "longitude": -96.33743
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "18:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "houston-street-subs",
+      "name": "Houston Street Subs",
+      "type": "dining",
+      "address": "676 Lubbock St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61564,
+        "longitude": -96.3361
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "08:00"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "08:00"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "08:00"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "08:00"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "08:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "azimuth-cafe",
+      "name": "Azimuth Cafe",
+      "type": "dining",
+      "address": "798 Ross St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61903,
+        "longitude": -96.33754
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "15:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "15:00"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "15:00"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "food-truck-row",
+      "name": "Food Truck Row",
+      "type": "dining",
+      "address": "199 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.62059,
+        "longitude": -96.34036
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "houston-street-subs",
+      "name": "Houston Street Subs",
+      "type": "dining",
+      "address": "300 Polo Rd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.62285,
+        "longitude": -96.338
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "15:00"
+        },
+        "tuesday": {
+          "open": "8:00",
+          "close": "15:00"
+        },
+        "wednesday": {
+          "open": "8:00",
+          "close": "15:00"
+        },
+        "thursday": {
+          "open": "8:00",
+          "close": "15:00"
+        },
+        "friday": {
+          "open": "8:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "market-at-polo-garage",
+      "name": "Market at Polo Garage",
+      "type": "dining",
+      "address": "260 Polo Rd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.62285,
+        "longitude": -96.338
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "08:00",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "08:00",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "08:00",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "08:00",
+          "close": "22:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "panda-express",
+      "name": "Panda Express",
+      "type": "dining",
+      "address": "300 Polo Rd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.62285,
+        "longitude": -96.338
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "21:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "salata",
+      "name": "Salata",
+      "type": "dining",
+      "address": "300 Polo Rd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.62285,
+        "longitude": -96.338
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "20:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "shake-smart",
+      "name": "Shake Smart",
+      "type": "dining",
+      "address": "300 Polo Rd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.62285,
+        "longitude": -96.338
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "21:00"
+        },
+        "tuesday": {
+          "open": "08:00",
+          "close": "21:00"
+        },
+        "wednesday": {
+          "open": "08:00",
+          "close": "21:00"
+        },
+        "thursday": {
+          "open": "08:00",
+          "close": "21:00"
+        },
+        "friday": {
+          "open": "08:00",
+          "close": "21:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "starbucks-coffee",
+      "name": "Starbucks Coffee",
+      "type": "dining",
+      "address": "125 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.62107,
+        "longitude": -96.34057
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "17:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "reynolds-and-reynolds-cafe",
+      "name": "Reynolds and Reynolds Cafe",
+      "type": "dining",
+      "address": "256 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61137,
+        "longitude": -96.34963
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "14:00"
+        },
+        "tuesday": {
+          "open": "08:00",
+          "close": "14:00"
+        },
+        "wednesday": {
+          "open": "08:00",
+          "close": "14:00"
+        },
+        "thursday": {
+          "open": "08:00",
+          "close": "14:00"
+        },
+        "friday": {
+          "open": "08:00",
+          "close": "14:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "chick-fil-a",
+      "name": "Chick-Fil-A",
+      "type": "dining",
+      "address": "336 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61036,
+        "longitude": -96.3485
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "18:00"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "18:00"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "18:00"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "18:00"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "copperhead-jacks",
+      "name": "Copperhead Jack's",
+      "type": "dining",
+      "address": "336 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61036,
+        "longitude": -96.3485
+      },
+      "hours": {
+        "monday": {
+          "open": "10:30",
+          "close": "15:00"
+        },
+        "tuesday": {
+          "open": "10:30",
+          "close": "15:00"
+        },
+        "wednesday": {
+          "open": "10:30",
+          "close": "15:00"
+        },
+        "thursday": {
+          "open": "10:30",
+          "close": "15:00"
+        },
+        "friday": {
+          "open": "10:30",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "the-kitchen---creekside-market",
+      "name": "The Kitchen - Creekside Market",
+      "type": "dining",
+      "address": "667 W Campus Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.60764,
+        "longitude": -95.35387
+      },
+      "hours": {
+        "monday": {
+          "open": "17:00",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "17:00",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "17:00",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "17:00",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": null,
+          "close": null
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "spin--n-stone-pasta",
+      "name": "Spin  'N Stone Pasta",
+      "type": "dining",
+      "address": "667 W Campus Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.60764,
+        "longitude": -95.35387
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "spin--n-stone-pizza",
+      "name": "Spin  'N Stone Pizza",
+      "type": "dining",
+      "address": "667 W Campus Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.60764,
+        "longitude": -95.35387
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "22:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "wild-blue-sushi",
+      "name": "Wild Blue Sushi",
+      "type": "dining",
+      "address": "667 W Campus Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.60764,
+        "longitude": -95.35387
+      },
+      "hours": {
+        "monday": {
+          "open": "11:00",
+          "close": "14:00"
+        },
+        "tuesday": {
+          "open": "11:00",
+          "close": "14:00"
+        },
+        "wednesday": {
+          "open": "11:00",
+          "close": "14:00"
+        },
+        "thursday": {
+          "open": "11:00",
+          "close": "14:00"
+        },
+        "friday": {
+          "open": "11:00",
+          "close": "14:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "health-science-center-cafe",
+      "name": "Health Science Center Cafe",
+      "type": "dining",
+      "address": "8441 Riverside Pkwy, Bryan, TX",
+      "coordinates": {
+        "latitude": 30.59877,
+        "longitude": -96.39562
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "14:30"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "14:30"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "14:30"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "14:30"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "14:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "houston-street-deli",
+      "name": "Houston Street Deli",
+      "type": "dining",
+      "address": "1425 Bryan Rd, Bryan, TX",
+      "coordinates": {
+        "latitude": 30.64133,
+        "longitude": -96.46663
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "15:00"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "15:00"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "15:00"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "15:00"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "13:30"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "houston-street-subs",
+      "name": "Houston Street Subs",
+      "type": "dining",
+      "address": "336 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61022,
+        "longitude": -96.34864
+      },
+      "hours": {
+        "monday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "tuesday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "wednesday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "thursday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "friday": {
+          "open": "10:00",
+          "close": "14:30"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "ag-cafe",
+      "name": "Ag Cafe",
+      "type": "dining",
+      "address": "336 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61022,
+        "longitude": -96.34864
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "17:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "shake-smart",
+      "name": "Shake Smart",
+      "type": "dining",
+      "address": "336 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61022,
+        "longitude": -96.34864
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "tuesday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "wednesday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "thursday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "friday": {
+          "open": "08:00",
+          "close": "15:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "starbucks-coffee",
+      "name": "Starbucks Coffee",
+      "type": "dining",
+      "address": "336 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61022,
+        "longitude": -96.34864
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "19:00"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "17:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "shake-smart",
+      "name": "Shake Smart",
+      "type": "dining",
+      "address": "187 Corrington Dr, College Station, TX",
+      "coordinates": {
+        "latitude": 30.60741,
+        "longitude": -96.34272
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "22:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "22:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "22:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "22:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "22:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "the-41st-club",
+      "name": "The 41st Club",
+      "type": "dining",
+      "address": "1004 George Bush Dr W, College Station, TX",
+      "coordinates": {
+        "latitude": 30.59763,
+        "longitude": -96.35261
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "14:00"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "14:00"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "14:00"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "14:00"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "14:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "vet-med-cafe",
+      "name": "Vet Med Cafe",
+      "type": "dining",
+      "address": "660 Raymond Stotzer Pkwy, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61188,
+        "longitude": -96.35686
+      },
+      "hours": {
+        "monday": {
+          "open": "07:30",
+          "close": "14:30"
+        },
+        "tuesday": {
+          "open": "07:30",
+          "close": "14:30"
+        },
+        "wednesday": {
+          "open": "07:30",
+          "close": "14:30"
+        },
+        "thursday": {
+          "open": "07:30",
+          "close": "14:30"
+        },
+        "friday": {
+          "open": "07:30",
+          "close": "14:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "student-rec-center",
+      "name": "Student Rec Center",
+      "type": "gym",
+      "address": "187 Corrington Dr, College Station, TX",
+      "coordinates": {
+        "latitude": 30.6074,
+        "longitude": -96.34279
+      },
+      "hours": {
+        "monday": {
+          "open": "06:00",
+          "close": "23:59"
+        },
+        "tuesday": {
+          "open": "06:00",
+          "close": "23:59"
+        },
+        "wednesday": {
+          "open": "06:00",
+          "close": "23:59"
+        },
+        "thursday": {
+          "open": "06:00",
+          "close": "23:59"
+        },
+        "friday": {
+          "open": "06:00",
+          "close": "23:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "southside-rec-center",
+      "name": "Southside Rec Center",
+      "type": "gym",
+      "address": "633 Bizzell St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61581,
+        "longitude": -96.33359
+      },
+      "hours": {
+        "monday": {
+          "open": "05:30",
+          "close": "23:59"
+        },
+        "tuesday": {
+          "open": "05:30",
+          "close": "23:59"
+        },
+        "wednesday": {
+          "open": "05:30",
+          "close": "23:59"
+        },
+        "thursday": {
+          "open": "05:30",
+          "close": "23:59"
+        },
+        "friday": {
+          "open": "05:30",
+          "close": "23:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "polo-road-rec-center",
+      "name": "Polo Road Rec Center",
+      "type": "gym",
+      "address": "322 Polo Rd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.6231,
+        "longitude": -96.33835
+      },
+      "hours": {
+        "monday": {
+          "open": "06:00",
+          "close": "21:00"
+        },
+        "tuesday": {
+          "open": "06:00",
+          "close": "21:00"
+        },
+        "wednesday": {
+          "open": "06:00",
+          "close": "21:00"
+        },
+        "thursday": {
+          "open": "06:00",
+          "close": "21:00"
+        },
+        "friday": {
+          "open": "06:00",
+          "close": "21:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "sterling-c-evans-library",
+      "name": "Sterling C. Evans Library",
+      "type": "library",
+      "address": "400 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61706,
+        "longitude": -96.33895
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "19:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "west-campus-library-wcl",
+      "name": "West Campus Library (WCL)",
+      "type": "library",
+      "address": "214 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61169,
+        "longitude": -96.34998
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "23:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "23:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "23:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "23:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "17:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "medical-sciences-library",
+      "name": "Medical Sciences Library",
+      "type": "library",
+      "address": "202 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61198,
+        "longitude": -96.35166
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "21:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "annex",
+      "name": "Annex",
+      "type": "library",
+      "address": "400 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61614,
+        "longitude": -96.33827
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "03:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "03:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "03:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "03:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "19:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "zachry-engineering-education-complex",
+      "name": "Zachry Engineering Education Complex",
+      "type": "library",
+      "address": "125 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.62127,
+        "longitude": -96.3404
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "02:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "02:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "02:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "02:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "memorial-student-center-msc",
+      "name": "Memorial Student Center (MSC)",
+      "type": "library",
+      "address": "275 Joe Routt Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61228,
+        "longitude": -96.34151
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "00:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "innovative-learning-classroom-building-ilcb",
+      "name": "Innovative Learning Classroom Building (ILCB)",
+      "type": "library",
+      "address": "215 Lamar St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.612,
+        "longitude": -96.34452
+      },
+      "hours": {
+        "monday": {
+          "open": "07:15",
+          "close": "23:00"
+        },
+        "tuesday": {
+          "open": "07:15",
+          "close": "23:00"
+        },
+        "wednesday": {
+          "open": "07:15",
+          "close": "23:00"
+        },
+        "thursday": {
+          "open": "07:15",
+          "close": "23:00"
+        },
+        "friday": {
+          "open": "07:15",
+          "close": "20:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "policy-sciences--economics-library",
+      "name": "Policy Sciences & Economics Library",
+      "type": "library",
+      "address": "Policy Sciences & Economics Library",
+      "coordinates": {
+        "latitude": 30.59752,
+        "longitude": -96.35355
+      },
+      "hours": {
+        "monday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "tuesday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "wednesday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "thursday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "friday": {
+          "open": "08:00",
+          "close": "17:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "student-computing-center-scc",
+      "name": "Student Computing Center (SCC)",
+      "type": "library",
+      "address": "400 Spence St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.616,
+        "longitude": -96.33806
+      },
+      "hours": {
+        "monday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "tuesday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "wednesday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "thursday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "friday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "southside-community-learning-center-clc",
+      "name": "Southside Community Learning Center (CLC)",
+      "type": "library",
+      "address": "676 Lubbock St, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61564,
+        "longitude": -96.3361
+      },
+      "hours": {
+        "monday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "tuesday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "wednesday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "thursday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "friday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "wayne-roberts-85",
+      "name": "Wayne Roberts 85",
+      "type": "library",
+      "address": "256 Olsen Blvd, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61092,
+        "longitude": -96.35056
+      },
+      "hours": {
+        "monday": {
+          "open": "07:00",
+          "close": "12:00"
+        },
+        "tuesday": {
+          "open": "07:00",
+          "close": "12:00"
+        },
+        "wednesday": {
+          "open": "07:00",
+          "close": "12:00"
+        },
+        "thursday": {
+          "open": "07:00",
+          "close": "12:00"
+        },
+        "friday": {
+          "open": "07:00",
+          "close": "12:00"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    },
+    {
+      "id": "northside-community-learning-center-clc",
+      "name": "Northside Community Learning Center (CLC)",
+      "type": "library",
+      "address": "306 University Dr, College Station, TX",
+      "coordinates": {
+        "latitude": 30.61671,
+        "longitude": -96.34633
+      },
+      "hours": {
+        "monday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "tuesday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "wednesday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "thursday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "friday": {
+          "open": "00:00",
+          "close": "23:59"
+        },
+        "saturday": null,
+        "sunday": null
+      }
+    }
+  ],
+  "last_updated": "2025-11-21",
+  "source": "Texas A&M University official data"
+}

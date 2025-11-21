@@ -1,6 +1,31 @@
+/**
+ * Schedule Screen - Displays student schedule with calendar view
+ * 
+ * Features:
+ * - Daily/3-Day/Monthly view toggle
+ * - Time-based event rendering (7am-4pm)
+ * - Current time indicator
+ * - Event cards with location and time
+ * - Week navigation
+ * 
+ * State:
+ * - viewMode: Current view type (Daily/3-Day/Monthly)
+ * - selectedDate: Currently displayed date
+ * - currentTime: Current time for "now" indicator
+ * 
+ * Hardcoded Data:
+ * - scheduleEvents: Mock event data (TODO: Replace with real schedule from backend)
+ * 
+ * Future Enhancements:
+ * - Load schedule from backend API
+ * - Display suggestion overlays (transparent blue)
+ * - Accept/reject suggestion workflow
+ */
+
 import { useEffect, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
+import Colors from '../constants/Colors';
 
 const VIEW_OPTIONS = ['Daily', '3-Day', 'Monthly'];
 const DAY_START_HOUR = 7;
@@ -250,7 +275,7 @@ export default function ScheduleScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EFF3FF',
+    backgroundColor: Colors.backgroundLight,
     paddingTop: 32,
     paddingHorizontal: 16,
   },
@@ -262,11 +287,11 @@ const styles = StyleSheet.create({
     width: 80,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#d6d6d6',
+    backgroundColor: Colors.divider,
   },
   viewToggle: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.background,
     borderRadius: 20,
     padding: 6,
     marginBottom: 20,
@@ -279,14 +304,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewButtonActive: {
-    backgroundColor: '#4D8DFF',
+    backgroundColor: Colors.accentLight,
   },
   viewButtonText: {
-    color: '#7a7a7a',
+    color: Colors.text.secondary,
     fontWeight: '600',
   },
   viewButtonTextActive: {
-    color: '#fff',
+    color: Colors.text.light,
   },
   contentScroll: {
     flex: 1,
@@ -298,7 +323,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     borderRadius: 24,
-    backgroundColor: '#CFE2FF',
+    backgroundColor: Colors.surfaceCard,
     padding: 16,
     gap: 12,
     minHeight: 580,
@@ -310,7 +335,7 @@ const styles = StyleSheet.create({
   dayBadge: {
     width: '100%',
     borderRadius: 16,
-    backgroundColor: '#6DB8FF',
+    backgroundColor: Colors.accent,
     paddingVertical: 18,
     alignItems: 'center',
     marginBottom: 16,
@@ -318,12 +343,12 @@ const styles = StyleSheet.create({
   dayText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
+    color: Colors.text.light,
   },
   dateText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#fff',
+    color: Colors.text.light,
   },
   times: {
     width: '100%',
@@ -337,7 +362,7 @@ const styles = StyleSheet.create({
   },
   timeLabel: {
     fontSize: 14,
-    color: '#0E1C36',
+    color: Colors.text.dark,
   },
   lastTimeLabel: {
     position: 'absolute',
@@ -347,7 +372,7 @@ const styles = StyleSheet.create({
   },
   timelineColumn: {
     flex: 1,
-    backgroundColor: '#E9F1FD',
+    backgroundColor: Colors.surfaceBlue,
     borderRadius: 20,
     padding: 16,
   },
@@ -360,14 +385,14 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.background,
     justifyContent: 'center',
     alignItems: 'center',
   },
   monthText: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#0E1C36',
+    color: Colors.text.dark,
     textAlign: 'center',
   },
   weekLabel: {
@@ -468,7 +493,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyStateText: {
-    color: '#7d869c',
+    color: Colors.text.secondary,
   },
   placeholder: {
     flex: 1,
@@ -477,7 +502,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   placeholderText: {
-    color: '#7d869c',
+    color: Colors.text.secondary,
     textAlign: 'center',
   },
 });
