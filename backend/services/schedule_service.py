@@ -18,6 +18,25 @@ class ScheduleService:
         """Initialize the schedule service"""
         pass
     
+    def _datetime_to_time_string(self, dt):
+        """
+        Convert datetime object to HH:MM format string
+        
+        Args:
+            dt: datetime object or None
+        
+        Returns:
+            str: Time in "HH:MM" format (e.g., "08:00", "15:30")
+            None: If dt is None
+        
+        Examples:
+            datetime(2024, 11, 21, 8, 0) → "08:00"
+            datetime(2024, 11, 21, 15, 30) → "15:30"
+        """
+        if not dt:
+            return None
+        return dt.strftime('%H:%M')
+    
     def parse_ics_content(self, ics_string):
         """
         Parse ICS file content into structured schedule
@@ -72,8 +91,11 @@ class ScheduleService:
                         # Single event
                         event = {
                             'course_id': str(component.get('summary', '')),
-                            'start': start_dt,
-                            'end': end_dt,
+                            'name': str(component.get('summary', '')),  # Add name for display
+                            'start': self._datetime_to_time_string(start_dt),  # Convert to HH:MM
+                            'end': self._datetime_to_time_string(end_dt),      # Convert to HH:MM
+                            'date': start_dt.strftime('%Y-%m-%d') if start_dt else None,  # Separate date
+                            'weekday': start_dt.weekday() if start_dt else None,  # 0=Monday, 6=Sunday
                             'location': str(component.get('location', '')),
                             'description': str(component.get('description', '')),
                             'uid': str(component.get('uid', '')),
@@ -130,8 +152,11 @@ class ScheduleService:
             
             event = {
                 'course_id': str(component.get('summary', '')),
-                'start': occurrence_start,
-                'end': occurrence_end,
+                'name': str(component.get('summary', '')),  # Add name for display
+                'start': self._datetime_to_time_string(occurrence_start),  # Convert to HH:MM
+                'end': self._datetime_to_time_string(occurrence_end),      # Convert to HH:MM
+                'date': occurrence_start.strftime('%Y-%m-%d') if occurrence_start else None,  # Separate date
+                'weekday': occurrence_start.weekday() if occurrence_start else None,  # 0=Monday, 6=Sunday
                 'location': str(component.get('location', '')),
                 'description': str(component.get('description', '')),
                 'uid': str(component.get('uid', '')),

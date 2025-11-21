@@ -1,33 +1,37 @@
 /**
- * Schedule Screen - Displays student schedule with calendar view
+ * Schedule Screen - Displays student schedule with daily calendar view
  * 
  * Features:
- * - Daily/3-Day/Monthly view toggle
+ * - Daily calendar view
  * - Time-based event rendering (7am-4pm)
  * - Current time indicator
  * - Event cards with location and time
  * - Week navigation
+ * - ✅ AI-GENERATED SUGGESTIONS: Transparent blue overlays with accept/reject
  * 
  * State:
- * - viewMode: Current view type (Daily/3-Day/Monthly)
  * - selectedDate: Currently displayed date
  * - currentTime: Current time for "now" indicator
  * 
- * Hardcoded Data:
- * - scheduleEvents: Mock event data (TODO: Replace with real schedule from backend)
+ * Data Sources:
+ * - scheduleEvents: Real schedule from UserContext
+ * - suggestions: AI-generated gym suggestions from backend
+ * - acceptedSuggestions: User-accepted suggestions
+ * - rejectedSuggestions: Hidden suggestions
  * 
- * Future Enhancements:
- * - Load schedule from backend API
- * - Display suggestion overlays (transparent blue)
- * - Accept/reject suggestion workflow
+ * Suggestion Workflow:
+ * 1. User generates suggestions in Activity Preferences screen
+ * 2. Suggestions appear as transparent blue overlays here
+ * 3. User can accept (becomes solid event) or reject (hides it)
  */
 
 import { useEffect, useMemo, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import Colors from '../constants/Colors';
+import { useUser } from '../contexts/UserContext';
 
-const VIEW_OPTIONS = ['Daily', '3-Day', 'Monthly'];
 const DAY_START_HOUR = 7;
 const DAY_END_HOUR = 16;
 const HOUR_HEIGHT = 80;
@@ -116,7 +120,18 @@ const getCurrentWeekMonday = () => {
 };
 
 export default function ScheduleScreen() {
-  const [viewMode, setViewMode] = useState(VIEW_OPTIONS[0]);
+  const router = useRouter();
+  
+  // Global state from UserContext
+  const {
+    schedule,
+    suggestions,
+    acceptedSuggestions,
+    rejectedSuggestions,
+    acceptSuggestion,
+    rejectSuggestion,
+  } = useUser();
+  
   const [selectedDate, setSelectedDate] = useState(getCurrentWeekMonday);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -125,12 +140,86 @@ export default function ScheduleScreen() {
     return () => clearInterval(interval);
   }, []);
 
+  // Combine regular events with accepted suggestions
   const selectedEvents = useMemo(() => {
     const weekday = selectedDate.getDay();
-    return scheduleEvents
-      .filter((event) => event.weekday === weekday)
-      .sort((a, b) => minutesFromStart(a.start) - minutesFromStart(b.start));
-  }, [selectedDate]);
+    const dateStr = selectedDate.toISOString().split('T')[0];
+    
+    // Get events from schedule or fall back to mock data
+    let events = schedule && schedule.classes 
+      ? schedule.classes
+          .filter(cls => {
+            // Filter by date if available
+            if (cls.date) {
+              return cls.date === dateStr;
+            }
+            // Filter by weekday if available
+            if (cls.weekday !== undefined) {
+              return cls.weekday === weekday;
+            }
+            return true;
+          })
+          .map(cls => ({
+            id: cls.id || cls.name,
+            title: cls.name || cls.title,
+            start: cls.start,
+            end: cls.end,
+            location: cls.location || 'TBD',
+            color: '#BDEAB5', // Green for classes
+            isSuggestion: false,
+          }))
+      : scheduleEvents.filter((event) => event.weekday === weekday);
+    
+    // Add accepted suggestions as solid events
+    if (acceptedSuggestions && acceptedSuggestions.length > 0) {
+      const acceptedEvents = acceptedSuggestions
+        .filter(sugg => {
+          if (sugg.date) {
+            return sugg.date === dateStr;
+          }
+          return true;
+        })
+        .map(sugg => ({
+          id: `accepted-${sugg.id || sugg.location_name}`,
+          title: `Gym - ${sugg.location_name}`,
+          start: sugg.time_block?.start || sugg.start,
+          end: sugg.time_block?.end || sugg.end,
+          location: sugg.location_name,
+          color: Colors.accepted.background,
+          isSuggestion: false,
+          isAccepted: true,
+        }));
+      events = [...events, ...acceptedEvents];
+    }
+    
+    return events.sort((a, b) => minutesFromStart(a.start) - minutesFromStart(b.start));
+  }, [selectedDate, schedule, acceptedSuggestions]);
+  
+  // Get visible suggestions (not accepted or rejected)
+  const visibleSuggestions = useMemo(() => {
+    if (!suggestions || suggestions.length === 0) return [];
+    
+    const dateStr = selectedDate.toISOString().split('T')[0];
+    
+    return suggestions.filter(sugg => {
+      // Filter out accepted and rejected suggestions
+      const isAccepted = acceptedSuggestions?.some(acc => 
+        acc.id === sugg.id || acc.location_name === sugg.location_name
+      );
+      const isRejected = rejectedSuggestions?.some(rej => 
+        rej.id === sugg.id || rej.location_name === sugg.location_name
+      );
+      
+      if (isAccepted || isRejected) return false;
+      
+      // Filter by date if available
+      if (sugg.date) {
+        return sugg.date === dateStr;
+      }
+      
+      return true;
+    });
+  }, [suggestions, acceptedSuggestions, rejectedSuggestions, selectedDate]);
 
   const nowIndicatorTop = useMemo(() => {
     const startMinutes = DAY_START_HOUR * 60;
@@ -142,13 +231,63 @@ export default function ScheduleScreen() {
     return (minutesNow - startMinutes) * PIXELS_PER_MINUTE;
   }, [currentTime, selectedDate]);
 
-  const showNowIndicator = viewMode === 'Daily' && nowIndicatorTop !== null;
+  const showNowIndicator = nowIndicatorTop !== null;
 
   const handleChangeWeek = (direction) => {
     setSelectedDate((prev) => {
       const next = new Date(prev);
       next.setDate(prev.getDate() + direction * 7);
       return next;
+    });
+  };
+  
+  /**
+   * Handle accepting a suggestion
+   * Converts suggestion to solid event
+   */
+  const handleAcceptSuggestion = (suggestion) => {
+    acceptSuggestion(suggestion);
+    // Show success feedback
+    Alert.alert(
+      'Suggestion Accepted!',
+      `${suggestion.location_name} has been added to your schedule.`,
+      [{ text: 'Great!' }]
+    );
+  };
+  
+  /**
+   * Handle rejecting a suggestion
+   * Hides the suggestion from display
+   */
+  const handleRejectSuggestion = (suggestion) => {
+    Alert.alert(
+      'Hide Suggestion?',
+      `Hide ${suggestion.location_name} from your schedule?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Hide', 
+          style: 'destructive',
+          onPress: () => rejectSuggestion(suggestion)
+        },
+      ]
+    );
+  };
+  
+  /**
+   * Handle viewing event details
+   */
+  const handleViewDetails = (event) => {
+    // TODO: Navigate to event detail screen (Phase 3.5)
+    router.push({
+      pathname: '/event',
+      params: {
+        eventId: event.id,
+        title: event.title,
+        start: event.start,
+        end: event.end,
+        location: event.location,
+      },
     });
   };
 
@@ -160,21 +299,6 @@ export default function ScheduleScreen() {
     <View style={styles.container}>
       <View style={styles.handleContainer}>
         <View style={styles.handle} />
-      </View>
-
-      <View style={styles.viewToggle}>
-        {VIEW_OPTIONS.map((option) => {
-          const isActive = viewMode === option;
-          return (
-            <TouchableOpacity
-              key={option}
-              style={[styles.viewButton, isActive && styles.viewButtonActive]}
-              onPress={() => setViewMode(option)}
-            >
-              <Text style={[styles.viewButtonText, isActive && styles.viewButtonTextActive]}>{option}</Text>
-            </TouchableOpacity>
-          );
-        })}
       </View>
 
       <ScrollView style={styles.contentScroll} contentContainerStyle={styles.contentScrollContent} showsVerticalScrollIndicator={false}>
@@ -213,15 +337,14 @@ export default function ScheduleScreen() {
               </TouchableOpacity>
             </View>
 
-            {viewMode === 'Daily' ? (
-              <View style={styles.timelineBody}>
-                <View style={styles.hourLines}>
-                  {HOURS.slice(0, -1).map((hour) => (
-                    <View key={`line-${hour}`} style={styles.hourBlock} />
-                  ))}
-                </View>
+            <View style={styles.timelineBody}>
+              <View style={styles.hourLines}>
+                {HOURS.slice(0, -1).map((hour) => (
+                  <View key={`line-${hour}`} style={styles.hourBlock} />
+                ))}
+              </View>
 
-                <View style={styles.eventsLayer}>
+              <View style={styles.eventsLayer}>
                   {showNowIndicator && (
                     <View style={[styles.nowIndicator, { top: nowIndicatorTop }]}>
                       <Text style={styles.nowLabel}>{formatClockLabel(currentTime.getHours() * 60 + currentTime.getMinutes())}</Text>
@@ -235,6 +358,7 @@ export default function ScheduleScreen() {
                     </View>
                   )}
 
+                  {/* Render regular events */}
                   {selectedEvents.map((event) => {
                     const startMinutes = minutesFromStart(event.start);
                     const endMinutes = minutesFromStart(event.end);
@@ -246,7 +370,9 @@ export default function ScheduleScreen() {
                       <View key={event.id} style={[styles.eventCard, { top: offsetTop, height, backgroundColor: event.color }]}>
                         <View style={styles.eventHeader}>
                           <Text style={styles.eventTitle}>{event.title}</Text>
-                          <Feather name="edit-2" size={16} color="#333" />
+                          <TouchableOpacity onPress={() => handleViewDetails(event)}>
+                            <Feather name="eye" size={16} color="#333" />
+                          </TouchableOpacity>
                         </View>
                         <Text style={styles.eventTime}>
                           {formatClockLabel(startMinutes)} - {formatClockLabel(endMinutes)}
@@ -255,16 +381,103 @@ export default function ScheduleScreen() {
                           <Ionicons name="location-outline" size={14} color="#333" style={styles.locationIcon} />
                           <Text style={styles.locationText}>{event.location}</Text>
                         </View>
+                        {event.isAccepted && (
+                          <View style={styles.acceptedBadge}>
+                            <Ionicons name="checkmark-circle" size={12} color={Colors.success} />
+                            <Text style={styles.acceptedText}>Added</Text>
+                          </View>
+                        )}
+                      </View>
+                    );
+                  })}
+                  
+                  {/* Render suggestions as transparent overlays */}
+                  {visibleSuggestions.map((suggestion, index) => {
+                    const timeBlock = suggestion.time_block || {};
+                    const start = timeBlock.start || suggestion.start;
+                    const end = timeBlock.end || suggestion.end;
+                    
+                    if (!start || !end) return null;
+                    
+                    const startMinutes = minutesFromStart(start);
+                    const endMinutes = minutesFromStart(end);
+                    const offsetTop = (startMinutes - DAY_START_HOUR * 60) * PIXELS_PER_MINUTE;
+                    const duration = endMinutes - startMinutes;
+                    const height = Math.max(duration * PIXELS_PER_MINUTE - 8, 80);
+                    
+                    // Offset multiple suggestions slightly
+                    const leftOffset = index * 4;
+                    const rightOffset = index * 4;
+                    
+                    return (
+                      <View 
+                        key={`suggestion-${suggestion.id || index}`} 
+                        style={[
+                          styles.suggestionCard, 
+                          { 
+                            top: offsetTop, 
+                            height,
+                            left: 8 + leftOffset,
+                            right: 8 + rightOffset,
+                            backgroundColor: Colors.suggestion.background,
+                            borderColor: Colors.suggestion.border,
+                          }
+                        ]}
+                      >
+                        {/* Rank badge */}
+                        {suggestion.rank && (
+                          <View style={styles.rankBadge}>
+                            <Text style={styles.rankText}>#{suggestion.rank}</Text>
+                          </View>
+                        )}
+                        
+                        {/* Suggestion header */}
+                        <View style={styles.suggestionHeader}>
+                          <Text style={styles.suggestionTitle}>
+                            🏋️ {suggestion.location_name}
+                          </Text>
+                          <View style={styles.suggestionActions}>
+                            <TouchableOpacity 
+                              onPress={() => handleRejectSuggestion(suggestion)}
+                              style={styles.suggestionActionButton}
+                            >
+                              <Ionicons name="close-circle" size={24} color={Colors.error} />
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                              onPress={() => handleAcceptSuggestion(suggestion)}
+                              style={styles.suggestionActionButton}
+                            >
+                              <Ionicons name="checkmark-circle" size={24} color={Colors.success} />
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                        
+                        {/* Time */}
+                        <Text style={styles.suggestionTime}>
+                          {formatClockLabel(startMinutes)} - {formatClockLabel(endMinutes)}
+                        </Text>
+                        
+                        {/* Commute info */}
+                        {suggestion.commute_info && (
+                          <View style={styles.commuteInfo}>
+                            <Ionicons name="walk-outline" size={12} color={Colors.text.secondary} />
+                            <Text style={styles.commuteText}>
+                              {suggestion.commute_info.total_commute} min commute
+                            </Text>
+                          </View>
+                        )}
+                        
+                        {/* Reasoning */}
+                        {suggestion.reasoning && (
+                          <Text style={styles.suggestionReasoning} numberOfLines={2}>
+                            💡 {suggestion.reasoning}
+                          </Text>
+                        )}
                       </View>
                     );
                   })}
                 </View>
               </View>
-            ) : (
-              <View style={styles.placeholder}>
-                <Text style={styles.placeholderText}>The {viewMode} view is coming soon.</Text>
-              </View>
-            )}
           </View>
         </View>
       </ScrollView>
@@ -288,30 +501,6 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 3,
     backgroundColor: Colors.divider,
-  },
-  viewToggle: {
-    flexDirection: 'row',
-    backgroundColor: Colors.background,
-    borderRadius: 20,
-    padding: 6,
-    marginBottom: 20,
-    justifyContent: 'space-between',
-  },
-  viewButton: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 14,
-    alignItems: 'center',
-  },
-  viewButtonActive: {
-    backgroundColor: Colors.accentLight,
-  },
-  viewButtonText: {
-    color: Colors.text.secondary,
-    fontWeight: '600',
-  },
-  viewButtonTextActive: {
-    color: Colors.text.light,
   },
   contentScroll: {
     flex: 1,
@@ -467,6 +656,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1C1C1C',
+    flex: 1,
   },
   eventTime: {
     fontSize: 13,
@@ -485,6 +675,90 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#333',
   },
+  acceptedBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 6,
+    paddingTop: 6,
+    borderTopWidth: 1,
+    borderTopColor: Colors.success + '40',
+  },
+  acceptedText: {
+    fontSize: 11,
+    color: Colors.success,
+    marginLeft: 4,
+    fontWeight: '600',
+  },
+  // Suggestion overlay styles
+  suggestionCard: {
+    position: 'absolute',
+    borderRadius: 16,
+    padding: 12,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    shadowColor: Colors.accent,
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
+  rankBadge: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    backgroundColor: Colors.primary,
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  rankText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.text.light,
+  },
+  suggestionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 6,
+  },
+  suggestionTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.text.primary,
+    flex: 1,
+    marginRight: 8,
+  },
+  suggestionActions: {
+    flexDirection: 'row',
+    gap: 4,
+  },
+  suggestionActionButton: {
+    padding: 2,
+  },
+  suggestionTime: {
+    fontSize: 12,
+    color: Colors.text.primary,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  commuteInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+    gap: 4,
+  },
+  commuteText: {
+    fontSize: 11,
+    color: Colors.text.secondary,
+  },
+  suggestionReasoning: {
+    fontSize: 11,
+    color: Colors.text.secondary,
+    lineHeight: 14,
+    marginTop: 4,
+    fontStyle: 'italic',
+  },
   emptyState: {
     position: 'absolute',
     top: '45%',
@@ -494,15 +768,5 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     color: Colors.text.secondary,
-  },
-  placeholder: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  },
-  placeholderText: {
-    color: Colors.text.secondary,
-    textAlign: 'center',
   },
 });

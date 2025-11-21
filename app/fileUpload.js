@@ -3,11 +3,21 @@
  * 
  * Allows users to upload their ICS (calendar) file to parse their class schedule.
  * 
+ * PLATFORM SUPPORT:
+ * - ✅ iOS: Uses expo-file-system for native file reading
+ * - ✅ Android: Uses expo-file-system for native file reading
+ * - ✅ Web: Uses File API for browser-based file reading
+ * 
  * SETUP FOR MOBILE TESTING:
  * - Backend is READY! All endpoints are functional.
  * - Configure ApiConfig.js with your computer's IP address for mobile testing
  * - Make sure backend server is running: cd backend && python app.py
  * - Ensure mobile device and computer are on the same WiFi network
+ * 
+ * SETUP FOR WEB TESTING:
+ * - Run: npm run web
+ * - Backend: cd backend && python app.py
+ * - Open browser to localhost:8081
  * 
  * See TROUBLESHOOTING_GUIDE.md for detailed setup instructions.
  */
@@ -21,18 +31,26 @@ import {
   ActivityIndicator,
   Alert,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
+// Using legacy import to maintain compatibility with document picker URIs
+// The new File API doesn't handle content:// URIs from document picker yet
+import * as FileSystem from 'expo-file-system/legacy';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
-import { getApiUrl } from '../constants/ApiConfig';
+import * as api from '../services/api';
+import { useUser } from '../contexts/UserContext';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function FileUploadScreen() {
   const router = useRouter();
   
-  // State management
+  // Global state from UserContext
+  const { setStudentId, setSchedule, setScheduleId } = useUser();
+  
+  // Local state management
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState(null);
@@ -56,27 +74,23 @@ export default function FileUploadScreen() {
         return;
       }
 
-      // Get the selected file
-      const file = result.assets[0];
+      // Get the selected file from document picker
+      const selectedAsset = result.assets[0];
       
       // Validate file
-      if (!file.uri) {
+      if (!selectedAsset.uri) {
         throw new Error('Invalid file selected');
       }
 
       // Check file extension
-      if (!file.name.toLowerCase().endsWith('.ics')) {
+      if (!selectedAsset.name.toLowerCase().endsWith('.ics')) {
         setError('Please select a valid .ics calendar file');
         return;
       }
 
-      // Store file information
-      setSelectedFile({
-        uri: file.uri,
-        name: file.name,
-        size: file.size,
-        mimeType: file.mimeType,
-      });
+      // Store complete file information from document picker
+      // Includes: uri (mobile), file (web), name, size, mimeType
+      setSelectedFile(selectedAsset);
 
     } catch (err) {
       console.error('File picker error:', err);
@@ -92,8 +106,9 @@ export default function FileUploadScreen() {
    * 
    * Process:
    * 1. Reads the ICS file content
-   * 2. Sends to backend for parsing
-   * 3. Navigates to building picker on success
+   * 2. Sends to backend for parsing via api.uploadSchedule()
+   * 3. Stores schedule in global UserContext
+   * 4. Navigates to building picker on success
    * 
    * MOBILE SETUP:
    * Configure ApiConfig.js with your computer's IP address
@@ -109,56 +124,45 @@ export default function FileUploadScreen() {
     setError(null);
 
     try {
-      // Read file content
-      const fileContent = await FileSystem.readAsStringAsync(selectedFile.uri);
+      // Read file content - platform-specific approach
+      // Web: Uses File.text() API (standard Web API)
+      // Mobile: Uses expo-file-system (native module)
+      let fileContent;
+      
+      if (Platform.OS === 'web') {
+        // Web platform: Use File API
+        console.log('📄 Reading file on web platform');
+        if (!selectedFile.file) {
+          throw new Error('File object not available on web. Please try selecting the file again.');
+        }
+        fileContent = await selectedFile.file.text();
+      } else {
+        // Mobile platforms (iOS/Android): Use expo-file-system
+        console.log('📄 Reading file on mobile platform');
+        fileContent = await FileSystem.readAsStringAsync(selectedFile.uri);
+      }
       
       if (!fileContent) {
         throw new Error('File is empty or could not be read');
       }
       
-      // Use centralized API configuration (supports mobile testing)
-      const response = await fetch(getApiUrl('/api/upload-schedule'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fileContent: fileContent,
-          studentId: 'student_1', // TODO: Replace with actual user ID from auth
-        }),
-      });
+      console.log(`✅ File read successfully: ${fileContent.length} characters`);
+      
+      // Upload schedule using centralized API service
+      const studentIdValue = 'student_1'; // TODO: Replace with actual user ID from auth
+      const result = await api.uploadSchedule(fileContent, studentIdValue);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to upload schedule');
-      }
+      // Store schedule data in global UserContext
+      setStudentId(studentIdValue);
+      setSchedule(result.schedule);
+      setScheduleId(result.scheduleId || studentIdValue);
 
       // Success! Navigate to building picker
-      // Pass the parsed schedule data
-      router.push({
-        pathname: '/buildingPicker',
-        params: {
-          studentId: 'student_1',
-          scheduleId: data.schedule_id || 'student_1',
-        },
-      });
+      router.push('/buildingPicker');
 
     } catch (err) {
       console.error('Upload error:', err);
-      
-      // Check if backend is not running
-      if (err.message.includes('Network request failed') || err.message.includes('fetch')) {
-        setError(
-          'Cannot connect to backend server. ' +
-          'Make sure: 1) Flask server is running (cd backend && python app.py), ' +
-          '2) ApiConfig.js is configured with your computer\'s IP address, ' +
-          '3) Mobile device and computer are on the same WiFi network. ' +
-          'See TROUBLESHOOTING_GUIDE.md for help.'
-        );
-      } else {
-        setError(err.message || 'Failed to upload schedule. Please try again.');
-      }
+      setError(err.message || 'Failed to upload schedule. Please try again.');
     } finally {
       setIsUploading(false);
     }
@@ -271,16 +275,11 @@ export default function FileUploadScreen() {
 
         {/* Error Display */}
         {error && (
-          <View style={styles.errorContainer}>
-            <Ionicons name="alert-circle" size={24} color={Colors.error} />
-            <Text style={styles.errorText}>{error}</Text>
-            <TouchableOpacity
-              onPress={() => setError(null)}
-              style={styles.dismissErrorButton}
-            >
-              <Text style={styles.dismissErrorText}>Dismiss</Text>
-            </TouchableOpacity>
-          </View>
+          <ErrorMessage
+            message={error}
+            onDismiss={() => setError(null)}
+            onRetry={selectedFile ? handleUpload : null}
+          />
         )}
 
         {/* Help Text */}

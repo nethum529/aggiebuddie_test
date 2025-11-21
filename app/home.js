@@ -39,7 +39,7 @@ export default function HomeScreen() {
       icon: 'settings-outline',
       route: '/activityPreferences',
       color: Colors.maroon,
-      available: false, // Phase 3.3 not implemented yet
+      available: true, // Phase 3.3 now complete!
     },
   ];
 
@@ -70,33 +70,19 @@ export default function HomeScreen() {
           </Text>
         </View>
 
-        {/* Menu Items */}
-        <View style={styles.menuContainer}>
+        {/* Navigation Bar */}
+        <View style={styles.navBar}>
           {menuItems.map((item, index) => (
             <TouchableOpacity
               key={index}
-              style={[
-                styles.menuItem,
-                !item.available && styles.menuItemDisabled,
-              ]}
+              style={styles.navButton}
               onPress={() => handleNavigate(item.route, item.available)}
               activeOpacity={0.7}
             >
-              <View style={[styles.menuIconContainer, { backgroundColor: item.color + '20' }]}>
-                <Ionicons name={item.icon} size={32} color={item.color} />
+              <View style={[styles.navIconContainer, { backgroundColor: item.color + '20' }]}>
+                <Ionicons name={item.icon} size={28} color={item.color} />
               </View>
-              <View style={styles.menuTextContainer}>
-                <Text style={styles.menuTitle}>{item.title}</Text>
-                <Text style={styles.menuDescription}>{item.description}</Text>
-                {!item.available && (
-                  <Text style={styles.comingSoonBadge}>Coming Soon</Text>
-                )}
-              </View>
-              <Ionicons
-                name="chevron-forward"
-                size={24}
-                color={item.available ? Colors.text.secondary : Colors.text.tertiary}
-              />
+              <Text style={styles.navButtonText}>{item.title}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -195,48 +181,33 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
 
-  // Menu
-  menuContainer: {
-    marginBottom: 24,
-  },
-  menuItem: {
+  // Navigation Bar
+  navBar: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-around',
     backgroundColor: Colors.surface,
     padding: 16,
     borderRadius: 12,
-    marginBottom: 12,
+    marginBottom: 24,
   },
-  menuItemDisabled: {
-    opacity: 0.6,
+  navButton: {
+    alignItems: 'center',
+    flex: 1,
+    paddingVertical: 8,
   },
-  menuIconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+  navIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 16,
+    marginBottom: 8,
   },
-  menuTextContainer: {
-    flex: 1,
-  },
-  menuTitle: {
-    fontSize: 18,
+  navButtonText: {
+    fontSize: 13,
     fontWeight: '600',
     color: Colors.text.primary,
-    marginBottom: 4,
-  },
-  menuDescription: {
-    fontSize: 14,
-    color: Colors.text.secondary,
-    lineHeight: 18,
-  },
-  comingSoonBadge: {
-    fontSize: 12,
-    color: Colors.warning,
-    fontWeight: '600',
-    marginTop: 4,
+    textAlign: 'center',
   },
 
   // Guide card

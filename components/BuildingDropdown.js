@@ -12,16 +12,14 @@
  * - disabled: Whether dropdown is disabled
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Modal,
   FlatList,
   TextInput,
-  Pressable,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -33,8 +31,9 @@ export default function BuildingDropdown({
   placeholder = "Select Building",
   disabled = false,
 }) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef(null);
 
   // Filter buildings based on search query
   const filteredBuildings = buildings.filter(building =>
@@ -42,25 +41,35 @@ export default function BuildingDropdown({
     (building.address && building.address.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  // Auto-focus search input when dropdown opens
+  useEffect(() => {
+    if (isOpen && searchInputRef.current) {
+      // Small delay to ensure render is complete
+      setTimeout(() => {
+        searchInputRef.current.focus();
+      }, 50);
+    }
+  }, [isOpen]);
+
   const handleSelect = (building) => {
     onSelect(building);
-    setIsVisible(false);
+    setIsOpen(false);
     setSearchQuery('');
   };
 
-  const handleOpen = () => {
+  const handleToggle = () => {
     if (!disabled) {
-      setIsVisible(true);
+      setIsOpen(!isOpen);
     }
   };
 
   const handleClose = () => {
-    setIsVisible(false);
+    setIsOpen(false);
     setSearchQuery('');
   };
 
   return (
-    <>
+    <View style={styles.container}>
       {/* Dropdown Button */}
       <TouchableOpacity
         style={[
@@ -68,7 +77,7 @@ export default function BuildingDropdown({
           disabled && styles.dropdownButtonDisabled,
           selectedBuilding && styles.dropdownButtonSelected,
         ]}
-        onPress={handleOpen}
+        onPress={handleToggle}
         disabled={disabled}
         activeOpacity={0.7}
       >
@@ -96,23 +105,21 @@ export default function BuildingDropdown({
         />
       </TouchableOpacity>
 
-      {/* Modal with Building List */}
-      <Modal
-        visible={isVisible}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={handleClose}
-      >
-        <Pressable style={styles.modalOverlay} onPress={handleClose}>
-          <View style={styles.modalContent} onStartShouldSetResponder={() => true}>
-            {/* Header */}
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Select Building</Text>
-              <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
-                <Ionicons name="close" size={24} color={Colors.text.primary} />
-              </TouchableOpacity>
-            </View>
+      {/* Inline Dropdown */}
+      {isOpen && (
+        <>
+          {/* Backdrop - close dropdown when clicking outside */}
+          <TouchableOpacity
+            style={styles.backdrop}
+            activeOpacity={1}
+            onPress={handleClose}
+          />
 
+          {/* Dropdown Panel */}
+          <View
+            style={styles.dropdownPanel}
+            onStartShouldSetResponder={() => true}
+          >
             {/* Search Bar */}
             <View style={styles.searchContainer}>
               <Ionicons
@@ -122,6 +129,7 @@ export default function BuildingDropdown({
                 style={styles.searchIcon}
               />
               <TextInput
+                ref={searchInputRef}
                 style={styles.searchInput}
                 placeholder="Search buildings..."
                 placeholderTextColor={Colors.text.tertiary}
@@ -129,6 +137,7 @@ export default function BuildingDropdown({
                 onChangeText={setSearchQuery}
                 autoCapitalize="none"
                 autoCorrect={false}
+                autoFocus={true}
               />
               {searchQuery.length > 0 && (
                 <TouchableOpacity
@@ -177,13 +186,19 @@ export default function BuildingDropdown({
               contentContainerStyle={styles.listContent}
             />
           </View>
-        </Pressable>
-      </Modal>
-    </>
+        </>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  // Container
+  container: {
+    position: 'relative',
+    zIndex: 1,
+  },
+
   // Dropdown button
   dropdownButton: {
     flexDirection: 'row',
@@ -225,36 +240,33 @@ const styles = StyleSheet.create({
     color: Colors.text.tertiary,
   },
 
-  // Modal
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
+  // Backdrop and Dropdown Panel
+  backdrop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'transparent',
+    zIndex: 998,
   },
-  modalContent: {
+  dropdownPanel: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    marginTop: 4,
     backgroundColor: Colors.background,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: '80%',
-    paddingBottom: 20,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: Colors.text.primary,
-  },
-  closeButton: {
-    padding: 4,
+    borderRadius: 12,
+    maxHeight: 400,
+    zIndex: 999,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
 
   // Search
@@ -263,10 +275,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.surface,
     borderRadius: 8,
-    marginHorizontal: 20,
-    marginTop: 16,
+    marginHorizontal: 16,
+    marginTop: 12,
     marginBottom: 8,
     paddingHorizontal: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
   },
   searchIcon: {
     marginRight: 8,
@@ -283,8 +297,9 @@ const styles = StyleSheet.create({
 
   // Building list
   listContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingTop: 8,
+    paddingBottom: 8,
   },
   buildingItem: {
     flexDirection: 'row',

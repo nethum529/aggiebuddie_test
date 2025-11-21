@@ -28,7 +28,9 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import BuildingDropdown from '../components/BuildingDropdown';
-import { getApiUrl } from '../constants/ApiConfig';
+import * as api from '../services/api';
+import { useUser } from '../contexts/UserContext';
+import ErrorMessage from '../components/ErrorMessage';
 
 // MOCK DATA for testing (until Phase 2.2 provides real schedule)
 const MOCK_CLASSES = [
@@ -59,10 +61,18 @@ export default function BuildingPickerScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   
-  // State management
+  // Global state from UserContext
+  const {
+    studentId,
+    schedule,
+    buildings: contextBuildings,
+    setBuildings: setContextBuildings,
+    selectedBuildings,
+    assignBuildingToClass,
+  } = useUser();
+  
+  // Local state management
   const [classes, setClasses] = useState([]);
-  const [buildings, setBuildings] = useState([]);
-  const [buildingAssignments, setBuildingAssignments] = useState({});
   const [isLoadingBuildings, setIsLoadingBuildings] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -79,18 +89,109 @@ export default function BuildingPickerScreen() {
   /**
    * Load classes from uploaded schedule
    * 
-   * Currently uses MOCK data for testing UI.
-   * Will be updated to use real schedule data from navigation params
-   * once full integration is complete.
+   * Gets schedule data from UserContext (uploaded in previous screen).
+   * Extracts UNIQUE courses from all class occurrences (backend expands recurring events).
+   * Falls back to MOCK data if no schedule is available yet.
    */
   const loadClasses = () => {
-    // TODO: Get schedule from params once integrated with upload flow
-    // const scheduleId = params.scheduleId;
-    // const studentId = params.studentId;
-    // Fetch schedule from backend or get from params
+    if (schedule && schedule.classes) {
+      // Extract unique courses from all occurrences
+      // Backend returns ALL class occurrences (94+) because it expands recurring events
+      // We only want unique courses for building assignment UI
+      const uniqueCourses = {};
+      
+      schedule.classes.forEach(cls => {
+        const courseId = cls.course_id || cls.id;
+        
+        // Only store first occurrence of each unique course
+        if (!uniqueCourses[courseId]) {
+          uniqueCourses[courseId] = {
+            id: courseId,
+            name: cls.course_id,  // Backend stores name in course_id field
+            days: cls.days || extractDays(cls.start) || 'TBD',
+            time: cls.time || formatTime(cls.start, cls.end),
+            location: cls.location || 'TBD'
+          };
+        }
+      });
+      
+      const uniqueCoursesArray = Object.values(uniqueCourses);
+      console.log(`Loaded ${uniqueCoursesArray.length} unique courses from ${schedule.classes.length} total occurrences`);
+      setClasses(uniqueCoursesArray);
+    } else {
+      // Fall back to mock data for testing
+      console.log('No schedule in context, using MOCK data');
+      setClasses(MOCK_CLASSES);
+    }
+  };
+
+  /**
+   * Format time from datetime objects to human-readable string
+   * 
+   * @param {Date|string} start - Start datetime
+   * @param {Date|string} end - End datetime
+   * @returns {string} Formatted time range (e.g., "10:20 AM - 11:10 AM")
+   */
+  const formatTime = (start, end) => {
+    if (!start || !end) return 'TBD';
     
-    // For now, use mock data
-    setClasses(MOCK_CLASSES);
+    try {
+      // Handle both string and Date object inputs
+      const startDate = typeof start === 'string' ? new Date(start) : start;
+      const endDate = typeof end === 'string' ? new Date(end) : end;
+      
+      // Verify valid dates
+      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        return 'TBD';
+      }
+      
+      // Format to readable time string
+      const startTime = startDate.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true
+      });
+      const endTime = endDate.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true
+      });
+      
+      return `${startTime} - ${endTime}`;
+    } catch (e) {
+      console.error('Time formatting error:', e);
+      return 'TBD';
+    }
+  };
+
+  /**
+   * Extract day abbreviations from datetime object
+   * 
+   * @param {Date|string} datetime - Class datetime
+   * @returns {string|null} Day abbreviation (e.g., "M", "T", "W")
+   */
+  const extractDays = (datetime) => {
+    if (!datetime) return null;
+    
+    try {
+      const date = typeof datetime === 'string' ? new Date(datetime) : datetime;
+      if (isNaN(date.getTime())) return null;
+      
+      const dayMap = {
+        0: 'Su', // Sunday
+        1: 'M',  // Monday
+        2: 'T',  // Tuesday
+        3: 'W',  // Wednesday
+        4: 'R',  // Thursday (R to avoid confusion with Tuesday)
+        5: 'F',  // Friday
+        6: 'S'   // Saturday
+      };
+      
+      return dayMap[date.getDay()] || null;
+    } catch (e) {
+      console.error('Day extraction error:', e);
+      return null;
+    }
   };
 
   /**
@@ -102,36 +203,22 @@ export default function BuildingPickerScreen() {
       setIsLoadingBuildings(true);
       setError(null);
 
-      // Use centralized API configuration (supports mobile testing)
-      const response = await fetch(getApiUrl('/api/buildings'));
-      const data = await response.json();
+      // Use centralized API service
+      const result = await api.getBuildings();
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to fetch buildings');
-      }
-
-      // Backend returns { success: true, count: X, buildings: [...] }
-      if (data.success && data.buildings) {
-        setBuildings(data.buildings);
+      // Store buildings in global UserContext
+      if (result.success && result.buildings) {
+        setContextBuildings(result.buildings);
       } else {
         throw new Error('Invalid response format from server');
       }
 
     } catch (err) {
       console.error('Fetch buildings error:', err);
+      setError(err.message);
       
-      // Check if backend is not running
-      if (err.message.includes('Network request failed') || err.message.includes('fetch')) {
-        setError(
-          'Cannot connect to backend server. ' +
-          'Make sure Flask server is running. See TROUBLESHOOTING_GUIDE.md for help.'
-        );
-        
-        // Use mock buildings for testing when backend is down
-        useMockBuildings();
-      } else {
-        setError(err.message || 'Failed to load buildings');
-      }
+      // Use mock buildings for testing when backend is down
+      useMockBuildings();
     } finally {
       setIsLoadingBuildings(false);
     }
@@ -149,37 +236,35 @@ export default function BuildingPickerScreen() {
       { id: 'wehner', name: 'Wehner Building', address: '210 Olsen Blvd' },
       { id: 'blocker', name: 'Blocker Building', address: '245 Olsen Blvd' },
     ];
-    setBuildings(mockBuildings);
+    setContextBuildings(mockBuildings);
     console.log('Using mock buildings for UI testing');
   };
 
   /**
    * Handle building selection for a class
+   * Uses UserContext to store selections globally
    */
-  const handleBuildingSelect = (classId, building) => {
-    setBuildingAssignments(prev => ({
-      ...prev,
-      [classId]: building,
-    }));
+  const handleBuildingSelect = (className, building) => {
+    assignBuildingToClass(className, building.id);
   };
 
   /**
    * Check if all classes have buildings assigned
    */
   const isComplete = () => {
-    return classes.every(cls => buildingAssignments[cls.id]);
+    return classes.every(cls => selectedBuildings[cls.name || cls.id]);
   };
 
   /**
    * Handle finish button - submit building assignments
    * 
-   * ⚠️ PHASE 2 DEPENDENCY:
-   * This requires POST /api/schedule/add-locations endpoint (Phase 2.3)
-   * Endpoint is NOT implemented yet.
+   * ✅ BACKEND READY:
+   * POST /api/schedule/add-locations endpoint is functional
    * 
-   * Once Phase 2.3 is complete:
-   * - This will successfully submit assignments
-   * - Will navigate to activity preferences
+   * Process:
+   * 1. Validates all classes have buildings
+   * 2. Submits to backend via api.addLocations()
+   * 3. Navigates to next screen on success
    */
   const handleFinish = async () => {
     if (!isComplete()) {
@@ -195,52 +280,25 @@ export default function BuildingPickerScreen() {
     setError(null);
 
     try {
-      // Format data for backend
-      const locationsData = Object.entries(buildingAssignments).map(([classId, building]) => ({
-        class_id: classId,
-        building_id: building.id,
-      }));
+      // Use studentId from UserContext or fallback
+      const currentStudentId = studentId || 'student_1';
+      
+      // Submit building assignments using API service
+      await api.addLocations(currentStudentId, selectedBuildings);
 
-      // Use centralized API configuration (supports mobile testing)
-      const response = await fetch(getApiUrl('/api/schedule/add-locations'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          studentId: params.studentId || 'student_1',
-          locations: locationsData,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to save building assignments');
-      }
-
-      // Success! Navigate to activity preferences (or home for now)
-      router.push({
-        pathname: '/home',
-        // TODO: Once Phase 3.3 is complete, navigate to /activityPreferences
-      });
+      // Success! Navigate to home (or activityPreferences when Phase 3.3 is done)
+      // TODO: Change to /activityPreferences when Phase 3.3 is complete
+      router.push('/home');
 
     } catch (err) {
       console.error('Submit error:', err);
-      
-      if (err.message.includes('Network request failed') || err.message.includes('fetch')) {
-        setError(
-          'Cannot connect to backend server. ' +
-          'Make sure: 1) Flask server is running (cd backend && python app.py), ' +
-          '2) ApiConfig.js is configured with your computer\'s IP address, ' +
-          '3) Mobile device and computer are on the same WiFi network. ' +
-          'See TROUBLESHOOTING_GUIDE.md for help.'
-        );
+      setError(err.message);
         
-        // For testing: show success and navigate anyway
+      // For testing: offer to continue anyway if backend is down
+      if (err.message.includes('Cannot connect')) {
         Alert.alert(
           'UI Test Mode',
-          'Building assignments saved locally (backend Phase 2.3 pending). Continue to home?',
+          'Building assignments saved locally. Backend connection failed. Continue to home?',
           [
             { text: 'Cancel', style: 'cancel' },
             { text: 'Continue', onPress: () => router.push('/home') },
@@ -284,7 +342,7 @@ export default function BuildingPickerScreen() {
       {/* Progress Indicator */}
       <View style={styles.progressContainer}>
         <Text style={styles.progressText}>
-          {Object.keys(buildingAssignments).length} of {classes.length} assigned
+          {Object.keys(selectedBuildings).length} of {classes.length} assigned
         </Text>
         <View style={styles.progressBar}>
           <View
@@ -292,7 +350,7 @@ export default function BuildingPickerScreen() {
               styles.progressFill,
               {
                 width: classes.length > 0
-                  ? `${(Object.keys(buildingAssignments).length / classes.length) * 100}%`
+                  ? `${(Object.keys(selectedBuildings).length / classes.length) * 100}%`
                   : '0%',
               },
             ]}
@@ -324,16 +382,11 @@ export default function BuildingPickerScreen() {
 
         {/* Error Display */}
         {error && (
-          <View style={styles.errorContainer}>
-            <Ionicons name="alert-circle" size={24} color={Colors.error} />
-            <Text style={styles.errorText}>{error}</Text>
-            <TouchableOpacity
-              onPress={() => setError(null)}
-              style={styles.dismissErrorButton}
-            >
-              <Text style={styles.dismissErrorText}>Dismiss</Text>
-            </TouchableOpacity>
-          </View>
+          <ErrorMessage
+            message={error}
+            onDismiss={() => setError(null)}
+            onRetry={fetchBuildings}
+          />
         )}
 
         {/* Class Cards */}
@@ -358,9 +411,13 @@ export default function BuildingPickerScreen() {
                 <View style={styles.buildingSelector}>
                   <Text style={styles.selectorLabel}>Building Location:</Text>
                   <BuildingDropdown
-                    buildings={buildings}
-                    selectedBuilding={buildingAssignments[cls.id]}
-                    onSelect={(building) => handleBuildingSelect(cls.id, building)}
+                    buildings={contextBuildings}
+                    selectedBuilding={
+                      selectedBuildings[cls.name || cls.id]
+                        ? contextBuildings.find(b => b.id === selectedBuildings[cls.name || cls.id])
+                        : null
+                    }
+                    onSelect={(building) => handleBuildingSelect(cls.name || cls.id, building)}
                     placeholder="Select building..."
                     disabled={isLoadingBuildings || isSubmitting}
                   />
@@ -582,6 +639,7 @@ const styles = StyleSheet.create({
   },
   buildingSelector: {
     marginTop: 8,
+    zIndex: 1,
   },
   selectorLabel: {
     fontSize: 14,
