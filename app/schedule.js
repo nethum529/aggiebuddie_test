@@ -261,14 +261,21 @@ const formatTimelineLabel = (hour24) => {
 const sameDay = (a, b) =>
   a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 
-const getCurrentWeekMonday = () => {
+const getInitialDate = () => {
   const today = new Date();
   const dayOfWeek = today.getDay();
-  const offset = (dayOfWeek + 6) % 7;
-  const monday = new Date(today);
-  monday.setHours(0, 0, 0, 0);
-  monday.setDate(today.getDate() - offset);
-  return monday;
+  // If weekend (Saturday=6, Sunday=0), show Monday
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    const offset = (dayOfWeek + 6) % 7;
+    const monday = new Date(today);
+    monday.setHours(0, 0, 0, 0);
+    monday.setDate(today.getDate() - offset);
+    return monday;
+  }
+  // Otherwise, show current day
+  const currentDay = new Date(today);
+  currentDay.setHours(0, 0, 0, 0);
+  return currentDay;
 };
 
 export default function ScheduleScreen() {
@@ -284,7 +291,7 @@ export default function ScheduleScreen() {
     rejectSuggestion,
   } = useUser();
   
-  const [selectedDate, setSelectedDate] = useState(getCurrentWeekMonday);
+  const [selectedDate, setSelectedDate] = useState(getInitialDate);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   /**
@@ -392,10 +399,10 @@ export default function ScheduleScreen() {
 
   const showNowIndicator = nowIndicatorTop !== null;
 
-  const handleChangeWeek = (direction) => {
+  const handleChangeDay = (direction) => {
     setSelectedDate((prev) => {
       const next = new Date(prev);
-      next.setDate(prev.getDate() + direction * 7);
+      next.setDate(prev.getDate() + direction);
       return next;
     });
   };
@@ -490,18 +497,18 @@ export default function ScheduleScreen() {
 
           <View style={styles.timelineColumn}>
             <View style={styles.monthHeader}>
-              <TouchableOpacity style={styles.monthButton} onPress={() => handleChangeWeek(-1)}>
+              <TouchableOpacity style={styles.monthButton} onPress={() => handleChangeDay(-1)}>
                 <Feather name="chevron-left" size={20} color="#333" />
               </TouchableOpacity>
 
               <View>
                 <Text style={styles.monthText}>{monthLabel}</Text>
                 <Text style={styles.weekLabel}>
-                  Week of {selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                 </Text>
               </View>
 
-              <TouchableOpacity style={styles.monthButton} onPress={() => handleChangeWeek(1)}>
+              <TouchableOpacity style={styles.monthButton} onPress={() => handleChangeDay(1)}>
                 <Feather name="chevron-right" size={20} color="#333" />
               </TouchableOpacity>
             </View>

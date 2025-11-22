@@ -69,6 +69,7 @@ export default function BuildingPickerScreen() {
     setBuildings: setContextBuildings,
     selectedBuildings,
     assignBuildingToClass,
+    unassignBuildingFromClass,
   } = useUser();
   
   // Local state management
@@ -243,9 +244,16 @@ export default function BuildingPickerScreen() {
   /**
    * Handle building selection for a class
    * Uses UserContext to store selections globally
+   * Handles null case when user clears selection (e.g., by editing input)
    */
   const handleBuildingSelect = (className, building) => {
-    assignBuildingToClass(className, building.id);
+    if (building === null || building === undefined) {
+      // Clear selection when building is null (user edited input)
+      unassignBuildingFromClass(className);
+    } else {
+      // Assign building when building object provided
+      assignBuildingToClass(className, building.id);
+    }
   };
 
   /**

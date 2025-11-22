@@ -2,7 +2,8 @@
  * BuildingDropdown Component
  * 
  * A searchable dropdown for selecting building locations.
- * Used in Building Picker screen to assign buildings to classes.
+ * Uses React Native Modal to render suggestions above all content,
+ * ensuring suggestions appear correctly above cards in ScrollView.
  * 
  * Props:
  * - buildings: Array of building objects [{id, name, address}]
@@ -20,6 +21,7 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
+  Modal,  // Added Modal for overlay
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -35,7 +37,9 @@ export default function BuildingDropdown({
     selectedBuilding?.address || selectedBuilding?.name || ''
   );
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [inputPosition, setInputPosition] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const inputRef = useRef(null);
+  const inputContainerRef = useRef(null);
 
   // Filter buildings based on search query
   const filteredBuildings = buildings.filter(building =>
@@ -85,13 +89,25 @@ export default function BuildingDropdown({
     setShowSuggestions(false);
   };
 
+  // Measure input position for Modal placement
+  const handleInputLayout = (event) => {
+    const { x, y, width, height } = event.nativeEvent.layout;
+    inputContainerRef.current?.measure((fx, fy, width, height, px, py) => {
+      setInputPosition({
+        x: px,
+        y: py,
+        width,
+        height,
+      });
+    });
+  };
+
   return (
-    <View style={[
-      styles.container,
-      showSuggestions && styles.containerOpen
-    ]}>
+    <View style={styles.container}>
       {/* Text Input - Always Visible */}
       <View
+        ref={inputContainerRef}
+        onLayout={handleInputLayout}
         style={[
           styles.inputContainer,
           disabled && styles.inputContainerDisabled,
@@ -130,59 +146,98 @@ export default function BuildingDropdown({
         )}
       </View>
 
-      {/* Suggestions Dropdown - Appears when typing */}
-      {showSuggestions && searchQuery.length > 0 && (
-        <>
-          {/* Backdrop - close suggestions when clicking outside */}
+      {/* Suggestions Modal - Renders above all content */}
+      <Modal
+        transparent={true}
+        visible={showSuggestions && searchQuery.length > 0}
+        animationType="fade"
+        onRequestClose={handleCloseSuggestions}
+        supportedOrientations={['portrait', 'landscape']}
+      >
+        <View
+          style={styles.modalBackdrop}
+          pointerEvents="box-none"
+        >
+          {/* Top area to close suggestions (above input) */}
+          {inputPosition.y > 0 && (
+            <TouchableOpacity
+              style={[
+                styles.backdropTop,
+                { height: inputPosition.y },
+              ]}
+              activeOpacity={1}
+              onPress={handleCloseSuggestions}
+            />
+          )}
+          
+          {/* Suggestions */}
+          <View
+            style={[
+              styles.modalContent,
+              {
+                top: inputPosition.y + inputPosition.height + 4,
+                left: inputPosition.x,
+                width: inputPosition.width || '90%',
+              },
+            ]}
+            pointerEvents="box-none"
+          >
+            {/* Suggestions Panel */}
+            <View
+              style={styles.suggestionsPanel}
+              onStartShouldSetResponder={() => true}
+            >
+              {/* Building List */}
+              <FlatList
+                data={filteredBuildings}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.suggestionItem,
+                      selectedBuilding?.id === item.id && styles.suggestionItemSelected,
+                    ]}
+                    onPress={() => handleSelect(item)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.suggestionInfo}>
+                      <Text style={styles.suggestionName}>{item.name}</Text>
+                      {item.address && (
+                        <Text style={styles.suggestionAddress}>{item.address}</Text>
+                      )}
+                    </View>
+                    {selectedBuilding?.id === item.id && (
+                      <Ionicons name="checkmark-circle" size={24} color={Colors.success} />
+                    )}
+                  </TouchableOpacity>
+                )}
+                ListEmptyComponent={
+                  <View style={styles.emptyContainer}>
+                    <Ionicons name="search-outline" size={48} color={Colors.text.tertiary} />
+                    <Text style={styles.emptyText}>
+                      No buildings found matching "{searchQuery}"
+                    </Text>
+                  </View>
+                }
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={styles.suggestionsList}
+              />
+            </View>
+          </View>
+          
+          {/* Bottom area to close suggestions (below suggestions) */}
           <TouchableOpacity
-            style={styles.backdrop}
+            style={[
+              styles.backdropBottom,
+              {
+                top: inputPosition.y + inputPosition.height + 4 + 300, // Below suggestions (maxHeight: 300)
+              },
+            ]}
             activeOpacity={1}
             onPress={handleCloseSuggestions}
           />
-
-          {/* Suggestions Panel */}
-          <View
-            style={styles.suggestionsPanel}
-            onStartShouldSetResponder={() => true}
-          >
-            {/* Building List */}
-            <FlatList
-              data={filteredBuildings}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={[
-                    styles.suggestionItem,
-                    selectedBuilding?.id === item.id && styles.suggestionItemSelected,
-                  ]}
-                  onPress={() => handleSelect(item)}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.suggestionInfo}>
-                    <Text style={styles.suggestionName}>{item.name}</Text>
-                    {item.address && (
-                      <Text style={styles.suggestionAddress}>{item.address}</Text>
-                    )}
-                  </View>
-                  {selectedBuilding?.id === item.id && (
-                    <Ionicons name="checkmark-circle" size={24} color={Colors.success} />
-                  )}
-                </TouchableOpacity>
-              )}
-              ListEmptyComponent={
-                <View style={styles.emptyContainer}>
-                  <Ionicons name="search-outline" size={48} color={Colors.text.tertiary} />
-                  <Text style={styles.emptyText}>
-                    No buildings found matching "{searchQuery}"
-                  </Text>
-                </View>
-              }
-              keyboardShouldPersistTaps="handled"
-              contentContainerStyle={styles.suggestionsList}
-            />
-          </View>
-        </>
-      )}
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -191,10 +246,7 @@ const styles = StyleSheet.create({
   // Container
   container: {
     position: 'relative',
-    zIndex: 1000,  // Higher baseline z-index
-  },
-  containerOpen: {
-    zIndex: 10000,  // Much higher when dropdown is open
+    // Removed zIndex - no longer needed with Modal
   },
 
   // Text Input
@@ -232,33 +284,44 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 
-  // Backdrop and Dropdown Panel
-  backdrop: {
+  // Modal Styles
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',  // Semi-transparent overlay
+    justifyContent: 'flex-start',
+    paddingTop: 0,  // Will be positioned dynamically
+  },
+  backdropTop: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
     backgroundColor: 'transparent',
-    zIndex: 998,
   },
-  suggestionsPanel: {
+  backdropBottom: {
     position: 'absolute',
-    top: '100%',
     left: 0,
     right: 0,
-    marginTop: 4,
+    bottom: 0,
+    backgroundColor: 'transparent',
+  },
+  modalContent: {
+    position: 'absolute',
+    // Position is set dynamically via inline styles based on inputPosition
+    maxWidth: '90%',  // Fallback width
+  },
+  suggestionsPanel: {
     backgroundColor: Colors.background,
     borderRadius: 12,
     maxHeight: 300,
-    zIndex: 10001,  // Highest z-index to ensure it appears above all content
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.3,
     shadowRadius: 12,
-    elevation: 8,
+    elevation: 10,  // Higher elevation for Android
     borderWidth: 1,
     borderColor: Colors.border,
+    overflow: 'hidden',  // Clip content to border radius
   },
 
   // Suggestions list
