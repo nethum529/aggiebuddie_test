@@ -1,0 +1,17 @@
+# Render.com Deployment Configuration
+# This file tells Render how to deploy your Flask backend
+
+services:
+  - type: web
+    name: aggiebuddie-backend
+    env: python
+    plan: free  # Free tier - auto-sleeps after 15min inactivity
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PORT
+        value: 10000  # Render assigns port via $PORT env var
+    healthCheckPath: /api/health
+

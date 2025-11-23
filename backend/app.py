@@ -29,7 +29,10 @@ app = Flask(__name__)
 
 # Enable CORS for mobile app access
 # In production, replace '*' with specific mobile app origin
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={
+    r"/api/*": {"origins": "*"},
+    r"/": {"origins": "*"}
+})
 
 
 # ============================================================================
