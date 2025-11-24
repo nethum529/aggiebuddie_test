@@ -71,9 +71,20 @@ const PORT = 5000;
  *   - http://localhost:5000 if USE_LOCALHOST is true
  *   - http://YOUR_IP:5000 if USE_LOCALHOST is false
  */
-const API_BASE_URL = USE_LOCALHOST 
-  ? `http://localhost:${PORT}`
-  : `http://${LOCAL_IP}:${PORT}`;
+const API_BASE_URL = (() => {
+  if (USE_LOCALHOST) {
+    return `http://localhost:${PORT}`;
+  } else {
+    return `http://${LOCAL_IP}:${PORT}`;
+  }
+})();
+
+// Debug: Log the constructed URL (only in development)
+if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+  console.log('🔧 [ApiConfig] API_BASE_URL:', API_BASE_URL);
+  console.log('🔧 [ApiConfig] USE_LOCALHOST:', USE_LOCALHOST);
+  console.log('🔧 [ApiConfig] PORT:', PORT);
+}
 
 // ============================================================================
 // HELPER FUNCTIONS
@@ -92,7 +103,27 @@ const API_BASE_URL = USE_LOCALHOST
 export function getApiUrl(endpoint) {
   // Remove leading slash if present (we'll add it)
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  return `${API_BASE_URL}${cleanEndpoint}`;
+  
+  // Ensure API_BASE_URL is valid
+  if (!API_BASE_URL || API_BASE_URL.trim() === '') {
+    console.error('❌ [ApiConfig] API_BASE_URL is empty!', {
+      USE_LOCALHOST,
+      LOCAL_IP,
+      PORT,
+      API_BASE_URL
+    });
+    // Fallback to localhost
+    return `http://localhost:5000${cleanEndpoint}`;
+  }
+  
+  const fullUrl = `${API_BASE_URL}${cleanEndpoint}`;
+  
+  // Debug logging in development
+  if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+    console.log('🔧 [ApiConfig] getApiUrl:', fullUrl);
+  }
+  
+  return fullUrl;
 }
 
 /**

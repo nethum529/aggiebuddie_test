@@ -184,9 +184,32 @@ export async function testConnection() {
  * }
  */
 export async function uploadSchedule(fileContent, studentId) {
+  // Validate and construct API URL
+  const apiUrl = getApiUrl('/api/upload-schedule');
+  
+  // Critical validation: Ensure URL is properly formed
+  if (!apiUrl || typeof apiUrl !== 'string') {
+    const error = new Error(`API URL is invalid: ${apiUrl}. Check ApiConfig.js configuration.`);
+    console.error('❌ [uploadSchedule] Invalid URL:', apiUrl);
+    throw createApiError(error, 'Failed to upload schedule file. API configuration error.');
+  }
+  
+  if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
+    const error = new Error(`API URL missing protocol: "${apiUrl}". Expected format: http://localhost:5000/api/upload-schedule`);
+    console.error('❌ [uploadSchedule] Malformed URL:', apiUrl);
+    console.error('❌ [uploadSchedule] Debug info:', {
+      url: apiUrl,
+      type: typeof apiUrl,
+      length: apiUrl?.length
+    });
+    throw createApiError(error, 'Failed to upload schedule file. API URL is malformed. Check ApiConfig.js.');
+  }
+  
+  console.log('📤 [uploadSchedule] Uploading to:', apiUrl);
+  
   try {
     const response = await fetchWithTimeout(
-      getApiUrl('/api/upload-schedule'),
+      apiUrl,
       {
         method: 'POST',
         headers: {
@@ -202,6 +225,8 @@ export async function uploadSchedule(fileContent, studentId) {
 
     return await handleResponse(response);
   } catch (error) {
+    console.error('❌ [uploadSchedule] Request failed:', error);
+    console.error('❌ [uploadSchedule] URL used:', apiUrl);
     throw createApiError(error, 'Failed to upload schedule file.');
   }
 }
