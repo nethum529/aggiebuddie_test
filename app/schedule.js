@@ -32,12 +32,49 @@ import { useRouter } from 'expo-router';
 import Colors from '../constants/Colors';
 import { useUser } from '../contexts/UserContext';
 
-const DAY_START_HOUR = 7;
-const DAY_END_HOUR = 16;
-const HOUR_HEIGHT = 80;
+const DAY_START_HOUR = 5;   // 5 AM
+const DAY_END_HOUR = 23;     // 11 PM
+const HOUR_HEIGHT = 50;      // Reduced for more compact display
 const HOURS = Array.from({ length: DAY_END_HOUR - DAY_START_HOUR + 1 }, (_, index) => DAY_START_HOUR + index);
 const TIMELINE_HEIGHT = (HOURS.length - 1) * HOUR_HEIGHT;
 const PIXELS_PER_MINUTE = HOUR_HEIGHT / 60;
+
+/**
+ * Group suggestions by time block (date + start_time + end_time)
+ * Sort each group by rank (ascending: 1 = best)
+ * 
+ * @param {Array} suggestions - Array of suggestion objects
+ * @returns {Object} Grouped suggestions: { "date_start_end": [suggestions] }
+ */
+const groupSuggestionsByTimeBlock = (suggestions) => {
+  if (!suggestions || suggestions.length === 0) return {};
+  
+  const grouped = {};
+  
+  suggestions.forEach(sugg => {
+    // Create unique key for time block
+    const date = sugg.date || '';
+    const start = sugg.start_time || sugg.start || '';
+    const end = sugg.end_time || sugg.end || '';
+    const blockKey = `${date}_${start}_${end}`;
+    
+    if (!grouped[blockKey]) {
+      grouped[blockKey] = [];
+    }
+    grouped[blockKey].push(sugg);
+  });
+  
+  // Sort each group by rank (ascending: 1 = best, lower is better)
+  Object.keys(grouped).forEach(key => {
+    grouped[key].sort((a, b) => {
+      const rankA = a.rank || 999; // Default to high rank if missing
+      const rankB = b.rank || 999;
+      return rankA - rankB; // Ascending: 1 comes before 2
+    });
+  });
+  
+  return grouped;
+};
 
 const scheduleEvents = [
   {
@@ -361,30 +398,63 @@ export default function ScheduleScreen() {
     return events.sort((a, b) => minutesFromStart(a.start) - minutesFromStart(b.start));
   }, [selectedDate, schedule, acceptedSuggestions]);
   
-  // Get visible suggestions (not accepted or rejected)
+  // Get visible suggestions (only top-ranked per time block)
   const visibleSuggestions = useMemo(() => {
     if (!suggestions || suggestions.length === 0) return [];
     
     const dateStr = selectedDate.toISOString().split('T')[0];
     
-    return suggestions.filter(sugg => {
-      // Filter out accepted and rejected suggestions
-      const isAccepted = acceptedSuggestions?.some(acc => 
-        acc.id === sugg.id || acc.location_name === sugg.location_name
-      );
-      const isRejected = rejectedSuggestions?.some(rej => 
-        rej.id === sugg.id || rej.location_name === sugg.location_name
-      );
+    // Group suggestions by time block
+    const grouped = groupSuggestionsByTimeBlock(suggestions);
+    
+    // Get top-ranked suggestion for each block
+    const topRanked = [];
+    
+    Object.values(grouped).forEach(blockSuggestions => {
+      // Filter by date first
+      const dateFiltered = blockSuggestions.filter(sugg => {
+        if (sugg.date) {
+          return sugg.date === dateStr;
+        }
+        // If no date, include it (fallback for old data)
+        return true;
+      });
       
-      if (isAccepted || isRejected) return false;
+      if (dateFiltered.length === 0) return;
       
-      // Filter by date if available
-      if (sugg.date) {
-        return sugg.date === dateStr;
+      // Get top-ranked suggestion (index 0 after sorting)
+      const top = dateFiltered[0];
+      
+      // Check if not accepted or rejected
+      const isAccepted = acceptedSuggestions?.some(acc => {
+        // Match by ID or location_name
+        if (acc.id && top.id) {
+          return acc.id === top.id;
+        }
+        if (acc.location_name && top.location_name) {
+          return acc.location_name === top.location_name;
+        }
+        return false;
+      });
+      
+      const isRejected = rejectedSuggestions?.some(rej => {
+        // Match by ID or location_name
+        if (rej.id && top.id) {
+          return rej.id === top.id;
+        }
+        if (rej.location_name && top.location_name) {
+          return rej.location_name === top.location_name;
+        }
+        return false;
+      });
+      
+      // Only include if not accepted and not rejected
+      if (!isAccepted && !isRejected) {
+        topRanked.push(top);
       }
-      
-      return true;
     });
+    
+    return topRanked;
   }, [suggestions, acceptedSuggestions, rejectedSuggestions, selectedDate]);
 
   // DIAGNOSTIC: Log suggestions state
@@ -476,18 +546,46 @@ export default function ScheduleScreen() {
   
   /**
    * Handle rejecting a suggestion
-   * Hides the suggestion from display
+   * If there are more suggestions in the same time block, show next one
+   * If this is the last suggestion, hide the entire block
    */
   const handleRejectSuggestion = (suggestion) => {
+    // Group suggestions to find remaining options
+    const grouped = groupSuggestionsByTimeBlock(suggestions);
+    const blockKey = `${suggestion.date || ''}_${suggestion.start_time || suggestion.start || ''}_${suggestion.end_time || suggestion.end || ''}`;
+    const blockSuggestions = grouped[blockKey] || [];
+    
+    // Filter out already rejected suggestions
+    const remainingSuggestions = blockSuggestions.filter(s => {
+      const isRejected = rejectedSuggestions?.some(rej => {
+        if (rej.id && s.id) return rej.id === s.id;
+        if (rej.location_name && s.location_name) return rej.location_name === s.location_name;
+        return false;
+      });
+      // Also exclude the current suggestion being rejected
+      const isCurrent = (s.id && suggestion.id && s.id === suggestion.id) ||
+                        (s.location_name && suggestion.location_name && s.location_name === suggestion.location_name);
+      return !isRejected && !isCurrent;
+    });
+    
+    // Determine message based on remaining options
+    const hasMoreOptions = remainingSuggestions.length > 0;
+    const nextLocation = hasMoreOptions ? remainingSuggestions[0].location_name : null;
+    
     Alert.alert(
-      'Hide Suggestion?',
-      `Hide ${suggestion.location_name} from your schedule?`,
+      'Hide This Suggestion?',
+      hasMoreOptions
+        ? `Hide ${suggestion.location_name}? The next best option (${nextLocation}) will be shown.`
+        : `Hide ${suggestion.location_name}? This is the last option for this time slot.`,
       [
         { text: 'Cancel', style: 'cancel' },
         { 
           text: 'Hide', 
           style: 'destructive',
-          onPress: () => rejectSuggestion(suggestion)
+          onPress: () => {
+            rejectSuggestion(suggestion);
+            // Next ranked suggestion will automatically appear via useMemo
+          }
         },
       ]
     );
@@ -581,20 +679,13 @@ export default function ScheduleScreen() {
           </View>
 
           <View style={styles.timelineColumn}>
-            <View style={styles.monthHeader}>
-              <TouchableOpacity style={styles.monthButton} onPress={() => handleChangeDay(-1)}>
-                <Feather name="chevron-left" size={20} color="#333" />
+            {/* Navigation arrows - minimal, clean */}
+            <View style={styles.timelineNav}>
+              <TouchableOpacity style={styles.navButton} onPress={() => handleChangeDay(-1)}>
+                <Feather name="chevron-left" size={16} color={Colors.text.secondary} />
               </TouchableOpacity>
-
-              <View>
-                <Text style={styles.monthText}>{monthLabel}</Text>
-                <Text style={styles.weekLabel}>
-                  {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-                </Text>
-              </View>
-
-              <TouchableOpacity style={styles.monthButton} onPress={() => handleChangeDay(1)}>
-                <Feather name="chevron-right" size={20} color="#333" />
+              <TouchableOpacity style={styles.navButton} onPress={() => handleChangeDay(1)}>
+                <Feather name="chevron-right" size={16} color={Colors.text.secondary} />
               </TouchableOpacity>
             </View>
 
@@ -627,8 +718,8 @@ export default function ScheduleScreen() {
                     const duration = endMinutes - startMinutes;
                     const height = Math.max(duration * PIXELS_PER_MINUTE - 8, 52);
 
-                    return (
-                      <View key={event.id} style={[styles.eventCard, { top: offsetTop, height, backgroundColor: event.color }]}>
+                      return (
+                      <View key={event.id} style={[styles.eventCard, { top: offsetTop, height, borderLeftColor: event.color }]}>
                         <View style={styles.eventHeader}>
                           <Text 
                             style={styles.eventTitle}
@@ -638,7 +729,7 @@ export default function ScheduleScreen() {
                             {event.title}
                           </Text>
                           <TouchableOpacity onPress={() => handleViewDetails(event)}>
-                            <Feather name="eye" size={16} color="#333" />
+                            <Feather name="eye" size={14} color="#5F6368" />
                           </TouchableOpacity>
                         </View>
                         <Text 
@@ -649,7 +740,7 @@ export default function ScheduleScreen() {
                           {formatClockLabel(startMinutes)} - {formatClockLabel(endMinutes)}
                         </Text>
                         <View style={styles.locationRow}>
-                          <Ionicons name="location-outline" size={14} color="#333" style={styles.locationIcon} />
+                          <Ionicons name="location-outline" size={12} color="#5F6368" style={styles.locationIcon} />
                           <Text 
                             style={styles.locationText}
                             numberOfLines={1}
@@ -660,7 +751,7 @@ export default function ScheduleScreen() {
                         </View>
                         {event.isAccepted && (
                           <View style={styles.acceptedBadge}>
-                            <Ionicons name="checkmark-circle" size={12} color={Colors.success} />
+                            <Ionicons name="checkmark-circle" size={10} color={Colors.success} />
                             <Text style={styles.acceptedText}>Added</Text>
                           </View>
                         )}
@@ -779,9 +870,9 @@ export default function ScheduleScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundLight,
-    paddingTop: 32,
-    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',  // Pure white like Google Calendar
+    paddingTop: 0,
+    paddingHorizontal: 0,
   },
   
   // Header styles
@@ -792,9 +883,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 48, // Account for status bar
-    backgroundColor: Colors.background,
+    backgroundColor: '#FFFFFF',    // White
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: '#E8EAED',  // Google Calendar gray
   },
   backButton: {
     padding: 8,
@@ -818,33 +909,40 @@ const styles = StyleSheet.create({
   scheduleCard: {
     flex: 1,
     flexDirection: 'row',
-    borderRadius: 24,
-    backgroundColor: Colors.surfaceCard,
-    padding: 16,
-    gap: 12,
+    borderRadius: 0,              // No rounded corners (Google Calendar style)
+    backgroundColor: '#FFFFFF',  // White
+    padding: 0,                   // No padding (full width)
+    gap: 0,
     minHeight: 580,
   },
   dayColumn: {
-    width: 96,
+    width: 80,                    // Reduced from 96 for more compact
     alignItems: 'center',
+    borderRightWidth: 1,
+    borderRightColor: '#E8EAED', // Subtle right border
   },
   dayBadge: {
     width: '100%',
-    borderRadius: 16,
-    backgroundColor: Colors.accent,
-    paddingVertical: 18,
+    borderRadius: 8,              // Less rounded
+    backgroundColor: '#F8F9FA',  // Very light gray (Google Calendar style)
+    paddingVertical: 12,         // Reduced from 18
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 8,             // Reduced from 16
+    borderWidth: 1,
+    borderColor: '#E8EAED',      // Subtle border
   },
   dayText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: Colors.text.light,
+    fontSize: 12,                 // Reduced from 16
+    fontWeight: '600',
+    color: '#5F6368',            // Google Calendar gray text
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   dateText: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: Colors.text.light,
+    fontSize: 24,                 // Reduced from 32
+    fontWeight: '400',
+    color: '#202124',             // Google Calendar dark text
+    marginTop: 4,
   },
   times: {
     width: '100%',
@@ -857,8 +955,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   timeLabel: {
-    fontSize: 14,
-    color: Colors.text.dark,
+    fontSize: 11,                 // Reduced from 14
+    color: '#5F6368',            // Google Calendar gray
+    fontWeight: '400',
   },
   lastTimeLabel: {
     position: 'absolute',
@@ -868,37 +967,31 @@ const styles = StyleSheet.create({
   },
   timelineColumn: {
     flex: 1,
-    backgroundColor: Colors.surfaceBlue,
-    borderRadius: 20,
-    padding: 16,
+    backgroundColor: '#FFFFFF',  // White
+    borderRadius: 0,              // No rounded corners
+    padding: 12,                  // Reduced from 16
+    borderLeftWidth: 1,
+    borderLeftColor: '#E8EAED',  // Subtle left border
   },
-  monthHeader: {
+  timelineNav: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
+    paddingBottom: 8,
+    gap: 8,
   },
-  monthButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: Colors.background,
+  navButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F8F9FA',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  monthText: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: Colors.text.dark,
-    textAlign: 'center',
-  },
-  weekLabel: {
-    textAlign: 'center',
-    color: '#6c7a99',
-    marginTop: 2,
-    fontSize: 13,
+    borderWidth: 1,
+    borderColor: '#E8EAED',
   },
   timelineBody: {
-    marginTop: 16,
+    marginTop: 8,                 // Reduced from 16
     height: TIMELINE_HEIGHT,
     position: 'relative',
   },
@@ -911,14 +1004,14 @@ const styles = StyleSheet.create({
   },
   hourBlock: {
     height: HOUR_HEIGHT,
-    borderBottomColor: '#d2daeb',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#E8EAED',  // Google Calendar gray
+    borderBottomWidth: 1,           // Slightly more visible
   },
   eventsLayer: {
     flex: 1,
     height: TIMELINE_HEIGHT,
     position: 'relative',
-    paddingHorizontal: 8,
+    paddingHorizontal: 0,        // No horizontal padding (full width)
     paddingTop: 4,
     zIndex: 2,
   },
@@ -931,29 +1024,34 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
   nowLabel: {
-    color: '#c44',
-    fontSize: 12,
-    fontWeight: '600',
+    color: '#EA4335',              // Google Calendar red
+    fontSize: 10,
+    fontWeight: '500',
     marginRight: 6,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 4,
   },
   nowLine: {
     height: 2,
-    backgroundColor: '#c44',
+    backgroundColor: '#EA4335',    // Google Calendar red
     flex: 1,
-    borderRadius: 2,
+    borderRadius: 0,
   },
   eventCard: {
     position: 'absolute',
-    left: 8,
-    right: 8,
-    borderRadius: 16,
-    padding: 12,
-    overflow: 'hidden',  // Prevent content from spilling outside
+    left: 0,
+    right: 0,
+    borderRadius: 4,                // Less rounded (Google Calendar style)
+    padding: 8,                    // Reduced from 12
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',    // White background
+    borderLeftWidth: 3,            // Colored left border
+    borderLeftColor: '#4285F4',    // Default blue (will be overridden by event.color)
     shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
+    shadowOpacity: 0.08,           // Subtle shadow
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 1,
   },
   eventHeader: {
     flexDirection: 'row',
@@ -961,15 +1059,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   eventTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#1C1C1C',
+    fontSize: 13,                 // Reduced from 16
+    fontWeight: '600',
+    color: '#202124',             // Google Calendar dark text
     flex: 1,
   },
   eventTime: {
-    fontSize: 13,
-    color: '#333',
-    marginTop: 4,
+    fontSize: 11,                 // Reduced from 13
+    color: '#5F6368',             // Google Calendar gray
+    marginTop: 2,                 // Reduced from 4
   },
   locationRow: {
     flexDirection: 'row',
@@ -980,8 +1078,8 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   locationText: {
-    fontSize: 13,
-    color: '#333',
+    fontSize: 11,                 // Reduced from 13
+    color: '#5F6368',             // Google Calendar gray
   },
   acceptedBadge: {
     flexDirection: 'row',
@@ -1000,15 +1098,15 @@ const styles = StyleSheet.create({
   // Suggestion overlay styles
   suggestionCard: {
     position: 'absolute',
-    borderRadius: 16,
-    padding: 12,
+    borderRadius: 4,             // Less rounded (Google Calendar style)
+    padding: 8,                  // Reduced from 12
     borderWidth: 2,
     borderStyle: 'dashed',
     shadowColor: Colors.accent,
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
+    shadowOpacity: 0.15,         // Reduced shadow
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 2,
   },
   rankBadge: {
     position: 'absolute',
@@ -1031,8 +1129,8 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   suggestionTitle: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: 13,                // Reduced from 15
+    fontWeight: '600',
     color: Colors.text.primary,
     flex: 1,
     marginRight: 8,
@@ -1045,10 +1143,10 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   suggestionTime: {
-    fontSize: 12,
+    fontSize: 11,                // Reduced from 12
     color: Colors.text.primary,
-    fontWeight: '600',
-    marginBottom: 4,
+    fontWeight: '500',
+    marginBottom: 2,             // Reduced from 4
   },
   commuteInfo: {
     flexDirection: 'row',
@@ -1075,7 +1173,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyStateText: {
-    color: Colors.text.secondary,
+    color: '#5F6368',            // Google Calendar gray
+    fontSize: 13,
   },
   // Debug Panel Styles
   debugPanel: {
