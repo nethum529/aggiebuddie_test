@@ -408,27 +408,109 @@ export async function generateSuggestions(
   durationMinutes,
   activityType = 'exercise'
 ) {
+  const apiUrl = getApiUrl('/api/generate-suggestions');
+  const requestBody = {
+    studentId,
+    startOfDay,
+    endOfDay,
+    durationMinutes,
+    activityType,
+  };
+
+  // DIAGNOSTIC: Log request details
+  console.log('🔵 [generateSuggestions] REQUEST:', {
+    url: apiUrl,
+    method: 'POST',
+    body: requestBody,
+    timestamp: new Date().toISOString(),
+  });
+
   try {
     const response = await fetchWithTimeout(
-      getApiUrl('/api/generate-suggestions'),
+      apiUrl,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          studentId,
-          startOfDay,
-          endOfDay,
-          durationMinutes,
-          activityType,
-        }),
+        body: JSON.stringify(requestBody),
       },
       DEFAULT_TIMEOUT
     );
 
-    return await handleResponse(response);
+    // DIAGNOSTIC: Log raw response before handleResponse
+    let rawData;
+    try {
+      rawData = await response.json();
+    } catch (jsonError) {
+      console.error('❌ [generateSuggestions] JSON PARSE ERROR:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: jsonError,
+      });
+      throw new Error('Invalid JSON response from server');
+    }
+
+    console.log('🟢 [generateSuggestions] RAW RESPONSE:', {
+      status: response.status,
+      ok: response.ok,
+      data: rawData,
+      dataType: typeof rawData,
+      hasSuggestions: !!rawData.suggestions,
+      suggestionsType: Array.isArray(rawData.suggestions) ? 'array' : typeof rawData.suggestions,
+      suggestionsLength: Array.isArray(rawData.suggestions) ? rawData.suggestions.length : 'N/A',
+      hasSuccess: 'success' in rawData,
+      successValue: rawData.success,
+    });
+
+    if (!response.ok) {
+      console.error('❌ [generateSuggestions] ERROR RESPONSE:', rawData);
+      throw new Error(rawData.error || rawData.message || `Request failed with status ${response.status}`);
+    }
+
+    // DIAGNOSTIC: Validate response structure
+    if (rawData.success === false) {
+      console.warn('⚠️ [generateSuggestions] Response success=false:', rawData);
+    }
+
+    if (!rawData.suggestions) {
+      console.warn('⚠️ [generateSuggestions] No suggestions field in response. Available keys:', Object.keys(rawData));
+    } else if (!Array.isArray(rawData.suggestions)) {
+      console.error('❌ [generateSuggestions] suggestions is not an array:', {
+        type: typeof rawData.suggestions,
+        value: rawData.suggestions,
+        constructor: rawData.suggestions?.constructor?.name,
+      });
+    } else {
+      // DIAGNOSTIC: Log first suggestion structure
+      if (rawData.suggestions.length > 0) {
+        console.log('📋 [generateSuggestions] FIRST SUGGESTION STRUCTURE:', {
+          keys: Object.keys(rawData.suggestions[0]),
+          sample: rawData.suggestions[0],
+          hasDate: !!rawData.suggestions[0].date,
+          hasStartTime: !!rawData.suggestions[0].start_time,
+          hasEndTime: !!rawData.suggestions[0].end_time,
+          hasStart: !!rawData.suggestions[0].start,
+          hasEnd: !!rawData.suggestions[0].end,
+          hasLocationName: !!rawData.suggestions[0].location_name,
+        });
+      } else {
+        console.warn('⚠️ [generateSuggestions] Empty suggestions array');
+      }
+    }
+
+    // Return parsed data directly (already validated above)
+    // Note: Cannot call handleResponse(response) because response.json() 
+    // was already called for diagnostics. Response body can only be read once.
+    return rawData;
   } catch (error) {
+    console.error('❌ [generateSuggestions] EXCEPTION:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+      url: apiUrl,
+      requestBody: requestBody,
+    });
     throw createApiError(error, 'Failed to generate activity suggestions.');
   }
 }

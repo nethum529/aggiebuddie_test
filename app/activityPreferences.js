@@ -190,6 +190,16 @@ export default function ActivityPreferencesScreen() {
       const startOfDay24 = convert12To24Hour(startOfDay);
       const endOfDay24 = convert12To24Hour(endOfDay);
 
+      // DIAGNOSTIC: Log initial state
+      console.log('🔵 [handleGenerate] STARTING:', {
+        studentId: currentStudentId,
+        startOfDay24,
+        endOfDay24,
+        durationNum,
+        activityType,
+        timestamp: new Date().toISOString(),
+      });
+
       // Save preferences to UserContext (in 24-hour format for consistency)
       updateActivityPreferences({
         startOfDay: startOfDay24,
@@ -207,25 +217,59 @@ export default function ActivityPreferencesScreen() {
         activityType
       );
 
+      // DIAGNOSTIC: Log API result
+      console.log('🟢 [handleGenerate] API RESULT:', {
+        success: result.success,
+        hasSuggestions: !!result.suggestions,
+        suggestionsType: Array.isArray(result.suggestions) ? 'array' : typeof result.suggestions,
+        suggestionsLength: Array.isArray(result.suggestions) ? result.suggestions.length : 'N/A',
+        totalSuggestions: result.totalSuggestions,
+        totalBlocks: result.totalBlocks,
+        fullResult: result,
+      });
+
       // Store suggestions in UserContext
       if (result.success && result.suggestions) {
         // Validate that suggestions is an array before setting
         const suggestionsArray = Array.isArray(result.suggestions) 
           ? result.suggestions 
           : [];
+        
+        // DIAGNOSTIC: Log before setting
+        console.log('📝 [handleGenerate] SETTING SUGGESTIONS:', {
+          count: suggestionsArray.length,
+          firstSuggestion: suggestionsArray[0] || null,
+          allSuggestions: suggestionsArray,
+        });
+
         setSuggestions(suggestionsArray);
 
-        // Log success for debugging
-        console.log(`✅ Generated ${result.totalSuggestions} suggestion(s) across ${result.totalBlocks} time block(s)`);
+        // DIAGNOSTIC: Verify it was set (check context after a brief delay)
+        setTimeout(() => {
+          console.log('✅ [handleGenerate] SUGGESTIONS SET IN CONTEXT');
+        }, 100);
+
+        console.log(`✅ Generated ${result.totalSuggestions || suggestionsArray.length} suggestion(s) across ${result.totalBlocks || 'unknown'} time block(s)`);
 
         // Automatically navigate to schedule screen
+        console.log('🧭 [handleGenerate] NAVIGATING TO SCHEDULE');
         router.push('/schedule');
       } else {
+        console.error('❌ [handleGenerate] NO SUGGESTIONS:', {
+          success: result.success,
+          suggestions: result.suggestions,
+          result: result,
+        });
         throw new Error('No suggestions generated. Try adjusting your preferences.');
       }
 
     } catch (err) {
-      console.error('Generate suggestions error:', err);
+      console.error('❌ [handleGenerate] ERROR:', {
+        name: err.name,
+        message: err.message,
+        stack: err.stack,
+        fullError: err,
+      });
       setError(err.message);
     } finally {
       setIsGenerating(false);
