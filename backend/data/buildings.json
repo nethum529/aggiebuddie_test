@@ -1,0 +1,3917 @@
+{
+  "buildings": [
+    {
+      "id": "agronomy-field-lab",
+      "name": "Agronomy Field Lab",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.6215,
+        "longitude": -96.354
+      },
+      "hours": null
+    },
+    {
+      "id": "beasley-laboratory",
+      "name": "Beasley Laboratory",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62125,
+        "longitude": -96.35382
+      },
+      "hours": null
+    },
+    {
+      "id": "cardiovascular-pathology-lab-annex",
+      "name": "Cardiovascular Pathology Lab Annex",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.61051,
+        "longitude": -96.35505
+      },
+      "hours": null
+    },
+    {
+      "id": "cardiovascular-pathology-laboratory",
+      "name": "Cardiovascular Pathology Laboratory",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.61051,
+        "longitude": -96.35505
+      },
+      "hours": null
+    },
+    {
+      "id": "cotton-ginning-lab",
+      "name": "Cotton Ginning Lab",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62108,
+        "longitude": -96.35452
+      },
+      "hours": null
+    },
+    {
+      "id": "former-tvmdl-building",
+      "name": "Former TVMDL Building",
+      "type": "academic_building",
+      "address": "483 Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.61885,
+        "longitude": -96.35394
+      },
+      "hours": null
+    },
+    {
+      "id": "global-health-research-complex",
+      "name": "Global Health Research Complex",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61201,
+        "longitude": -96.35502
+      },
+      "hours": null
+    },
+    {
+      "id": "laboratory-animal-care-building",
+      "name": "Laboratory Animal Care Building",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60905,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "larr-support-personnel-bldg",
+      "name": "LARR Support Personnel Bldg",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60905,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "multi-species-research-building",
+      "name": "Multi-Species Research Building",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60953,
+        "longitude": -96.35608
+      },
+      "hours": null
+    },
+    {
+      "id": "national-center-for-therapeutics-manufacturing",
+      "name": "National Center for Therapeutics Manufacturing",
+      "type": "academic_building",
+      "address": "100 Discovery Dr",
+      "coordinates": {
+        "latitude": 30.59502,
+        "longitude": -96.36505
+      },
+      "hours": null
+    },
+    {
+      "id": "office-of-the-state-chemist-building",
+      "name": "Office of the State Chemist Building",
+      "type": "academic_building",
+      "address": "445 Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.61854,
+        "longitude": -96.35356
+      },
+      "hours": null
+    },
+    {
+      "id": "perennial-grass-breeding-and-genetics",
+      "name": "Perennial Grass Breeding and Genetics",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62201,
+        "longitude": -96.35405
+      },
+      "hours": null
+    },
+    {
+      "id": "satellite-utility-plant-no-2",
+      "name": "Satellite Utility Plant No. 2",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.61902,
+        "longitude": -96.35308
+      },
+      "hours": null
+    },
+    {
+      "id": "schubot-exotic-bird-health-center",
+      "name": "Schubot Exotic Bird Health Center",
+      "type": "academic_building",
+      "address": "701 Farm Service Rd",
+      "coordinates": {
+        "latitude": 30.62115,
+        "longitude": -96.35862
+      },
+      "hours": null
+    },
+    {
+      "id": "soil-crop-sci-dry-processing",
+      "name": "Soil & Crop Sci Dry Processing",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62103,
+        "longitude": -96.35401
+      },
+      "hours": null
+    },
+    {
+      "id": "soilcrop-cotton-genetic-greenhouse",
+      "name": "Soil/Crop Cotton Genetic Greenhouse",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62103,
+        "longitude": -96.35401
+      },
+      "hours": null
+    },
+    {
+      "id": "texas-am-institute-for-genomic-medicine",
+      "name": "Texas A&M Institute For Genomic Medicine",
+      "type": "academic_building",
+      "address": "670 Raymond Stotzer Pkwy",
+      "coordinates": {
+        "latitude": 30.61342,
+        "longitude": -96.35195
+      },
+      "hours": null
+    },
+    {
+      "id": "texas-am-institute-for-preclinical-studies-a",
+      "name": "Texas A&M Institute for Preclinical Studies A",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61005,
+        "longitude": -96.35508
+      },
+      "hours": null
+    },
+    {
+      "id": "theriogenology-facility-equine-reproduction",
+      "name": "Theriogenology Facility Equine Reproduction",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60802,
+        "longitude": -96.35605
+      },
+      "hours": null
+    },
+    {
+      "id": "tick-research-facility",
+      "name": "Tick Research Facility",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62205,
+        "longitude": -96.35508
+      },
+      "hours": null
+    },
+    {
+      "id": "turfgrass-field-lab",
+      "name": "Turfgrass Field Lab",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62253,
+        "longitude": -96.35502
+      },
+      "hours": null
+    },
+    {
+      "id": "tvmc-barn-no-3",
+      "name": "TVMC-Barn No 3",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60901,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "tvmc-caged-animals",
+      "name": "TVMC-Caged Animals",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60901,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "tvmc-small-animal-research-building",
+      "name": "TVMC-Small Animal Research Building",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60901,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "tvmc-surgery-building",
+      "name": "TVMC-Surgery Building",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60901,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "tvmc-wildlife-exotic-animals",
+      "name": "TVMC-Wildlife & Exotic Animals",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60901,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "tvmdl-building",
+      "name": "TVMDL Building",
+      "type": "academic_building",
+      "address": "483 Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.61885,
+        "longitude": -96.35394
+      },
+      "hours": null
+    },
+    {
+      "id": "variety-testing-and-sorghum-breeding",
+      "name": "Variety Testing and Sorghum Breeding",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62102,
+        "longitude": -96.35405
+      },
+      "hours": null
+    },
+    {
+      "id": "vet-med-research-bldg-addition",
+      "name": "Vet Med Research Bldg Addition",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60902,
+        "longitude": -96.35508
+      },
+      "hours": null
+    },
+    {
+      "id": "veterinary-anatomic-pathology",
+      "name": "Veterinary Anatomic Pathology",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60902,
+        "longitude": -96.35508
+      },
+      "hours": null
+    },
+    {
+      "id": "veterinary-large-animal-hospital",
+      "name": "Veterinary Large Animal Hospital",
+      "type": "academic_building",
+      "address": "500 Raymond Stotzer Pkwy",
+      "coordinates": {
+        "latitude": 30.60855,
+        "longitude": -96.35552
+      },
+      "hours": null
+    },
+    {
+      "id": "veterinary-medicine-administration",
+      "name": "Veterinary Medicine Administration",
+      "type": "academic_building",
+      "address": "660 Raymond Stotzer Pkwy",
+      "coordinates": {
+        "latitude": 30.60908,
+        "longitude": -96.35505
+      },
+      "hours": null
+    },
+    {
+      "id": "veterinary-medicine-building-1",
+      "name": "Veterinary Medicine Building 1",
+      "type": "academic_building",
+      "address": "Raymond Stotzer Pkwy",
+      "coordinates": {
+        "latitude": 30.60908,
+        "longitude": -96.35505
+      },
+      "hours": null
+    },
+    {
+      "id": "veterinary-medicine-building-2",
+      "name": "Veterinary Medicine Building 2",
+      "type": "academic_building",
+      "address": "800 Raymond Stotzer Pkwy, College Station, TX 77845",
+      "coordinates": {
+        "latitude": 30.61188,
+        "longitude": -96.35808
+      },
+      "hours": null
+    },
+    {
+      "id": "veterinary-medicine-building-3",
+      "name": "Veterinary Medicine Building 3",
+      "type": "academic_building",
+      "address": "Raymond Stotzer Pkwy",
+      "coordinates": {
+        "latitude": 30.60908,
+        "longitude": -96.35505
+      },
+      "hours": null
+    },
+    {
+      "id": "veterinary-research-building",
+      "name": "Veterinary Research Building",
+      "type": "academic_building",
+      "address": "Raymond Stotzer Pkwy",
+      "coordinates": {
+        "latitude": 30.60908,
+        "longitude": -96.35505
+      },
+      "hours": null
+    },
+    {
+      "id": "veterinary-small-animal-hospital",
+      "name": "Veterinary Small Animal Hospital",
+      "type": "academic_building",
+      "address": "4474 TAMU",
+      "coordinates": {
+        "latitude": 30.60852,
+        "longitude": -96.35455
+      },
+      "hours": null
+    },
+    {
+      "id": "virus-vector-research-lab",
+      "name": "Virus-Vector Research Lab",
+      "type": "academic_building",
+      "address": "Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.62105,
+        "longitude": -96.35402
+      },
+      "hours": null
+    },
+    {
+      "id": "vivarium-iii",
+      "name": "Vivarium III",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60901,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "vmp-shop",
+      "name": "VMP Shop",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60901,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "wp-luse-foundation-building",
+      "name": "W.P. Luse Foundation Building",
+      "type": "academic_building",
+      "address": "Vet Med Park",
+      "coordinates": {
+        "latitude": 30.60901,
+        "longitude": -96.35601
+      },
+      "hours": null
+    },
+    {
+      "id": "academic-building",
+      "name": "Academic Building",
+      "type": "academic_building",
+      "address": "9820 TAMU",
+      "coordinates": {
+        "latitude": 30.615011,
+        "longitude": -96.342476
+      },
+      "hours": null
+    },
+    {
+      "id": "ai-engineering-building-aien",
+      "name": "AI Engineering Building (AIEN)",
+      "type": "academic_building",
+      "address": "423 Spence St, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.61805,
+        "longitude": -96.33902
+      },
+      "hours": null
+    },
+    {
+      "id": "anthropology-building",
+      "name": "Anthropology Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61652,
+        "longitude": -96.34055
+      },
+      "hours": null
+    },
+    {
+      "id": "architecture-building-b",
+      "name": "Architecture Building B",
+      "type": "academic_building",
+      "address": "3137 TAMU",
+      "coordinates": {
+        "latitude": 30.61708,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "architecture-building-c",
+      "name": "Architecture Building C",
+      "type": "academic_building",
+      "address": "3137 TAMU",
+      "coordinates": {
+        "latitude": 30.61708,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "biological-sciences-bldg-east",
+      "name": "Biological Sciences Bldg East",
+      "type": "academic_building",
+      "address": "3258 TAMU",
+      "coordinates": {
+        "latitude": 30.61605,
+        "longitude": -96.34102
+      },
+      "hours": null
+    },
+    {
+      "id": "biological-sciences-bldg-west",
+      "name": "Biological Sciences Bldg West",
+      "type": "academic_building",
+      "address": "3258 TAMU",
+      "coordinates": {
+        "latitude": 30.61605,
+        "longitude": -96.34152
+      },
+      "hours": null
+    },
+    {
+      "id": "bolton-hall",
+      "name": "Bolton Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61658,
+        "longitude": -96.34005
+      },
+      "hours": null
+    },
+    {
+      "id": "bright-building",
+      "name": "Bright Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61602,
+        "longitude": -96.33905
+      },
+      "hours": null
+    },
+    {
+      "id": "butler-hall",
+      "name": "Butler Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61755,
+        "longitude": -96.34002
+      },
+      "hours": null
+    },
+    {
+      "id": "central-campus-parking-garage",
+      "name": "Central Campus Parking Garage",
+      "type": "academic_building",
+      "address": "450 Spence St",
+      "coordinates": {
+        "latitude": 30.61685,
+        "longitude": -96.33855
+      },
+      "hours": null
+    },
+    {
+      "id": "chemistry",
+      "name": "Chemistry",
+      "type": "academic_building",
+      "address": "580 Ross St",
+      "coordinates": {
+        "latitude": 30.61552,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "computing-services-annex",
+      "name": "Computing Services Annex",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61608,
+        "longitude": -96.33955
+      },
+      "hours": null
+    },
+    {
+      "id": "computing-services-center",
+      "name": "Computing Services Center",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61608,
+        "longitude": -96.33955
+      },
+      "hours": null
+    },
+    {
+      "id": "cushing-memorial-library",
+      "name": "Cushing Memorial Library",
+      "type": "academic_building",
+      "address": "400 Spence St",
+      "coordinates": {
+        "latitude": 30.61625,
+        "longitude": -96.34055
+      },
+      "hours": null
+    },
+    {
+      "id": "eller-oceanography-meteorology-building",
+      "name": "Eller Oceanography & Meteorology Building",
+      "type": "academic_building",
+      "address": "3146 TAMU",
+      "coordinates": {
+        "latitude": 30.61702,
+        "longitude": -96.33908
+      },
+      "hours": null
+    },
+    {
+      "id": "engineering-activities-bldg-a",
+      "name": "Engineering Activities Bldg A",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61802,
+        "longitude": -96.33905
+      },
+      "hours": null
+    },
+    {
+      "id": "engineering-activities-bldg-b",
+      "name": "Engineering Activities Bldg B",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61802,
+        "longitude": -96.33905
+      },
+      "hours": null
+    },
+    {
+      "id": "engineering-activities-bldg-c",
+      "name": "Engineering Activities Bldg C",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61802,
+        "longitude": -96.33905
+      },
+      "hours": null
+    },
+    {
+      "id": "evans-library",
+      "name": "Evans Library",
+      "type": "academic_building",
+      "address": "4000 TAMU",
+      "coordinates": {
+        "latitude": 30.616829,
+        "longitude": -96.338844
+      },
+      "hours": null
+    },
+    {
+      "id": "evans-library-annex",
+      "name": "Evans Library Annex",
+      "type": "academic_building",
+      "address": "4000 TAMU",
+      "coordinates": {
+        "latitude": 30.616829,
+        "longitude": -96.338844
+      },
+      "hours": null
+    },
+    {
+      "id": "fermier-hall",
+      "name": "Fermier Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61752,
+        "longitude": -96.33958
+      },
+      "hours": null
+    },
+    {
+      "id": "francis-hall",
+      "name": "Francis Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61655,
+        "longitude": -96.34002
+      },
+      "hours": null
+    },
+    {
+      "id": "harrington-education-center-classroom-building",
+      "name": "Harrington Education Center Classroom Building",
+      "type": "academic_building",
+      "address": "544 Ross St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.6169,
+        "longitude": -96.34043
+      },
+      "hours": null
+    },
+    {
+      "id": "harrington-education-center-office-tower",
+      "name": "Harrington Education Center Office Tower",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61505,
+        "longitude": -96.34155
+      },
+      "hours": null
+    },
+    {
+      "id": "hart-residence-hall",
+      "name": "Hart Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61602,
+        "longitude": -96.34205
+      },
+      "hours": null
+    },
+    {
+      "id": "heaton-hall",
+      "name": "Heaton Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61705,
+        "longitude": -96.34008
+      },
+      "hours": null
+    },
+    {
+      "id": "heep-laboratory-building",
+      "name": "HEEP Laboratory Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61608,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "heldenfels-hall",
+      "name": "Heldenfels Hall",
+      "type": "academic_building",
+      "address": "466 Nagle St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.61514,
+        "longitude": -96.33873
+      },
+      "hours": null
+    },
+    {
+      "id": "jack-k-williams-administration-building",
+      "name": "Jack K. Williams Administration Building",
+      "type": "academic_building",
+      "address": "400 Bizzell St",
+      "coordinates": {
+        "latitude": 30.61652,
+        "longitude": -96.34155
+      },
+      "hours": null
+    },
+    {
+      "id": "langford-architecture-center-building-a",
+      "name": "Langford Architecture Center Building A",
+      "type": "academic_building",
+      "address": "3137 TAMU",
+      "coordinates": {
+        "latitude": 30.61725,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "legett-residence-hall",
+      "name": "Legett Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61608,
+        "longitude": -96.34255
+      },
+      "hours": null
+    },
+    {
+      "id": "harvey-r-bright-building-hrbb",
+      "name": "Harvey R. Bright Building (HRBB)",
+      "type": "academic_building",
+      "address": "710 Ross St, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.61903,
+        "longitude": -96.33875
+      },
+      "hours": null
+    },
+    {
+      "id": "melbern-g-glasscock-building",
+      "name": "Melbern G. Glasscock Building",
+      "type": "academic_building",
+      "address": "398 Spence St, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.61605,
+        "longitude": -96.34058
+      },
+      "hours": null
+    },
+    {
+      "id": "military-sciences-building-trigon",
+      "name": "Military Sciences Building (Trigon)",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61508,
+        "longitude": -96.34202
+      },
+      "hours": null
+    },
+    {
+      "id": "nagle-hall",
+      "name": "Nagle Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61602,
+        "longitude": -96.34008
+      },
+      "hours": null
+    },
+    {
+      "id": "pavilion",
+      "name": "Pavilion",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61655,
+        "longitude": -96.34052
+      },
+      "hours": null
+    },
+    {
+      "id": "peterson-building",
+      "name": "Peterson Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61658,
+        "longitude": -96.33955
+      },
+      "hours": null
+    },
+    {
+      "id": "psychology-building",
+      "name": "Psychology Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61602,
+        "longitude": -96.34005
+      },
+      "hours": null
+    },
+    {
+      "id": "scoates-hall",
+      "name": "Scoates Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61655,
+        "longitude": -96.33958
+      },
+      "hours": null
+    },
+    {
+      "id": "sterling-c-evans-library",
+      "name": "Sterling C. Evans Library",
+      "type": "academic_building",
+      "address": "4000 TAMU",
+      "coordinates": {
+        "latitude": 30.616829,
+        "longitude": -96.338844
+      },
+      "hours": null
+    },
+    {
+      "id": "student-computing-center",
+      "name": "Student Computing Center",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61652,
+        "longitude": -96.34055
+      },
+      "hours": null
+    },
+    {
+      "id": "teague-research-center",
+      "name": "Teague Research Center",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61708,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "the-hub-bike-maintenance-shack",
+      "name": "The HUB-Bike Maintenance Shack",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61655,
+        "longitude": -96.34108
+      },
+      "hours": null
+    },
+    {
+      "id": "thompson-hall",
+      "name": "Thompson Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61652,
+        "longitude": -96.34155
+      },
+      "hours": null
+    },
+    {
+      "id": "adriance-lab",
+      "name": "Adriance Lab",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34905
+      },
+      "hours": null
+    },
+    {
+      "id": "ag-engineering-power-machinery-building",
+      "name": "AG Engineering Power & Machinery Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34905
+      },
+      "hours": null
+    },
+    {
+      "id": "agriculture-and-life-sciences-building",
+      "name": "Agriculture and Life Sciences Building",
+      "type": "academic_building",
+      "address": "600 John Kimbrough Blvd",
+      "coordinates": {
+        "latitude": 30.61052,
+        "longitude": -96.34955
+      },
+      "hours": null
+    },
+    {
+      "id": "agrilife-services-building",
+      "name": "AgriLife Services Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61052,
+        "longitude": -96.34955
+      },
+      "hours": null
+    },
+    {
+      "id": "biochemistrybiophysics-building",
+      "name": "Biochemistry/Biophysics Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34852
+      },
+      "hours": null
+    },
+    {
+      "id": "borlaug-center-for-southern-crop-improvement",
+      "name": "Borlaug Center for Southern Crop Improvement",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61158,
+        "longitude": -96.34805
+      },
+      "hours": null
+    },
+    {
+      "id": "business-library-and-collaboration-commons",
+      "name": "Business Library and Collaboration Commons",
+      "type": "academic_building",
+      "address": "Wehner Bldg - West Campus",
+      "coordinates": {
+        "latitude": 30.61205,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "cater-mattil-hall",
+      "name": "Cater-Mattil Hall",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61102,
+        "longitude": -96.34808
+      },
+      "hours": null
+    },
+    {
+      "id": "heep-center",
+      "name": "HEEP Center",
+      "type": "academic_building",
+      "address": "370 Olsen Blvd",
+      "coordinates": {
+        "latitude": 30.61152,
+        "longitude": -96.34855
+      },
+      "hours": null
+    },
+    {
+      "id": "horticultureforest-science-building",
+      "name": "Horticulture/Forest Science Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61108,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "instructional-laboratory-innovative-learning-center-ilsq",
+      "name": "Instructional Laboratory & Innovative Learning Center (ILSQ)",
+      "type": "academic_building",
+      "address": "459 Olsen Blvd, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.61094,
+        "longitude": -96.3462
+      },
+      "hours": null
+    },
+    {
+      "id": "kleberg-center",
+      "name": "Kleberg Center",
+      "type": "academic_building",
+      "address": "474 Olsen Blvd",
+      "coordinates": {
+        "latitude": 30.61102,
+        "longitude": -96.34855
+      },
+      "hours": null
+    },
+    {
+      "id": "medical-sciences-library-msl",
+      "name": "Medical Sciences Library (MSL)",
+      "type": "academic_building",
+      "address": "202 Olsen Blvd",
+      "coordinates": {
+        "latitude": 30.61255,
+        "longitude": -96.34802
+      },
+      "hours": null
+    },
+    {
+      "id": "nuclear-magnetic-resonance-facility",
+      "name": "Nuclear Magnetic Resonance Facility",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34852
+      },
+      "hours": null
+    },
+    {
+      "id": "plant-pathology-and-microbiology-building",
+      "name": "Plant Pathology and Microbiology Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34905
+      },
+      "hours": null
+    },
+    {
+      "id": "price-hobgood-ag-engineering-research-lab",
+      "name": "Price Hobgood Ag. Engineering Research Lab",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34905
+      },
+      "hours": null
+    },
+    {
+      "id": "reynolds-medical-sciences-building",
+      "name": "Reynolds Medical Sciences Building",
+      "type": "academic_building",
+      "address": "College Station, TX 77845",
+      "coordinates": {
+        "latitude": 30.61114,
+        "longitude": -96.35193
+      },
+      "hours": null
+    },
+    {
+      "id": "rosenthal-meat-science-technology-center",
+      "name": "Rosenthal Meat Science & Technology Center",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61055,
+        "longitude": -96.34852
+      },
+      "hours": null
+    },
+    {
+      "id": "satellite-utility-plant-no-1",
+      "name": "Satellite Utility Plant No. 1",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61108,
+        "longitude": -96.34905
+      },
+      "hours": null
+    },
+    {
+      "id": "school-of-public-health-admin-bldg",
+      "name": "School of Public Health - Admin Bldg",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61002,
+        "longitude": -96.35005
+      },
+      "hours": null
+    },
+    {
+      "id": "school-of-public-health-classroom-bldg",
+      "name": "School of Public Health - Classroom Bldg",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61002,
+        "longitude": -96.35005
+      },
+      "hours": null
+    },
+    {
+      "id": "school-of-public-health-lab-bldg",
+      "name": "School of Public Health - Lab Bldg",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61002,
+        "longitude": -96.35005
+      },
+      "hours": null
+    },
+    {
+      "id": "southern-crop-improvement-greenhouse",
+      "name": "Southern Crop Improvement Greenhouse",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61158,
+        "longitude": -96.34805
+      },
+      "hours": null
+    },
+    {
+      "id": "teaching-gardens-pavilion",
+      "name": "Teaching Gardens Pavilion",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34952
+      },
+      "hours": null
+    },
+    {
+      "id": "the-agrilife-center",
+      "name": "The AgriLife Center",
+      "type": "academic_building",
+      "address": "556 John Kimbrough Blvd",
+      "coordinates": {
+        "latitude": 30.61058,
+        "longitude": -96.34958
+      },
+      "hours": null
+    },
+    {
+      "id": "wehner-building",
+      "name": "Wehner Building",
+      "type": "academic_building",
+      "address": "4113 TAMU",
+      "coordinates": {
+        "latitude": 30.61205,
+        "longitude": -96.34908
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-dining-facility",
+      "name": "West Campus Dining Facility",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-office-building-01",
+      "name": "West Campus Office Building 01",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-office-building-02",
+      "name": "West Campus Office Building 02",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-office-building-03",
+      "name": "West Campus Office Building 03",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-office-building-04",
+      "name": "West Campus Office Building 04",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-office-building-05",
+      "name": "West Campus Office Building 05",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-office-building-06",
+      "name": "West Campus Office Building 06",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-switching-station",
+      "name": "West Campus Switching Station",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.61155,
+        "longitude": -96.34902
+      },
+      "hours": null
+    },
+    {
+      "id": "white-creek-apartments-a",
+      "name": "White Creek Apartments A",
+      "type": "academic_building",
+      "address": "225 Discovery Dr",
+      "coordinates": {
+        "latitude": 30.60705,
+        "longitude": -96.35202
+      },
+      "hours": null
+    },
+    {
+      "id": "white-creek-apartments-activity-center",
+      "name": "White Creek Apartments Activity Center",
+      "type": "academic_building",
+      "address": "225 Discovery Dr",
+      "coordinates": {
+        "latitude": 30.60705,
+        "longitude": -96.35202
+      },
+      "hours": null
+    },
+    {
+      "id": "white-creek-apartments-b",
+      "name": "White Creek Apartments B",
+      "type": "academic_building",
+      "address": "225 Discovery Dr",
+      "coordinates": {
+        "latitude": 30.60705,
+        "longitude": -96.35202
+      },
+      "hours": null
+    },
+    {
+      "id": "white-creek-apartments-c",
+      "name": "White Creek Apartments C",
+      "type": "academic_building",
+      "address": "225 Discovery Dr",
+      "coordinates": {
+        "latitude": 30.60705,
+        "longitude": -96.35202
+      },
+      "hours": null
+    },
+    {
+      "id": "white-creek-community-center",
+      "name": "White Creek Community Center",
+      "type": "academic_building",
+      "address": "225 Discovery Dr",
+      "coordinates": {
+        "latitude": 30.60705,
+        "longitude": -96.35202
+      },
+      "hours": null
+    },
+    {
+      "id": "wildlife-fisheries-ecological-sciences-building",
+      "name": "Wildlife Fisheries & Ecological Sciences Building",
+      "type": "academic_building",
+      "address": "534 John Kimbrough Blvd",
+      "coordinates": {
+        "latitude": 30.61055,
+        "longitude": -96.34908
+      },
+      "hours": null
+    },
+    {
+      "id": "albritton-bell-tower",
+      "name": "Albritton Bell Tower",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61455,
+        "longitude": -96.34152
+      },
+      "hours": null
+    },
+    {
+      "id": "all-faiths-chapel",
+      "name": "All Faiths Chapel",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61305,
+        "longitude": -96.34108
+      },
+      "hours": null
+    },
+    {
+      "id": "beutel-health-center",
+      "name": "Beutel Health Center",
+      "type": "academic_building",
+      "address": "311 Houston St",
+      "coordinates": {
+        "latitude": 30.61802,
+        "longitude": -96.34005
+      },
+      "hours": null
+    },
+    {
+      "id": "bright-football-complex",
+      "name": "Bright Football Complex",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.60905,
+        "longitude": -96.34008
+      },
+      "hours": null
+    },
+    {
+      "id": "civilian-lounge-a1",
+      "name": "Civilian Lounge-A1",
+      "type": "academic_building",
+      "address": "Northside Dorm Area",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.34302
+      },
+      "hours": null
+    },
+    {
+      "id": "civilian-lounge-a2",
+      "name": "Civilian Lounge-A2",
+      "type": "academic_building",
+      "address": "Northside Dorm Area",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.34302
+      },
+      "hours": null
+    },
+    {
+      "id": "civilian-lounge-a3",
+      "name": "Civilian Lounge-A3",
+      "type": "academic_building",
+      "address": "Northside Dorm Area",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.34302
+      },
+      "hours": null
+    },
+    {
+      "id": "civilian-lounge-c1",
+      "name": "Civilian Lounge-C1",
+      "type": "academic_building",
+      "address": "Northside Dorm Area",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.34302
+      },
+      "hours": null
+    },
+    {
+      "id": "clements-residence-hall",
+      "name": "Clements Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61855,
+        "longitude": -96.34352
+      },
+      "hours": null
+    },
+    {
+      "id": "coke-building",
+      "name": "Coke Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61608,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "davis-football-player-development-center",
+      "name": "Davis Football Player Development Center",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.60905,
+        "longitude": -96.34008
+      },
+      "hours": null
+    },
+    {
+      "id": "davis-gary-residence-hall",
+      "name": "Davis-Gary Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61805,
+        "longitude": -96.34352
+      },
+      "hours": null
+    },
+    {
+      "id": "doug-pitcock-49-hotel-and-conference-center",
+      "name": "Doug Pitcock 49 Hotel and Conference Center",
+      "type": "academic_building",
+      "address": "177 Joe Routt Blvd",
+      "coordinates": {
+        "latitude": 30.61352,
+        "longitude": -96.34205
+      },
+      "hours": null
+    },
+    {
+      "id": "fowler-residence-hall",
+      "name": "Fowler Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61902,
+        "longitude": -96.34355
+      },
+      "hours": null
+    },
+    {
+      "id": "gene-stallings-blvd-garage",
+      "name": "Gene Stallings Blvd Garage",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61405,
+        "longitude": -96.34252
+      },
+      "hours": null
+    },
+    {
+      "id": "haas-residence-hall",
+      "name": "Haas Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61852,
+        "longitude": -96.34305
+      },
+      "hours": null
+    },
+    {
+      "id": "hagler-center",
+      "name": "Hagler Center",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61305,
+        "longitude": -96.34202
+      },
+      "hours": null
+    },
+    {
+      "id": "henderson-hall",
+      "name": "Henderson Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61855,
+        "longitude": -96.34308
+      },
+      "hours": null
+    },
+    {
+      "id": "hobby-residence-hall",
+      "name": "Hobby Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61952,
+        "longitude": -96.34355
+      },
+      "hours": null
+    },
+    {
+      "id": "hotard-hall",
+      "name": "Hotard Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61908,
+        "longitude": -96.34255
+      },
+      "hours": null
+    },
+    {
+      "id": "hughes-residence-hall",
+      "name": "Hughes Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.34352
+      },
+      "hours": null
+    },
+    {
+      "id": "hullabaloo-residence-hall",
+      "name": "Hullabaloo Residence Hall",
+      "type": "academic_building",
+      "address": "306 University Dr",
+      "coordinates": {
+        "latitude": 30.61952,
+        "longitude": -96.34305
+      },
+      "hours": null
+    },
+    {
+      "id": "innovative-learning-classroom-building-ilcb",
+      "name": "Innovative Learning Classroom Building (ILCB)",
+      "type": "academic_building",
+      "address": "215 Lamar St, College Station, TX 77844",
+      "coordinates": {
+        "latitude": 30.61198,
+        "longitude": -96.34445
+      },
+      "hours": null
+    },
+    {
+      "id": "interdisciplinary-life-sciences-building",
+      "name": "Interdisciplinary Life Sciences Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61352,
+        "longitude": -96.34305
+      },
+      "hours": null
+    },
+    {
+      "id": "joe-hiram-moore-communications-center",
+      "name": "Joe Hiram Moore Communications Center",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61502,
+        "longitude": -96.34208
+      },
+      "hours": null
+    },
+    {
+      "id": "keathley-residence-hall",
+      "name": "Keathley Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61902,
+        "longitude": -96.34355
+      },
+      "hours": null
+    },
+    {
+      "id": "koldus-building",
+      "name": "Koldus Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61308,
+        "longitude": -96.34155
+      },
+      "hours": null
+    },
+    {
+      "id": "kyle-field",
+      "name": "Kyle Field",
+      "type": "academic_building",
+      "address": "161 Wellborn Rd, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.61025,
+        "longitude": -96.33985
+      },
+      "hours": null
+    },
+    {
+      "id": "mcfadden-residence-hall",
+      "name": "McFadden Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61852,
+        "longitude": -96.34308
+      },
+      "hours": null
+    },
+    {
+      "id": "memorial-student-center",
+      "name": "Memorial Student Center",
+      "type": "academic_building",
+      "address": "275 Joe Routt Blvd",
+      "coordinates": {
+        "latitude": 30.61255,
+        "longitude": -96.34152
+      },
+      "hours": null
+    },
+    {
+      "id": "milner-hall",
+      "name": "Milner Hall",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61605,
+        "longitude": -96.34202
+      },
+      "hours": null
+    },
+    {
+      "id": "moses-residence-hall",
+      "name": "Moses Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61802,
+        "longitude": -96.34305
+      },
+      "hours": null
+    },
+    {
+      "id": "neeley-residence-hall",
+      "name": "Neeley Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61955,
+        "longitude": -96.34352
+      },
+      "hours": null
+    },
+    {
+      "id": "rudder-tower",
+      "name": "Rudder Tower",
+      "type": "academic_building",
+      "address": "401 Joe Routt Blvd",
+      "coordinates": {
+        "latitude": 30.61302,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "sam-houston-sanders-corps-of-cadets-center",
+      "name": "Sam Houston Sanders Corps of Cadets Center",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61305,
+        "longitude": -96.34052
+      },
+      "hours": null
+    },
+    {
+      "id": "satellite-utility-plant-no-3",
+      "name": "Satellite Utility Plant No. 3",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.34302
+      },
+      "hours": null
+    },
+    {
+      "id": "sbisa-dining-hall",
+      "name": "Sbisa Dining Hall",
+      "type": "academic_building",
+      "address": "233 Houston St",
+      "coordinates": {
+        "latitude": 30.61855,
+        "longitude": -96.34255
+      },
+      "hours": null
+    },
+    {
+      "id": "schuhmacher-residence-hall",
+      "name": "Schuhmacher Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61902,
+        "longitude": -96.34355
+      },
+      "hours": null
+    },
+    {
+      "id": "student-services-building",
+      "name": "Student Services Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61402,
+        "longitude": -96.34155
+      },
+      "hours": null
+    },
+    {
+      "id": "university-center-parking-garage",
+      "name": "University Center Parking Garage",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61308,
+        "longitude": -96.34152
+      },
+      "hours": null
+    },
+    {
+      "id": "walton-residence-hall",
+      "name": "Walton Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.34302
+      },
+      "hours": null
+    },
+    {
+      "id": "williams-alumni-center",
+      "name": "Williams Alumni Center",
+      "type": "academic_building",
+      "address": "505 George Bush Dr",
+      "coordinates": {
+        "latitude": 30.60805,
+        "longitude": -96.34052
+      },
+      "hours": null
+    },
+    {
+      "id": "ymca-building",
+      "name": "YMCA Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61655,
+        "longitude": -96.34152
+      },
+      "hours": null
+    },
+    {
+      "id": "blocker-building-bloc",
+      "name": "Blocker Building (BLOC)",
+      "type": "academic_building",
+      "address": "155 Ireland St",
+      "coordinates": {
+        "latitude": 30.61955,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "central-utility-plant",
+      "name": "Central Utility Plant",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61852,
+        "longitude": -96.33855
+      },
+      "hours": null
+    },
+    {
+      "id": "cup-modular",
+      "name": "CUP Modular",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61852,
+        "longitude": -96.33855
+      },
+      "hours": null
+    },
+    {
+      "id": "doherty-building-drty",
+      "name": "Doherty Building (DRTY)",
+      "type": "academic_building",
+      "address": "242 Spence St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.61755,
+        "longitude": -96.33902
+      },
+      "hours": null
+    },
+    {
+      "id": "dwight-look-engineering-building-dleb",
+      "name": "Dwight Look Engineering Building (DLEB)",
+      "type": "academic_building",
+      "address": "199 Spence St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.62018,
+        "longitude": -96.33997
+      },
+      "hours": null
+    },
+    {
+      "id": "emerging-technologies-building-etb",
+      "name": "Emerging Technologies Building (ETB)",
+      "type": "academic_building",
+      "address": "101 Bizzell St, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.62287,
+        "longitude": -96.33942
+      },
+      "hours": null
+    },
+    {
+      "id": "engineering-innovation-center",
+      "name": "Engineering Innovation Center",
+      "type": "academic_building",
+      "address": "233 Ireland St, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.61859,
+        "longitude": -96.34152
+      },
+      "hours": null
+    },
+    {
+      "id": "hj-bill-and-reta-haynes-engineering-building",
+      "name": "H.J. (Bill) and Reta Haynes Engineering Building",
+      "type": "academic_building",
+      "address": "TAMU Engineering",
+      "coordinates": {
+        "latitude": 30.61805,
+        "longitude": -96.33902
+      },
+      "hours": null
+    },
+    {
+      "id": "halbouty-geosciences-building",
+      "name": "Halbouty Geosciences Building",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61705,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "jack-e-brown-chemical-engineering-building-chen",
+      "name": "Jack E. Brown Chemical Engineering Building (CHEN)",
+      "type": "academic_building",
+      "address": "100 Spence St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.62092,
+        "longitude": -96.34188
+      },
+      "hours": null
+    },
+    {
+      "id": "james-j-cain-51-building-jcain",
+      "name": "James J. Cain ' 51 Building (JCAIN)",
+      "type": "academic_building",
+      "address": "180 Spence St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.61983,
+        "longitude": -96.3408
+      },
+      "hours": null
+    },
+    {
+      "id": "joe-c-richardson-petroleum-engineering-building-rich",
+      "name": "Joe C. Richardson Petroleum Engineering Building (RICH)",
+      "type": "academic_building",
+      "address": "Ross St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.61946,
+        "longitude": -96.33938
+      },
+      "hours": null
+    },
+    {
+      "id": "luedecke-building-cyclotron",
+      "name": "Luedecke Building (Cyclotron)",
+      "type": "academic_building",
+      "address": "120 Spence St",
+      "coordinates": {
+        "latitude": 30.62005,
+        "longitude": -96.33855
+      },
+      "hours": null
+    },
+    {
+      "id": "mitchell-institute-for-fundamental-physics-and-astronomy",
+      "name": "Mitchell Institute for Fundamental Physics and Astronomy",
+      "type": "academic_building",
+      "address": "576 University Dr, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "mitchell-physics-building-mphy",
+      "name": "Mitchell Physics Building (MPHY)",
+      "type": "academic_building",
+      "address": "0297 University Dr, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "munnerlyn-astronomy-space-sciences-engineering",
+      "name": "Munnerlyn Astronomy & Space Sciences Engineering",
+      "type": "academic_building",
+      "address": "TAMU Engineering",
+      "coordinates": {
+        "latitude": 30.61905,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "northside-parking-garage",
+      "name": "Northside Parking Garage",
+      "type": "academic_building",
+      "address": "TAMU Northside",
+      "coordinates": {
+        "latitude": 30.61952,
+        "longitude": -96.34055
+      },
+      "hours": null
+    },
+    {
+      "id": "polo-road-garage",
+      "name": "Polo Road Garage",
+      "type": "academic_building",
+      "address": "Polo Rd",
+      "coordinates": {
+        "latitude": 30.62155,
+        "longitude": -96.33952
+      },
+      "hours": null
+    },
+    {
+      "id": "reed-mcdonald-building",
+      "name": "Reed-McDonald Building",
+      "type": "academic_building",
+      "address": "575 Ross St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.61755,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "utilities-energy-services-central-office",
+      "name": "Utilities & Energy Services Central Office",
+      "type": "academic_building",
+      "address": "TAMU Main Campus",
+      "coordinates": {
+        "latitude": 30.61855,
+        "longitude": -96.33852
+      },
+      "hours": null
+    },
+    {
+      "id": "zachry-engineering-education-complex",
+      "name": "Zachry Engineering Education Complex",
+      "type": "academic_building",
+      "address": "125 Spence St, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.62139,
+        "longitude": -96.34045
+      },
+      "hours": null
+    },
+    {
+      "id": "1111-research-parkway-bldg",
+      "name": "1111 Research Parkway Bldg",
+      "type": "academic_building",
+      "address": "1111 Research Pkwy",
+      "coordinates": {
+        "latitude": 30.59455,
+        "longitude": -96.36705
+      },
+      "hours": null
+    },
+    {
+      "id": "2-research-park",
+      "name": "2 Research Park",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "allen-building",
+      "name": "Allen Building",
+      "type": "academic_building",
+      "address": "1004 George Bush Dr W",
+      "coordinates": {
+        "latitude": 30.59705,
+        "longitude": -96.35405
+      },
+      "hours": null
+    },
+    {
+      "id": "annenberg-presidential-conference-center",
+      "name": "Annenberg Presidential Conference Center",
+      "type": "academic_building",
+      "address": "1002 George Bush Dr W",
+      "coordinates": {
+        "latitude": 30.59655,
+        "longitude": -96.35505
+      },
+      "hours": null
+    },
+    {
+      "id": "centeq-building",
+      "name": "Centeq Building",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "cox-mcferrin-center-for-aggie-basketball",
+      "name": "Cox-McFerrin Center for Aggie Basketball",
+      "type": "academic_building",
+      "address": "730 Olsen Blvd",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.35205
+      },
+      "hours": null
+    },
+    {
+      "id": "davis-diamond-softball-stadium",
+      "name": "Davis Diamond Softball Stadium",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60405,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "donald-l-houston-building",
+      "name": "Donald L. Houston Building",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "eb-cushing-stadium",
+      "name": "E.B. Cushing Stadium",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60355,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "electron-beam-food-research-facility",
+      "name": "Electron Beam Food Research Facility",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59405,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "enterprise-electrical-switching-station",
+      "name": "Enterprise Electrical Switching Station",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59405,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "george-bush-presidential-library-museum",
+      "name": "George Bush Presidential Library & Museum",
+      "type": "academic_building",
+      "address": "1000 George Bush Dr W",
+      "coordinates": {
+        "latitude": 30.596622,
+        "longitude": -96.353381
+      },
+      "hours": null
+    },
+    {
+      "id": "george-p-mitchell-40-outdoor-tennis-center",
+      "name": "George P. Mitchell 40 Outdoor Tennis Center",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60405,
+        "longitude": -96.35255
+      },
+      "hours": null
+    },
+    {
+      "id": "giesecke-engineering-research-building",
+      "name": "Giesecke Engineering Research Building",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "gilchrist-building-tti",
+      "name": "Gilchrist Building (T.T.I.)",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "gte-optical-remote-module-odm-facility-research-park",
+      "name": "GTE Optical Remote Module (ODM) Facility @ Research Park",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "health-technologies-building",
+      "name": "Health Technologies Building",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "human-clinical-research-building",
+      "name": "Human Clinical Research Building",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "international-ocean-discovery-building",
+      "name": "International Ocean Discovery Building",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "julia-and-mark-ellis-79-soccer-building",
+      "name": "Julia And Mark Ellis 79 Soccer Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60305,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "liberal-arts-and-arts-humanities-building",
+      "name": "Liberal Arts and Arts & Humanities Building",
+      "type": "academic_building",
+      "address": "399 Spence St, College Station, TX 77843",
+      "coordinates": {
+        "latitude": 30.6176,
+        "longitude": -96.33789
+      },
+      "hours": null
+    },
+    {
+      "id": "mitchell-tennis-center-ticket-booth",
+      "name": "Mitchell Tennis Center Ticket Booth",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60405,
+        "longitude": -96.35255
+      },
+      "hours": null
+    },
+    {
+      "id": "offshore-technology-research-center",
+      "name": "Offshore Technology Research Center",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59455,
+        "longitude": -96.36705
+      },
+      "hours": null
+    },
+    {
+      "id": "olsen-field-at-bluebell-park",
+      "name": "Olsen Field at Bluebell Park",
+      "type": "academic_building",
+      "address": "301 Olsen Blvd",
+      "coordinates": {
+        "latitude": 30.60605,
+        "longitude": -96.35105
+      },
+      "hours": null
+    },
+    {
+      "id": "omar-smith-instructional-tennis-center",
+      "name": "Omar Smith Instructional Tennis Center",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60405,
+        "longitude": -96.35255
+      },
+      "hours": null
+    },
+    {
+      "id": "pearce-animal-pavilion",
+      "name": "Pearce Animal Pavilion",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.35205
+      },
+      "hours": null
+    },
+    {
+      "id": "penberthy-intramural-sports-center",
+      "name": "Penberthy Intramural Sports Center",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60205,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "penberthy-recsports-maintenance-bldg",
+      "name": "Penberthy RecSports Maintenance Bldg",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60205,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "penberthy-recsports-pavilion",
+      "name": "Penberthy RecSports Pavilion",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60205,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "penberthy-south-control-building",
+      "name": "Penberthy South Control Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60205,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "penberthy-south-restroom",
+      "name": "Penberthy South Restroom",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60205,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "physical-education-activity-program-building",
+      "name": "Physical Education Activity Program Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60605,
+        "longitude": -96.35105
+      },
+      "hours": null
+    },
+    {
+      "id": "physical-education-boot-camp-and-archery-annex",
+      "name": "Physical Education Boot Camp and Archery Annex",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60605,
+        "longitude": -96.35105
+      },
+      "hours": null
+    },
+    {
+      "id": "player-development-center-west-campus",
+      "name": "Player Development Center-West Campus",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.35205
+      },
+      "hours": null
+    },
+    {
+      "id": "reed-arena",
+      "name": "Reed Arena",
+      "type": "academic_building",
+      "address": "730 Olsen Blvd",
+      "coordinates": {
+        "latitude": 30.60555,
+        "longitude": -96.35205
+      },
+      "hours": null
+    },
+    {
+      "id": "research-park-maintenance-building",
+      "name": "Research Park Maintenance Building",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "research-park-switching-station",
+      "name": "Research Park Switching Station",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "softball-building",
+      "name": "Softball Building",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60405,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "student-recreation-center",
+      "name": "Student Recreation Center",
+      "type": "academic_building",
+      "address": "797 Olsen Blvd",
+      "coordinates": {
+        "latitude": 30.60655,
+        "longitude": -96.35005
+      },
+      "hours": null
+    },
+    {
+      "id": "testing-and-characterization-facility",
+      "name": "Testing and Characterization Facility",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "varsity-soccer-press-box",
+      "name": "Varsity Soccer Press Box",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60305,
+        "longitude": -96.35305
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-office-pavilion",
+      "name": "West Campus Office Pavilion",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.35205
+      },
+      "hours": null
+    },
+    {
+      "id": "west-campus-parking-garage",
+      "name": "West Campus Parking Garage",
+      "type": "academic_building",
+      "address": "TAMU West Campus",
+      "coordinates": {
+        "latitude": 30.60605,
+        "longitude": -96.35105
+      },
+      "hours": null
+    },
+    {
+      "id": "wireless-telecommunications-facility",
+      "name": "Wireless Telecommunications Facility",
+      "type": "academic_building",
+      "address": "Research Park",
+      "coordinates": {
+        "latitude": 30.59505,
+        "longitude": -96.36605
+      },
+      "hours": null
+    },
+    {
+      "id": "aerospace-laboratory-for-lasers-electromagnetics-and-optics",
+      "name": "Aerospace Laboratory for Lasers ElectroMagnetics and Optics",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "easterwood-airport-control-tower",
+      "name": "Easterwood Airport Control Tower",
+      "type": "academic_building",
+      "address": "Easterwood Airport",
+      "coordinates": {
+        "latitude": 30.58861,
+        "longitude": -96.36389
+      },
+      "hours": null
+    },
+    {
+      "id": "easterwood-fbo-and-hangar",
+      "name": "Easterwood FBO and Hangar",
+      "type": "academic_building",
+      "address": "Easterwood Airport",
+      "coordinates": {
+        "latitude": 30.58861,
+        "longitude": -96.36389
+      },
+      "hours": null
+    },
+    {
+      "id": "easterwood-general-aviation-terminal",
+      "name": "Easterwood General Aviation Terminal",
+      "type": "academic_building",
+      "address": "Easterwood Airport",
+      "coordinates": {
+        "latitude": 30.58861,
+        "longitude": -96.36389
+      },
+      "hours": null
+    },
+    {
+      "id": "easterwood-hangar-1092",
+      "name": "Easterwood Hangar 1092",
+      "type": "academic_building",
+      "address": "Easterwood Airport",
+      "coordinates": {
+        "latitude": 30.58861,
+        "longitude": -96.36389
+      },
+      "hours": null
+    },
+    {
+      "id": "easterwood-rescue-and-fire-facility",
+      "name": "Easterwood Rescue and Fire Facility",
+      "type": "academic_building",
+      "address": "Easterwood Airport",
+      "coordinates": {
+        "latitude": 30.58861,
+        "longitude": -96.36389
+      },
+      "hours": null
+    },
+    {
+      "id": "emergency-operations-training-center",
+      "name": "Emergency Operations Training Center",
+      "type": "academic_building",
+      "address": "Disaster City/TEEX",
+      "coordinates": {
+        "latitude": 30.58605,
+        "longitude": -96.36805
+      },
+      "hours": null
+    },
+    {
+      "id": "environmental-health-and-safety-storage-2",
+      "name": "Environmental Health and Safety Storage #2",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "esti-h-d-smith-operations-complex",
+      "name": "ESTI H. D. Smith Operations Complex",
+      "type": "academic_building",
+      "address": "Disaster City/TEEX",
+      "coordinates": {
+        "latitude": 30.58605,
+        "longitude": -96.36805
+      },
+      "hours": null
+    },
+    {
+      "id": "esti-recruit-classroomfire-station",
+      "name": "ESTI Recruit Classroom/Fire Station",
+      "type": "academic_building",
+      "address": "Disaster City/TEEX",
+      "coordinates": {
+        "latitude": 30.58605,
+        "longitude": -96.36805
+      },
+      "hours": null
+    },
+    {
+      "id": "klebanoff-saric-wind-tunnel-unsteady-wind-tunnel",
+      "name": "Klebanoff-Saric Wind Tunnel (Unsteady Wind Tunnel)",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "land-air-space-robotics",
+      "name": "Land Air Space Robotics",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "natl-aerothermochemistry-lab-bldg-2",
+      "name": "Natl Aerothermochemistry Lab Bldg 2",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "nicks-low-speed-wind-tunnel",
+      "name": "Nicks Low Speed Wind Tunnel",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "nuclear-science-center-laboratory",
+      "name": "Nuclear Science Center Laboratory",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "nuclear-science-cntr",
+      "name": "Nuclear Science Cntr",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "physics-teaching-observatory",
+      "name": "Physics Teaching Observatory",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "poultry-sci-nutrition-phys",
+      "name": "Poultry Sci Nutrition & Phys",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "poultry-science-headquarters",
+      "name": "Poultry Science Headquarters",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "range-science-field-lab",
+      "name": "Range Science Field Lab",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "refuse-collection-maintenance",
+      "name": "Refuse Collection Maintenance",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "robotic-observatory",
+      "name": "Robotic Observatory",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "teex-esti-fts-rescue-training-facility",
+      "name": "TEEX-ESTI (FTS) Rescue Training Facility",
+      "type": "academic_building",
+      "address": "Disaster City/TEEX",
+      "coordinates": {
+        "latitude": 30.58605,
+        "longitude": -96.36805
+      },
+      "hours": null
+    },
+    {
+      "id": "turbomachinery-laboratory",
+      "name": "Turbomachinery Laboratory",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "ueo-modular-annex",
+      "name": "UEO Modular Annex",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "utilities-energy-services-energy-office",
+      "name": "Utilities & Energy Services Energy Office",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "utilities-energy-office-expansion",
+      "name": "Utilities Energy Office Expansion",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "wastewater-treatment-plant",
+      "name": "Wastewater Treatment Plant",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "wwtp-primary-pump-building",
+      "name": "WWTP Primary Pump Building",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "wwtp-secondary-pump-building",
+      "name": "WWTP Secondary Pump Building",
+      "type": "academic_building",
+      "address": "Easterwood Area",
+      "coordinates": {
+        "latitude": 30.58905,
+        "longitude": -96.36405
+      },
+      "hours": null
+    },
+    {
+      "id": "1247-kv-switching-station",
+      "name": "12.47 KV Switching Station",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "400-harvey-mitchell-pw-valley-park-center",
+      "name": "400 Harvey Mitchell Pw (Valley Park Center)",
+      "type": "academic_building",
+      "address": "400 Harvey Mitchell Pkwy",
+      "coordinates": {
+        "latitude": 30.60605,
+        "longitude": -96.36205
+      },
+      "hours": null
+    },
+    {
+      "id": "agrilife-phenotyping-greenhouse",
+      "name": "AgriLife Phenotyping Greenhouse",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "biological-control-facility",
+      "name": "Biological Control Facility",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "cable-wire-storage",
+      "name": "Cable Wire Storage",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "center-for-urban-and-structural-entomology-cuse",
+      "name": "Center for Urban and Structural Entomology (CUSE)",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "cuse-chemistry",
+      "name": "CUSE-Chemistry",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "cuse-research-labs",
+      "name": "CUSE-Research Labs",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "entomology-research-lab",
+      "name": "Entomology Research Lab",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "environmental-health-and-safety-office-annex",
+      "name": "Environmental Health and Safety Office Annex",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "environmental-health-and-safety-storage-1",
+      "name": "Environmental Health and Safety Storage #1",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "equine-center-stable",
+      "name": "Equine Center Stable",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "equine-initiative-barn",
+      "name": "Equine Initiative Barn",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "equine-initiative-concessionslocker-bldg",
+      "name": "Equine Initiative Concessions/Locker Bldg",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "equine-initiative-education-bldg",
+      "name": "Equine Initiative Education Bldg",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "equine-initiative-equestrianlocker-bldg",
+      "name": "Equine Initiative Equestrian/Locker Bldg",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "equine-initiative-outreach-bldg",
+      "name": "Equine Initiative Outreach Bldg",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "equine-nutrition-and-reproduction",
+      "name": "Equine Nutrition and Reproduction",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "facilities-services",
+      "name": "Facilities Services",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "fleet-services",
+      "name": "Fleet Services",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "forest-science-laboratory-building",
+      "name": "Forest Science Laboratory Building",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "general-services-complex",
+      "name": "General Services Complex",
+      "type": "academic_building",
+      "address": "750 Agronomy Rd",
+      "coordinates": {
+        "latitude": 30.623,
+        "longitude": -96.355
+      },
+      "hours": null
+    },
+    {
+      "id": "generator-storage-building",
+      "name": "Generator Storage Building",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "houston-livestock-show-rodeo-western-arena",
+      "name": "Houston Livestock Show & Rodeo Western Arena",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "hunt-seat-arena",
+      "name": "Hunt Seat Arena",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "mcferrin-65-parsons-mounted-cavalry-headquarters",
+      "name": "McFerrin 65 Parsons Mounted Cavalry Headquarters",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "mosquito-research-lab",
+      "name": "Mosquito Research Lab",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "parsons-cav-caretaker-facility",
+      "name": "Parsons Cav Caretaker Facility",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "phys-plant-grounds-maintenance",
+      "name": "Phys Plant-Grounds Maintenance",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "purchasing-stores",
+      "name": "Purchasing & Stores",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "rollins-urban-and-structural-entomology-facility",
+      "name": "Rollins Urban and Structural Entomology Facility",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "scotts-turf-lab-1-admin-bldg",
+      "name": "Scotts Turf Lab 1 (Admin Bldg)",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "scotts-turf-lab-2-shop-bldg",
+      "name": "Scotts Turf Lab 2 (Shop Bldg)",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "soil-testing-lab",
+      "name": "Soil Testing Lab",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "telecommunications-optical-remote-building",
+      "name": "Telecommunications Optical Remote Building",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "transit-services",
+      "name": "Transit Services",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "ues-it-modular-building",
+      "name": "UES IT Modular Building",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "utilities-energy-services-business-office",
+      "name": "Utilities & Energy Services Business Office",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "utilities-inventory-warehouse-building-1",
+      "name": "Utilities Inventory Warehouse Building 1",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "warehouse",
+      "name": "Warehouse",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "water-distribution-pump-station-no-2",
+      "name": "Water Distribution Pump Station No. 2",
+      "type": "academic_building",
+      "address": "TAMU Services Area",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.36005
+      },
+      "hours": null
+    },
+    {
+      "id": "activity-building",
+      "name": "Activity Building",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "becky-gates-childrens-center",
+      "name": "Becky Gates Childrens Center",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "becky-gates-childrens-center-multipurpose-bldg",
+      "name": "Becky Gates Childrens Center Multipurpose Bldg",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "laundry-the-gardens",
+      "name": "Laundry @ The Gardens",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "nursery-floral-field-laboratory",
+      "name": "Nursery Floral Field Laboratory",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-f",
+      "name": "The Gardens F",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-g",
+      "name": "The Gardens G",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-h",
+      "name": "The Gardens H",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-j",
+      "name": "The Gardens J",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-k",
+      "name": "The Gardens K",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-l",
+      "name": "The Gardens L",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-m",
+      "name": "The Gardens M",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-n",
+      "name": "The Gardens N",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-p",
+      "name": "The Gardens P",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "the-gardens-q",
+      "name": "The Gardens Q",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "university-apartments-community-center",
+      "name": "University Apartments Community Center",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "university-apts-community-maintenance-bldg",
+      "name": "University Apts Community Maintenance Bldg",
+      "type": "academic_building",
+      "address": "Hensel/Gardens Area",
+      "coordinates": {
+        "latitude": 30.62505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "adams-band-hall",
+      "name": "Adams Band Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60805,
+        "longitude": -96.33805
+      },
+      "hours": null
+    },
+    {
+      "id": "appelt-residence-hall",
+      "name": "Appelt Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60855,
+        "longitude": -96.33855
+      },
+      "hours": null
+    },
+    {
+      "id": "aston-residence-hall",
+      "name": "Aston Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60705,
+        "longitude": -96.33805
+      },
+      "hours": null
+    },
+    {
+      "id": "dunn-residence-hall",
+      "name": "Dunn Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60755,
+        "longitude": -96.33755
+      },
+      "hours": null
+    },
+    {
+      "id": "eppright-residence-hall",
+      "name": "Eppright Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60855,
+        "longitude": -96.33805
+      },
+      "hours": null
+    },
+    {
+      "id": "krueger-residence-hall",
+      "name": "Krueger Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60755,
+        "longitude": -96.33755
+      },
+      "hours": null
+    },
+    {
+      "id": "mosher-residence-hall",
+      "name": "Mosher Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60705,
+        "longitude": -96.33805
+      },
+      "hours": null
+    },
+    {
+      "id": "rudder-residence-hall",
+      "name": "Rudder Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60855,
+        "longitude": -96.33805
+      },
+      "hours": null
+    },
+    {
+      "id": "underwood-residence-hall",
+      "name": "Underwood Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60855,
+        "longitude": -96.33805
+      },
+      "hours": null
+    },
+    {
+      "id": "wells-residence-hall",
+      "name": "Wells Residence Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60855,
+        "longitude": -96.33805
+      },
+      "hours": null
+    },
+    {
+      "id": "spence-hall-dorm-1",
+      "name": "Spence Hall-Dorm 1",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "kiest-hall-dorm-2",
+      "name": "Kiest Hall-Dorm 2",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "briggs-hall-dorm-3",
+      "name": "Briggs Hall-Dorm 3",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "fountain-hall-dorm-4",
+      "name": "Fountain Hall-Dorm 4",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "gainer-hall-dorm-5",
+      "name": "Gainer Hall-Dorm 5",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "lacy-hall-dorm-6",
+      "name": "Lacy Hall-Dorm 6",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "leonard-hall-dorm-7",
+      "name": "Leonard Hall-Dorm 7",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "harrell-hall-dorm-8",
+      "name": "Harrell Hall-Dorm 8",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "whiteley-hall-dorm-9",
+      "name": "Whiteley Hall-Dorm 9",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "white-hall-dorm-10",
+      "name": "White Hall-Dorm 10",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "harrington-hall-dorm-11",
+      "name": "Harrington Hall-Dorm 11",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "utay-hall-dorm-12",
+      "name": "Utay Hall-Dorm 12",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "plank-leadership-learning-center",
+      "name": "Plank Leadership Learning Center",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "buzbee-leadership-learning-center",
+      "name": "Buzbee Leadership Learning Center",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "h-grady-ash-jr-58-leadership-learning-center",
+      "name": "H. Grady Ash Jr. 58 Leadership Learning Center",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "ash-ii-leadership-learning-center",
+      "name": "Ash II Leadership Learning Center",
+      "type": "academic_building",
+      "address": "TAMU Corps Quad",
+      "coordinates": {
+        "latitude": 30.61105,
+        "longitude": -96.34105
+      },
+      "hours": null
+    },
+    {
+      "id": "commons",
+      "name": "Commons",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60805,
+        "longitude": -96.33805
+      },
+      "hours": null
+    },
+    {
+      "id": "duncan-dining-hall",
+      "name": "Duncan Dining Hall",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.61005,
+        "longitude": -96.33905
+      },
+      "hours": null
+    },
+    {
+      "id": "golf-course-clubhouse",
+      "name": "Golf Course Clubhouse",
+      "type": "academic_building",
+      "address": "1800 George Bush Dr",
+      "coordinates": {
+        "latitude": 30.60505,
+        "longitude": -96.34505
+      },
+      "hours": null
+    },
+    {
+      "id": "john-d-white-70-robert-l-walker-58-music-activities-center",
+      "name": "John D. White 70 - Robert L. Walker 58 Music Activities Center",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60805,
+        "longitude": -96.33905
+      },
+      "hours": null
+    },
+    {
+      "id": "john-h-lindsey-building",
+      "name": "John H. Lindsey Building",
+      "type": "academic_building",
+      "address": "TAMU Southside",
+      "coordinates": {
+        "latitude": 30.60855,
+        "longitude": -96.33905
+      },
+      "hours": null
+    },
+    {
+      "id": "j-mike-walker-66-department-of-mechanical-engineering",
+      "name": "J. Mike Walker '66 Department of Mechanical Engineering",
+      "type": "academic_building",
+      "address": "202 Spence St, College Station, TX 77840",
+      "coordinates": {
+        "latitude": 30.61974,
+        "longitude": -96.34082
+      },
+      "hours": null
+    }
+  ],
+  "source": "aggiebuddiebuild(in).csv",
+  "converted_date": "2025-11-24T00:03:48.792968",
+  "count": 355,
+  "metadata": {
+    "total_rows_processed": 357,
+    "skipped_count": 2,
+    "successful_conversions": 355
+  }
+}

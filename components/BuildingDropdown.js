@@ -2,8 +2,7 @@
  * BuildingDropdown Component
  * 
  * A searchable dropdown for selecting building locations.
- * Uses React Native Modal to render suggestions above all content,
- * ensuring suggestions appear correctly above cards in ScrollView.
+ * Uses a full-screen Modal to avoid z-index and positioning issues.
  * 
  * Props:
  * - buildings: Array of building objects [{id, name, address}]
@@ -13,7 +12,7 @@
  * - disabled: Whether dropdown is disabled
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -21,7 +20,7 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
-  Modal,  // Added Modal for overlay
+  Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -33,86 +32,49 @@ export default function BuildingDropdown({
   placeholder = "Select Building",
   disabled = false,
 }) {
-  const [searchQuery, setSearchQuery] = useState(
-    selectedBuilding?.address || selectedBuilding?.name || ''
-  );
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [inputPosition, setInputPosition] = useState({ x: 0, y: 0, width: 0, height: 0 });
-  const inputRef = useRef(null);
-  const inputContainerRef = useRef(null);
+  const [showModal, setShowModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter buildings based on search query
-  const filteredBuildings = buildings.filter(building =>
-    building.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (building.address && building.address.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-
-  // Show suggestions when user starts typing
-  useEffect(() => {
-    if (searchQuery.length > 0 && !selectedBuilding) {
-      setShowSuggestions(true);
-    } else if (selectedBuilding) {
-      setShowSuggestions(false);
+  const filteredBuildings = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return buildings;
     }
-  }, [searchQuery, selectedBuilding]);
+    const query = searchQuery.toLowerCase();
+    return buildings.filter(building =>
+      building.name.toLowerCase().includes(query) ||
+      (building.address && building.address.toLowerCase().includes(query))
+    );
+  }, [buildings, searchQuery]);
 
-  // Update input when building selected
-  useEffect(() => {
-    if (selectedBuilding) {
-      setSearchQuery(selectedBuilding.address || selectedBuilding.name || '');
-      setShowSuggestions(false);
+  const handleInputPress = () => {
+    if (!disabled) {
+      setShowModal(true);
+      setSearchQuery('');
     }
-  }, [selectedBuilding]);
+  };
 
   const handleSelect = (building) => {
     onSelect(building);
-    setSearchQuery(building.address || building.name || '');
-    setShowSuggestions(false);
-    inputRef.current?.blur();
+    setShowModal(false);
+    setSearchQuery('');
   };
 
-  const handleInputChange = (text) => {
-    setSearchQuery(text);
-    // Clear selection if user modifies input
-    if (selectedBuilding && text !== (selectedBuilding.address || selectedBuilding.name)) {
-      onSelect(null);
-    }
-  };
-
-  const handleInputFocus = () => {
-    if (searchQuery.length > 0 && !selectedBuilding) {
-      setShowSuggestions(true);
-    }
-  };
-
-  const handleCloseSuggestions = () => {
-    setShowSuggestions(false);
-  };
-
-  // Measure input position for Modal placement
-  const handleInputLayout = (event) => {
-    const { x, y, width, height } = event.nativeEvent.layout;
-    inputContainerRef.current?.measure((fx, fy, width, height, px, py) => {
-      setInputPosition({
-        x: px,
-        y: py,
-        width,
-        height,
-      });
-    });
+  const handleClear = (e) => {
+    e.stopPropagation();
+    onSelect(null);
   };
 
   return (
     <View style={styles.container}>
-      {/* Text Input - Always Visible */}
-      <View
-        ref={inputContainerRef}
-        onLayout={handleInputLayout}
+      <TouchableOpacity
+        onPress={handleInputPress}
+        disabled={disabled}
         style={[
           styles.inputContainer,
           disabled && styles.inputContainerDisabled,
           selectedBuilding && styles.inputContainerSelected,
         ]}
+        activeOpacity={0.7}
       >
         <Ionicons
           name={selectedBuilding ? "location" : "search"}
@@ -120,121 +82,122 @@ export default function BuildingDropdown({
           color={selectedBuilding ? Colors.success : Colors.text.secondary}
           style={styles.inputIcon}
         />
-        <TextInput
-          ref={inputRef}
-          style={styles.input}
-          placeholder={placeholder}
-          placeholderTextColor={Colors.text.tertiary}
-          value={searchQuery}
-          onChangeText={handleInputChange}
-          onFocus={handleInputFocus}
-          autoCapitalize="words"
-          autoCorrect={false}
-          editable={!disabled}
-        />
-        {searchQuery.length > 0 && (
+        <Text
+          style={[
+            styles.inputText,
+            !selectedBuilding && styles.inputTextPlaceholder,
+          ]}
+          numberOfLines={1}
+        >
+          {selectedBuilding
+            ? (selectedBuilding.address || selectedBuilding.name)
+            : placeholder
+          }
+        </Text>
+        {selectedBuilding && (
           <TouchableOpacity
-            onPress={() => {
-              setSearchQuery('');
-              onSelect(null);
-              setShowSuggestions(false);
-            }}
+            onPress={handleClear}
             style={styles.clearButton}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <Ionicons name="close-circle" size={20} color={Colors.text.tertiary} />
           </TouchableOpacity>
         )}
-      </View>
+      </TouchableOpacity>
 
-      {/* Suggestions Modal - Renders above all content */}
       <Modal
-        transparent={true}
-        visible={showSuggestions && searchQuery.length > 0}
-        animationType="fade"
-        onRequestClose={handleCloseSuggestions}
-        supportedOrientations={['portrait', 'landscape']}
+        visible={showModal}
+        animationType="slide"
+        onRequestClose={() => setShowModal(false)}
       >
-        <View
-          style={styles.modalBackdrop}
-          pointerEvents="box-none"
-        >
-          {/* Top area to close suggestions (above input) */}
-          {inputPosition.y > 0 && (
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Select Building</Text>
             <TouchableOpacity
-              style={[
-                styles.backdropTop,
-                { height: inputPosition.y },
-              ]}
-              activeOpacity={1}
-              onPress={handleCloseSuggestions}
-            />
-          )}
-          
-          {/* Suggestions */}
-          <View
-            style={[
-              styles.modalContent,
-              {
-                top: inputPosition.y + inputPosition.height + 4,
-                left: inputPosition.x,
-                width: inputPosition.width || '90%',
-              },
-            ]}
-            pointerEvents="box-none"
-          >
-            {/* Suggestions Panel */}
-            <View
-              style={styles.suggestionsPanel}
-              onStartShouldSetResponder={() => true}
+              onPress={() => setShowModal(false)}
+              style={styles.closeButton}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
-              {/* Building List */}
-              <FlatList
-                data={filteredBuildings}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={[
-                      styles.suggestionItem,
-                      selectedBuilding?.id === item.id && styles.suggestionItemSelected,
-                    ]}
-                    onPress={() => handleSelect(item)}
-                    activeOpacity={0.7}
-                  >
-                    <View style={styles.suggestionInfo}>
-                      <Text style={styles.suggestionName}>{item.name}</Text>
-                      {item.address && (
-                        <Text style={styles.suggestionAddress}>{item.address}</Text>
-                      )}
-                    </View>
-                    {selectedBuilding?.id === item.id && (
-                      <Ionicons name="checkmark-circle" size={24} color={Colors.success} />
-                    )}
-                  </TouchableOpacity>
-                )}
-                ListEmptyComponent={
-                  <View style={styles.emptyContainer}>
-                    <Ionicons name="search-outline" size={48} color={Colors.text.tertiary} />
-                    <Text style={styles.emptyText}>
-                      No buildings found matching "{searchQuery}"
-                    </Text>
-                  </View>
-                }
-                keyboardShouldPersistTaps="handled"
-                contentContainerStyle={styles.suggestionsList}
-              />
-            </View>
+              <Ionicons name="close" size={24} color={Colors.text.primary} />
+            </TouchableOpacity>
           </View>
-          
-          {/* Bottom area to close suggestions (below suggestions) */}
-          <TouchableOpacity
-            style={[
-              styles.backdropBottom,
-              {
-                top: inputPosition.y + inputPosition.height + 4 + 300, // Below suggestions (maxHeight: 300)
-              },
-            ]}
-            activeOpacity={1}
-            onPress={handleCloseSuggestions}
+
+          <View style={styles.searchContainer}>
+            <Ionicons
+              name="search"
+              size={20}
+              color={Colors.text.secondary}
+              style={styles.searchIcon}
+            />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search buildings..."
+              placeholderTextColor={Colors.text.tertiary}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              autoFocus={true}
+              autoCapitalize="words"
+              autoCorrect={false}
+              returnKeyType="search"
+            />
+            {searchQuery.length > 0 && (
+              <TouchableOpacity
+                onPress={() => setSearchQuery('')}
+                style={styles.clearSearchButton}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <Ionicons name="close-circle" size={20} color={Colors.text.tertiary} />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          <FlatList
+            data={filteredBuildings}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  styles.buildingItem,
+                  selectedBuilding?.id === item.id && styles.buildingItemSelected,
+                ]}
+                onPress={() => handleSelect(item)}
+                activeOpacity={0.7}
+              >
+                <View style={styles.buildingInfo}>
+                  <Text style={styles.buildingName}>{item.name}</Text>
+                  {item.address && (
+                    <Text style={styles.buildingAddress} numberOfLines={1}>
+                      {item.address}
+                    </Text>
+                  )}
+                </View>
+                {selectedBuilding?.id === item.id && (
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={24}
+                    color={Colors.success}
+                  />
+                )}
+              </TouchableOpacity>
+            )}
+            ListEmptyComponent={
+              <View style={styles.emptyState}>
+                <Ionicons
+                  name="search-outline"
+                  size={48}
+                  color={Colors.text.tertiary}
+                />
+                <Text style={styles.emptyText}>
+                  No buildings found matching "{searchQuery}"
+                </Text>
+                <Text style={styles.emptySubtext}>
+                  Try a different search term
+                </Text>
+              </View>
+            }
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={true}
           />
         </View>
       </Modal>
@@ -243,135 +206,137 @@ export default function BuildingDropdown({
 }
 
 const styles = StyleSheet.create({
-  // Container
   container: {
-    position: 'relative',
-    // Removed zIndex - no longer needed with Modal
+    width: '100%',
   },
-
-  // Text Input
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colors.background,
     borderWidth: 1,
     borderColor: Colors.border,
-    borderRadius: 8,
-    paddingHorizontal: 12,
+    borderRadius: 12,
+    paddingHorizontal: 16,
     paddingVertical: 12,
     minHeight: 48,
   },
   inputContainerDisabled: {
-    backgroundColor: Colors.surface,
     opacity: 0.5,
+    backgroundColor: Colors.surface,
   },
   inputContainerSelected: {
     borderColor: Colors.success,
-    backgroundColor: Colors.accepted.background,
+    backgroundColor: Colors.surfaceBlue,
   },
   inputIcon: {
-    marginRight: 8,
+    marginRight: 12,
   },
-  input: {
+  inputText: {
     flex: 1,
     fontSize: 16,
     color: Colors.text.primary,
-    paddingVertical: 0,
-    paddingHorizontal: 0,
+  },
+  inputTextPlaceholder: {
+    color: Colors.text.tertiary,
   },
   clearButton: {
-    padding: 4,
     marginLeft: 8,
+    padding: 4,
   },
-
-  // Modal Styles
-  modalBackdrop: {
+  modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',  // Semi-transparent overlay
-    justifyContent: 'flex-start',
-    paddingTop: 0,  // Will be positioned dynamically
-  },
-  backdropTop: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-  },
-  backdropBottom: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'transparent',
-  },
-  modalContent: {
-    position: 'absolute',
-    // Position is set dynamically via inline styles based on inputPosition
-    maxWidth: '90%',  // Fallback width
-  },
-  suggestionsPanel: {
     backgroundColor: Colors.background,
-    borderRadius: 12,
-    maxHeight: 300,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 10,  // Higher elevation for Android
-    borderWidth: 1,
-    borderColor: Colors.border,
-    overflow: 'hidden',  // Clip content to border radius
   },
-
-  // Suggestions list
-  suggestionsList: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 8,
-  },
-  suggestionItem: {
+  modalHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    paddingTop: 48,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+    backgroundColor: Colors.background,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: Colors.text.primary,
+  },
+  closeButton: {
+    padding: 4,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+    paddingHorizontal: 16,
     paddingVertical: 12,
-    paddingHorizontal: 12,
-    backgroundColor: Colors.surface,
-    borderRadius: 8,
-    marginVertical: 4,
   },
-  suggestionItemSelected: {
-    backgroundColor: Colors.accepted.background,
+  searchIcon: {
+    marginRight: 12,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: Colors.text.primary,
+    padding: 0,
+  },
+  clearSearchButton: {
+    marginLeft: 8,
+    padding: 4,
+  },
+  listContent: {
+    padding: 16,
+  },
+  buildingItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: Colors.surfaceCard,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
     borderWidth: 1,
-    borderColor: Colors.success,
+    borderColor: Colors.border,
   },
-  suggestionInfo: {
+  buildingItemSelected: {
+    borderColor: Colors.success,
+    backgroundColor: Colors.surfaceBlue,
+  },
+  buildingInfo: {
     flex: 1,
     marginRight: 12,
   },
-  suggestionName: {
+  buildingName: {
     fontSize: 16,
     fontWeight: '600',
     color: Colors.text.primary,
-    marginBottom: 2,
+    marginBottom: 4,
   },
-  suggestionAddress: {
+  buildingAddress: {
     fontSize: 14,
     color: Colors.text.secondary,
-    lineHeight: 18,
   },
-
-  // Empty state
-  emptyContainer: {
+  emptyState: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 40,
+    paddingVertical: 60,
+    paddingHorizontal: 32,
   },
   emptyText: {
     fontSize: 16,
+    fontWeight: '600',
+    color: Colors.text.primary,
+    marginTop: 16,
+    textAlign: 'center',
+  },
+  emptySubtext: {
+    fontSize: 14,
     color: Colors.text.secondary,
-    marginTop: 12,
+    marginTop: 8,
     textAlign: 'center',
   },
 });
-

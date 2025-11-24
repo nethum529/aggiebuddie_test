@@ -1,17 +1,20 @@
 """
-AI Service - Generates intelligent activity suggestions
+AI Service - Generates intelligent activity suggestions using DeepSeek API
 
-This is the main entry point for generating gym recommendations.
-It uses rule-based logic (MVP) to suggest optimal gyms during free time blocks.
-
-Future: Could be enhanced with machine learning or Claude API.
+Uses DeepSeek AI for intelligent, personalized activity recommendations.
+Falls back to rule-based logic if API is unavailable.
 """
+
+from .deepseek_client import DeepSeekClient
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class GymRecommendationAI:
-    """AI service for generating intelligent gym recommendations"""
+    """AI service for generating intelligent activity suggestions"""
     
-    # Constants for recommendation logic
+    # Constants for fallback recommendation logic
     MIN_WORKOUT = 30  # Minimum workout duration (minutes)
     MIN_COMMUTE_BUFFER = 10  # Minimum buffer for commute (minutes)
     SAFETY_BUFFER = 5  # Extra safety buffer (minutes)
@@ -26,10 +29,13 @@ class GymRecommendationAI:
         """
         self.optimizer = location_optimizer
         self.location_service = location_service
+        self.deepseek = DeepSeekClient()
     
     def generate_suggestions(self, input_data):
         """
-        Main entry point for generating gym suggestions
+        Main entry point for generating activity suggestions
+        
+        Uses DeepSeek AI as primary method, falls back to rule-based if unavailable.
         
         Args:
             input_data (dict): {
@@ -53,7 +59,7 @@ class GymRecommendationAI:
                 'suggestions': [
                     {
                         'rank': int,
-                        'date': date,
+                        'date': str (YYYY-MM-DD),
                         'start_time': 'HH:MM',
                         'end_time': 'HH:MM',
                         'location_name': str,
@@ -67,13 +73,146 @@ class GymRecommendationAI:
                     ...
                 ]
             }
-        
-        Example:
-            suggestions = ai_service.generate_suggestions({
-                'free_time_blocks': free_blocks,
-                'activity_duration_minutes': 60
-            })
         """
+        free_blocks = input_data.get('free_time_blocks', [])
+        activity_duration = input_data.get('activity_duration_minutes', 60)
+        activity_type = input_data.get('activity_type', 'gym')
+        
+        if not free_blocks:
+            logger.warning("No free time blocks provided")
+            return {'suggestions': []}
+        
+        # Get available locations based on activity type
+        if activity_type == 'gym':
+            locations = self.location_service.get_locations_by_type('gym')
+        elif activity_type == 'dining':
+            locations = self.location_service.get_locations_by_type('dining')
+        elif activity_type == 'study':
+            locations = self.location_service.get_locations_by_type('library')
+        else:
+            locations = self.location_service.get_locations_by_type('gym')
+        
+        if not locations:
+            logger.warning(f"No locations available for activity type: {activity_type}")
+            return {'suggestions': []}
+        
+        # Try DeepSeek API first
+        logger.info(f"Attempting to generate suggestions using DeepSeek API for {len(free_blocks)} time blocks")
+        ai_result = self.deepseek.generate_suggestions(
+            free_blocks,
+            activity_type,
+            activity_duration,
+            locations
+        )
+        
+        if ai_result['suggestions'] and not ai_result['error']:
+            # Use AI suggestions
+            logger.info(f"✅ Using DeepSeek AI suggestions: {len(ai_result['suggestions'])} suggestions generated")
+            formatted = self._format_ai_suggestions(ai_result['suggestions'], free_blocks, locations, activity_type, activity_duration)
+            return {'suggestions': formatted}
+        else:
+            # Fallback to rule-based
+            error_msg = ai_result.get('error', 'Unknown error')
+            logger.warning(f"⚠️ DeepSeek API unavailable ({error_msg}), using rule-based fallback")
+            return self._generate_fallback_suggestions(input_data, locations)
+    
+    def _format_ai_suggestions(self, ai_suggestions, free_blocks, locations, activity_type, activity_duration):
+        """Format AI suggestions to match expected format"""
+        formatted = []
+        location_map = {loc['id']: loc for loc in locations}
+        
+        for sugg in ai_suggestions:
+            # Find matching free block
+            matching_block = None
+            sugg_date = sugg.get('date', '')
+            sugg_start = sugg.get('start_time', '')
+            
+            for block in free_blocks:
+                block_date = str(block.get('date', ''))
+                block_start = block.get('start_time', '')
+                
+                if block_date == sugg_date and block_start == sugg_start:
+                    matching_block = block
+                    break
+            
+            if not matching_block:
+                logger.warning(f"No matching free block found for suggestion: {sugg_date} {sugg_start}")
+                continue
+            
+            # Get location details
+            location_id = sugg.get('location_id', '')
+            location = location_map.get(location_id)
+            
+            if not location:
+                logger.warning(f"Location not found: {location_id}")
+                continue
+            
+            # Calculate commute info using optimizer
+            commute_info = self._calculate_commute_info(matching_block, location)
+            
+            formatted.append({
+                'rank': sugg.get('rank', 1),
+                'date': sugg.get('date', str(matching_block['date'])),
+                'start_time': sugg.get('start_time', matching_block['start_time']),
+                'end_time': sugg.get('end_time', matching_block['end_time']),
+                'location_name': location.get('name', sugg.get('location_name', '')),
+                'location_id': location.get('id', sugg.get('location_id', '')),
+                'location_address': location.get('address', ''),
+                'activity': self._get_activity_name(activity_type),
+                'activity_duration': activity_duration,
+                'confidence_score': sugg.get('confidence', 0.8),
+                'reasoning': sugg.get('reasoning', 'AI-generated suggestion'),
+                'commute_info': commute_info,
+                'previous_class': matching_block.get('previous_class_name', 'Previous class'),
+                'next_class': matching_block.get('next_class_name', 'Next class')
+            })
+        
+        return formatted
+    
+    def _calculate_commute_info(self, block, location):
+        """Calculate commute information using optimizer"""
+        try:
+            prev_id = block.get('previous_class_location')
+            next_id = block.get('next_class_location')
+            
+            prev_loc = self.location_service.get_location_by_id(prev_id) if prev_id else None
+            next_loc = self.location_service.get_location_by_id(next_id) if next_id else None
+            
+            if prev_loc and next_loc:
+                # Use optimizer to calculate commute times
+                available_minutes = block.get('available_minutes', 0)
+                activity_duration = 60  # Default, will be overridden
+                
+                # Get optimal options (we just need commute times)
+                options = self.optimizer.find_optimal_gyms(
+                    prev_loc,
+                    next_loc,
+                    available_minutes,
+                    activity_duration,
+                    [location]
+                )
+                
+                if options:
+                    option = options[0]
+                    return {
+                        'time_to': option.get('time_to_gym', 5),
+                        'time_from': option.get('time_from_gym', 5),
+                        'total_commute': option.get('total_commute', 10),
+                        'spare_time': option.get('spare_time', 0)
+                    }
+        except Exception as e:
+            logger.warning(f"Error calculating commute info: {e}")
+        
+        # Fallback values
+        return {
+            'time_to': 5,
+            'time_from': 5,
+            'total_commute': 10,
+            'spare_time': block.get('available_minutes', 0) - 60 - 10
+        }
+    
+    def _generate_fallback_suggestions(self, input_data, locations):
+        """Fallback to rule-based suggestions if AI unavailable"""
         suggestions = []
         
         free_blocks = input_data.get('free_time_blocks', [])
@@ -85,22 +224,14 @@ class GymRecommendationAI:
             # Check if block is suitable for activity
             if self._is_suitable(block, activity_duration):
                 # Generate suggestions for this block
-                block_suggestions = self._process_block(block, activity_duration, activity_type)
+                block_suggestions = self._process_block(block, activity_duration, activity_type, locations)
                 suggestions.extend(block_suggestions)
         
+        logger.info(f"Generated {len(suggestions)} fallback suggestions")
         return {'suggestions': suggestions}
     
     def _is_suitable(self, block, activity_duration):
-        """
-        Check if a time block is suitable for the activity
-        
-        Args:
-            block (dict): Free time block
-            activity_duration (int): Desired activity duration
-        
-        Returns:
-            bool: True if block has enough time
-        """
+        """Check if a time block is suitable for the activity"""
         available = block.get('available_minutes', 0)
         
         # Minimum required: commute (estimate 20min) + activity + buffer
@@ -110,28 +241,8 @@ class GymRecommendationAI:
         
         return available >= min_required
     
-    def _process_block(self, block, activity_duration, activity_type='gym'):
-        """
-        Process a single free time block to generate suggestions
-        
-        Args:
-            block (dict): Free time block with location info
-            activity_duration (int): Desired activity duration
-            activity_type (str): Type of activity (default: 'gym')
-        
-        Returns:
-            list: Suggestions for this time block
-        """
-        # Get locations based on activity type
-        if activity_type == 'gym':
-            locations = self.location_service.get_locations_by_type('gym')
-        elif activity_type == 'dining':
-            locations = self.location_service.get_locations_by_type('dining')
-        elif activity_type == 'study':
-            locations = self.location_service.get_locations_by_type('library')
-        else:
-            locations = self.location_service.get_locations_by_type('gym')
-        
+    def _process_block(self, block, activity_duration, activity_type, locations):
+        """Process a single free time block to generate suggestions (fallback)"""
         # Get previous and next class locations
         prev_id = block.get('previous_class_location')
         next_id = block.get('next_class_location')
@@ -167,19 +278,7 @@ class GymRecommendationAI:
         return suggestions
     
     def _create_suggestion(self, rank, block, option, activity_duration, activity_type):
-        """
-        Create a formatted suggestion from an optimizer option
-        
-        Args:
-            rank (int): Ranking (1, 2, or 3)
-            block (dict): Free time block
-            option (dict): Optimizer option with gym and scores
-            activity_duration (int): Activity duration
-            activity_type (str): Activity type
-        
-        Returns:
-            dict: Formatted suggestion
-        """
+        """Create a formatted suggestion from an optimizer option (fallback)"""
         gym = option['gym']
         
         # Calculate confidence score (higher rank = lower confidence)
@@ -190,11 +289,7 @@ class GymRecommendationAI:
         reasoning = self._generate_reasoning(option, block)
         
         # Format activity name
-        activity_name = {
-            'gym': 'Exercise',
-            'dining': 'Meal',
-            'study': 'Study Session'
-        }.get(activity_type, 'Activity')
+        activity_name = self._get_activity_name(activity_type)
         
         return {
             'rank': rank,
@@ -219,16 +314,7 @@ class GymRecommendationAI:
         }
     
     def _generate_reasoning(self, option, block):
-        """
-        Generate human-readable explanation for the suggestion
-        
-        Args:
-            option (dict): Optimizer option
-            block (dict): Free time block
-        
-        Returns:
-            str: Reasoning text
-        """
+        """Generate human-readable explanation for the suggestion (fallback)"""
         total_commute = option['total_commute']
         spare = option['spare_time']
         utilization = option.get('utilization', 0)
@@ -259,6 +345,15 @@ class GymRecommendationAI:
             reasons.append("Tight schedule - be prompt")
         
         return ". ".join(reasons) + "."
+    
+    def _get_activity_name(self, activity_type):
+        """Get human-readable activity name"""
+        names = {
+            'gym': 'Exercise',
+            'dining': 'Meal',
+            'study': 'Study Session'
+        }
+        return names.get(activity_type, 'Activity')
     
     def get_suggestion_summary(self, suggestions_result):
         """
@@ -296,4 +391,3 @@ class GymRecommendationAI:
                 reverse=True
             )[:3]
         }
-

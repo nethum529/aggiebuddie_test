@@ -12,6 +12,15 @@ COLOR REQUIREMENT: Backend serves data; frontend must use NO PURPLE colors
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import traceback
+import os
+
+# Load environment variables from .env file if it exists
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # python-dotenv not installed, skip .env loading
+    pass
 
 # Import all Phase 1 services (Phase 1 is now complete!)
 from services.location_service import LocationService

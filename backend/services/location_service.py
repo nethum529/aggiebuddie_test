@@ -32,6 +32,9 @@ class LocationService:
         
         # Load the data
         self._load_data()
+        
+        # Load additional academic buildings from CSV-converted JSON
+        self._load_buildings()
     
     def _load_data(self):
         """Load location data from JSON file"""
@@ -49,6 +52,54 @@ class LocationService:
             raise FileNotFoundError(f"Campus locations file not found: {data_path}")
         except json.JSONDecodeError as e:
             raise json.JSONDecodeError(f"Invalid JSON in campus locations file: {e}")
+    
+    def _load_buildings(self):
+        """Load academic buildings from CSV-converted JSON file"""
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        buildings_path = os.path.join(current_dir, '..', 'data', 'buildings.json')
+        
+        try:
+            with open(buildings_path, 'r', encoding='utf-8') as f:
+                buildings_data = json.load(f)
+                buildings = buildings_data.get('buildings', [])
+                
+                # Check for duplicate IDs/names to avoid conflicts
+                existing_ids = {loc.get('id') for loc in self.locations}
+                existing_names_lower = {loc.get('name', '').lower() for loc in self.locations}
+                
+                new_buildings = []
+                duplicates_skipped = 0
+                
+                for building in buildings:
+                    building_id = building.get('id')
+                    building_name = building.get('name', '').lower()
+                    
+                    # Skip if ID or name already exists
+                    if building_id in existing_ids:
+                        duplicates_skipped += 1
+                        continue
+                    if building_name in existing_names_lower:
+                        duplicates_skipped += 1
+                        continue
+                    
+                    new_buildings.append(building)
+                    existing_ids.add(building_id)
+                    existing_names_lower.add(building_name)
+                
+                # Add new buildings to locations list
+                self.locations.extend(new_buildings)
+                
+                if new_buildings:
+                    print(f"✓ Loaded {len(new_buildings)} academic buildings from CSV")
+                if duplicates_skipped > 0:
+                    print(f"  (Skipped {duplicates_skipped} duplicate buildings)")
+        except FileNotFoundError:
+            print(f"⚠ Buildings file not found: {buildings_path}")
+            print("  Run convert_csv_buildings_to_json.py to generate it")
+        except json.JSONDecodeError as e:
+            print(f"⚠ Invalid JSON in buildings file: {e}")
+        except Exception as e:
+            print(f"⚠ Error loading buildings: {e}")
     
     def get_all_locations(self):
         """

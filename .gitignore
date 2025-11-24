@@ -30,6 +30,124 @@ yarn-error.*
 .DS_Store
 *.pem
 
+# ============================================================================
+# SENSITIVE INFORMATION - API KEYS, SECRETS, CONFIGURATION
+# ============================================================================
+
+# Environment variables and secrets
+.env
+.env.*
+.envrc
+*.env
+*.secret
+secrets.json
+secrets.yaml
+secrets.yml
+credentials.json
+credentials.yaml
+credentials.yml
+
+# API Configuration files (may contain IP addresses, API keys, secrets)
+**/ApiConfig.js
+**/apiConfig.js
+**/apiconfig.js
+**/*config*.js
+**/*Config*.js
+**/config.js
+**/Config.js
+constants/ApiConfig.js
+
+# API Keys and tokens
+**/api_keys.txt
+**/api-keys.txt
+**/keys.txt
+**/*.key
+**/*.pem
+**/*.p12
+**/*.p8
+**/*.jks
+**/*.mobileprovision
+
+# Configuration files with sensitive data
+**/settings.json
+**/Settings.json
+**/secrets.toml
+**/secrets.yaml
+**/secrets.yml
+
+# Private keys and certificates
+*.private
+*.cert
+*.crt
+*.cer
+*.pfx
+
+# Database files (may contain sensitive data)
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Log files (may contain sensitive information)
+*.log
+logs/
+**/logs/
+
+# ============================================================================
+# DOCUMENTATION FILES - READMEs and Markdown
+# ============================================================================
+
+# All README files (all variations)
+**/README.md
+**/README.txt
+**/README.rst
+**/readme.md
+**/readme.txt
+**/Readme.md
+**/ReadMe.md
+**/README
+**/readme
+**/Readme
+
+# All markdown documentation files
+*.md
+!LICENSE.md
+!CHANGELOG.md
+
+# Documentation directories
+**/docs/
+**/documentation/
+**/readme/
+**/README/
+**/Readmes/
+**/readmes/
+**/bugfixreadme/
+**/ai_implementation-readmes/
+**/dropdownbugfixes/
+
+# ============================================================================
+# ADDITIONAL SENSITIVE FILES
+# ============================================================================
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*~
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# CSV files (may contain sensitive data)
+*.csv
+!**/data/campus_locations_source.csv
+
 # local env files
 .env*.local
 
@@ -41,3 +159,9 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Windows reserved device names (cannot be tracked by Git)
+nul
+con
+prn
+aux

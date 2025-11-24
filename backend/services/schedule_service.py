@@ -190,14 +190,54 @@ class ScheduleService:
         """
         classes = schedule.get('classes', [])
         
-        # Group classes by date
+        # Group classes by date and convert string times to datetime for comparison
         classes_by_date = {}
         for cls in classes:
-            if isinstance(cls['start'], datetime):
-                date = cls['start'].date()
+            # Handle both datetime objects and string times
+            date = None
+            start_dt = None
+            end_dt = None
+            
+            if isinstance(cls.get('start'), datetime):
+                # Already a datetime object
+                start_dt = cls['start']
+                end_dt = cls['end']
+                date = start_dt.date()
+            elif isinstance(cls.get('start'), str):
+                # String time format - need to reconstruct datetime
+                date_str = cls.get('date')
+                if not date_str:
+                    continue  # Skip if no date
+                
+                # Parse date
+                if isinstance(date_str, str):
+                    try:
+                        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+                    except ValueError:
+                        continue  # Skip if date format invalid
+                elif hasattr(date_str, 'date'):
+                    date = date_str.date() if hasattr(date_str, 'date') else date_str
+                else:
+                    date = date_str
+                
+                # Parse time strings and combine with date
+                try:
+                    start_time = datetime.strptime(cls['start'], '%H:%M').time()
+                    end_time = datetime.strptime(cls['end'], '%H:%M').time()
+                    start_dt = datetime.combine(date, start_time)
+                    end_dt = datetime.combine(date, end_time)
+                except (ValueError, KeyError):
+                    continue  # Skip if time format invalid
+            
+            if date and start_dt and end_dt:
                 if date not in classes_by_date:
                     classes_by_date[date] = []
-                classes_by_date[date].append(cls)
+                # Store with datetime objects for proper comparison
+                classes_by_date[date].append({
+                    **cls,
+                    'start': start_dt,
+                    'end': end_dt
+                })
         
         free_blocks = []
         
@@ -206,7 +246,7 @@ class ScheduleService:
         end_hour, end_min = map(int, end_of_day.split(':'))
         
         for date, day_classes in classes_by_date.items():
-            # Sort classes by start time
+            # Sort classes by start time (now datetime objects)
             day_classes.sort(key=lambda x: x['start'])
             
             # Find gaps between consecutive classes
@@ -214,8 +254,8 @@ class ScheduleService:
                 current = day_classes[i]
                 next_cls = day_classes[i + 1]
                 
-                gap_start = current['end']
-                gap_end = next_cls['start']
+                gap_start = current['end']  # datetime object
+                gap_end = next_cls['start']  # datetime object
                 
                 # Only include if there's actually a gap
                 if gap_start < gap_end:
