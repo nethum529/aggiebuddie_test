@@ -599,59 +599,6 @@ export default function ScheduleScreen() {
     return topRanked;
   }, [suggestions, acceptedSuggestions, rejectedSuggestionIds, selectedDate]);
 
-  // DIAGNOSTIC: Log suggestions state
-  useEffect(() => {
-    console.log('📊 [schedule] SUGGESTIONS DIAGNOSTICS:', {
-      suggestionsFromContext: suggestions,
-      suggestionsCount: suggestions?.length || 0,
-      suggestionsType: Array.isArray(suggestions) ? 'array' : typeof suggestions,
-      acceptedCount: acceptedSuggestions?.length || 0,
-      rejectedCount: rejectedSuggestionIds.size,
-      selectedDate: selectedDate.toISOString().split('T')[0],
-      visibleSuggestionsCount: visibleSuggestions.length,
-      visibleSuggestions: visibleSuggestions,
-      firstVisibleSuggestion: visibleSuggestions[0] || null,
-    });
-
-    // Check each visible suggestion's structure
-    visibleSuggestions.forEach((sugg, index) => {
-      const hasStart = !!(sugg.start || sugg.start_time || sugg.time_block?.start);
-      const hasEnd = !!(sugg.end || sugg.end_time || sugg.time_block?.end);
-      const hasDate = !!sugg.date;
-      
-      console.log(`📋 [schedule] SUGGESTION ${index}:`, {
-        hasStart,
-        hasEnd,
-        hasDate,
-        date: sugg.date,
-        start: sugg.start || sugg.start_time || sugg.time_block?.start,
-        end: sugg.end || sugg.end_time || sugg.time_block?.end,
-        keys: Object.keys(sugg),
-        fullSuggestion: sugg,
-      });
-
-      if (!hasStart || !hasEnd) {
-        console.error(`❌ [schedule] SUGGESTION ${index} MISSING TIME FIELDS:`, sugg);
-      }
-      if (!hasDate) {
-        console.warn(`⚠️ [schedule] SUGGESTION ${index} MISSING DATE:`, sugg);
-      }
-    });
-
-    // Check why suggestions might not be visible
-    if (suggestions?.length > 0 && visibleSuggestions.length === 0) {
-      console.warn('⚠️ [schedule] SUGGESTIONS EXIST BUT NONE VISIBLE:', {
-        totalSuggestions: suggestions.length,
-        selectedDate: selectedDate.toISOString().split('T')[0],
-        firstSuggestionDate: suggestions[0]?.date,
-        dateMatch: suggestions[0]?.date === selectedDate.toISOString().split('T')[0],
-        acceptedIds: acceptedSuggestions,
-        rejectedIds: Array.from(rejectedSuggestionIds),
-        firstSuggestion: suggestions[0],
-      });
-    }
-  }, [suggestions, visibleSuggestions, selectedDate, acceptedSuggestions, rejectedSuggestionIds]);
-
   const nowIndicatorTop = useMemo(() => {
     const startMinutes = DAY_START_HOUR * 60;
     const endMinutes = DAY_END_HOUR * 60;
@@ -767,38 +714,6 @@ export default function ScheduleScreen() {
         <View style={styles.headerRight} />
       </View>
 
-      {/* DIAGNOSTIC: Debug Panel (Development Only) */}
-      {__DEV__ && (
-        <View style={styles.debugPanel}>
-          <Text style={styles.debugTitle}>🔍 Debug Info</Text>
-          <Text style={styles.debugText}>
-            Suggestions: {suggestions?.length || 0}
-          </Text>
-          <Text style={styles.debugText}>
-            Visible: {visibleSuggestions.length}
-          </Text>
-          <Text style={styles.debugText}>
-            Date: {selectedDate.toISOString().split('T')[0]}
-          </Text>
-          <Text style={styles.debugText}>
-            Accepted: {acceptedSuggestions?.length || 0}
-          </Text>
-          <Text style={styles.debugText}>
-            Rejected: {rejectedSuggestionIds.size}
-          </Text>
-          {visibleSuggestions.length === 0 && suggestions?.length > 0 && (
-            <Text style={styles.debugError}>
-              ⚠️ Suggestions exist but none visible!
-            </Text>
-          )}
-          {visibleSuggestions.length > 0 && (
-            <Text style={styles.debugSuccess}>
-              ✅ {visibleSuggestions.length} suggestions visible
-            </Text>
-          )}
-        </View>
-      )}
-
       <ScrollView style={styles.contentScroll} contentContainerStyle={styles.contentScrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.scheduleCard}>
           <View style={styles.dayColumn}>
@@ -904,7 +819,6 @@ export default function ScheduleScreen() {
                     const start = timeBlock.start || suggestion.start || suggestion.start_time;
                     const end = timeBlock.end || suggestion.end || suggestion.end_time;
                     
-                    // DIAGNOSTIC: Log time field extraction
                     if (!start || !end) {
                       console.error(`❌ [schedule] RENDER: Suggestion ${index} missing time:`, {
                         suggestion,
@@ -1352,37 +1266,5 @@ const styles = StyleSheet.create({
   emptyStateText: {
     color: '#5F6368',            // Google Calendar gray
     fontSize: 13,
-  },
-  // Debug Panel Styles
-  debugPanel: {
-    backgroundColor: '#f0f0f0',
-    padding: 12,
-    margin: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
-  },
-  debugTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    marginBottom: 8,
-    color: '#333',
-  },
-  debugText: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
-  },
-  debugError: {
-    fontSize: 12,
-    color: Colors.error,
-    marginTop: 8,
-    fontWeight: '600',
-  },
-  debugSuccess: {
-    fontSize: 12,
-    color: Colors.success,
-    marginTop: 8,
-    fontWeight: '600',
   },
 });

@@ -8,7 +8,7 @@
  * - Activity preferences
  */
 
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -63,7 +63,11 @@ export default function HomeScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         {/* Welcome Card */}
         <View style={styles.welcomeCard}>
-          <Ionicons name="fitness-outline" size={48} color={Colors.primary} />
+          <Image 
+            source={require('../logo/1-removebg-preview.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
           <Text style={styles.welcomeTitle}>Welcome!</Text>
           <Text style={styles.welcomeText}>
             Let's optimize your free time between classes with smart gym suggestions.
@@ -159,6 +163,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     marginBottom: 24,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 16,
   },
   welcomeTitle: {
     fontSize: 24,
