@@ -209,7 +209,11 @@ export default function ActivityPreferencesScreen() {
 
       // Store suggestions in UserContext
       if (result.success && result.suggestions) {
-        setSuggestions(result.suggestions);
+        // Validate that suggestions is an array before setting
+        const suggestionsArray = Array.isArray(result.suggestions) 
+          ? result.suggestions 
+          : [];
+        setSuggestions(suggestionsArray);
 
         // Log success for debugging
         console.log(`✅ Generated ${result.totalSuggestions} suggestion(s) across ${result.totalBlocks} time block(s)`);

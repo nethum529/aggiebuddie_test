@@ -21,7 +21,7 @@
  *   }
  */
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 
 // ============================================================================
 // CREATE CONTEXT
@@ -83,7 +83,17 @@ export function UserProvider({ children }) {
   const [scheduleId, setScheduleId] = useState(INITIAL_STATE.scheduleId);
   const [buildings, setBuildings] = useState(INITIAL_STATE.buildings);
   const [selectedBuildings, setSelectedBuildings] = useState(INITIAL_STATE.selectedBuildings);
-  const [suggestions, setSuggestions] = useState(INITIAL_STATE.suggestions);
+  const [suggestions, setSuggestionsRaw] = useState(INITIAL_STATE.suggestions);
+  
+  /**
+   * Validated setter for suggestions - ensures it's always an array
+   * 
+   * @param {any} newSuggestions - The new suggestions value (will be validated)
+   */
+  const setSuggestions = (newSuggestions) => {
+    const validated = Array.isArray(newSuggestions) ? newSuggestions : [];
+    setSuggestionsRaw(validated);
+  };
   const [acceptedSuggestions, setAcceptedSuggestions] = useState(INITIAL_STATE.acceptedSuggestions);
   const [rejectedSuggestions, setRejectedSuggestions] = useState(INITIAL_STATE.rejectedSuggestions);
   const [activityPreferences, setActivityPreferences] = useState(INITIAL_STATE.activityPreferences);
@@ -110,10 +120,13 @@ export function UserProvider({ children }) {
 
   /**
    * Get filtered suggestions (exclude rejected)
+   * Defensive check ensures suggestions is always an array
    */
-  const activeSuggestions = suggestions.filter(
-    (suggestion) => !rejectedSuggestions.includes(suggestion.blockId)
-  );
+  const activeSuggestions = Array.isArray(suggestions)
+    ? suggestions.filter(
+        (suggestion) => !rejectedSuggestions.includes(suggestion.blockId)
+      )
+    : [];
 
   /**
    * Check if user has completed onboarding
@@ -128,7 +141,7 @@ export function UserProvider({ children }) {
   /**
    * Clear all user data (for logout or reset)
    */
-  const clearUserData = () => {
+  const clearUserData = useCallback(() => {
     setStudentId(INITIAL_STATE.studentId);
     setSchedule(INITIAL_STATE.schedule);
     setScheduleId(INITIAL_STATE.scheduleId);
@@ -139,7 +152,7 @@ export function UserProvider({ children }) {
     setRejectedSuggestions(INITIAL_STATE.rejectedSuggestions);
     setActivityPreferences(INITIAL_STATE.activityPreferences);
     setIsOnboarded(INITIAL_STATE.isOnboarded);
-  };
+  }, []);
 
   /**
    * Update a single class's building assignment
@@ -147,67 +160,73 @@ export function UserProvider({ children }) {
    * @param {string} className - The class name (e.g., "CSCE 121-501")
    * @param {string} buildingId - The building ID (e.g., "zach")
    */
-  const assignBuildingToClass = (className, buildingId) => {
+  const assignBuildingToClass = useCallback((className, buildingId) => {
     setSelectedBuildings((prev) => ({
       ...prev,
       [className]: buildingId,
     }));
-  };
+  }, []);
 
   /**
    * Remove building assignment from a class
    * 
    * @param {string} className - The class name
    */
-  const unassignBuildingFromClass = (className) => {
+  const unassignBuildingFromClass = useCallback((className) => {
     setSelectedBuildings((prev) => {
       const newBuildings = { ...prev };
       delete newBuildings[className];
       return newBuildings;
     });
-  };
+  }, []);
 
   /**
    * Accept a suggestion
    * 
    * @param {number|string} suggestionId - The suggestion ID or blockId
    */
-  const acceptSuggestion = (suggestionId) => {
-    if (!acceptedSuggestions.includes(suggestionId)) {
-      setAcceptedSuggestions((prev) => [...prev, suggestionId]);
-    }
+  const acceptSuggestion = useCallback((suggestionId) => {
+    setAcceptedSuggestions((prev) => {
+      if (!prev.includes(suggestionId)) {
+        return [...prev, suggestionId];
+      }
+      return prev;
+    });
     // Remove from rejected if it was there
     setRejectedSuggestions((prev) => 
       prev.filter((id) => id !== suggestionId)
     );
-  };
+  }, []);
 
   /**
    * Reject a suggestion
    * 
    * @param {number|string} suggestionId - The suggestion ID or blockId
    */
-  const rejectSuggestion = (suggestionId) => {
-    if (!rejectedSuggestions.includes(suggestionId)) {
-      setRejectedSuggestions((prev) => [...prev, suggestionId]);
-    }
+  const rejectSuggestion = useCallback((suggestionId) => {
+    setRejectedSuggestions((prev) => {
+      if (!prev.includes(suggestionId)) {
+        return [...prev, suggestionId];
+      }
+      return prev;
+    });
     // Remove from accepted if it was there
     setAcceptedSuggestions((prev) => 
       prev.filter((id) => id !== suggestionId)
     );
-  };
+  }, []);
 
   /**
    * Update activity preferences
    * 
    * @param {object} preferences - Partial preferences to update
    */
-  const updateActivityPreferences = (preferences) => {
+  const updateActivityPreferences = useCallback((preferences) => {
     setActivityPreferences((prev) => ({
       ...prev,
       ...preferences,
     }));
-  };
+  }, []);
 
   /**
    * Get building by ID
@@ -215,9 +234,9 @@ export function UserProvider({ children }) {
    * @param {string} buildingId - The building ID
    * @returns {object|null} Building object or null if not found
    */
-  const getBuildingById = (buildingId) => {
+  const getBuildingById = useCallback((buildingId) => {
     return buildings.find((building) => building.id === buildingId) || null;
-  };
+  }, [buildings]);
 
   /**
    * Get building name by ID
@@ -225,10 +244,10 @@ export function UserProvider({ children }) {
    * @param {string} buildingId - The building ID
    * @returns {string} Building name or ID if not found
    */
-  const getBuildingName = (buildingId) => {
+  const getBuildingName = useCallback((buildingId) => {
     const building = getBuildingById(buildingId);
     return building ? building.name : buildingId;
-  };
+  }, [getBuildingById]);
 
   // ========================================
   // DEBUG HELPERS
@@ -237,7 +256,7 @@ export function UserProvider({ children }) {
   /**
    * Log current state to console (for debugging)
    */
-  const debugState = () => {
+  const debugState = useCallback(() => {
     console.log('=== UserContext State ===');
     console.log('Student ID:', studentId);
     console.log('Schedule:', schedule);
@@ -249,7 +268,7 @@ export function UserProvider({ children }) {
     console.log('Preferences:', activityPreferences);
     console.log('Onboarded:', isOnboarded);
     console.log('========================');
-  };
+  }, [studentId, schedule, buildings, selectedBuildings, suggestions, acceptedSuggestions, rejectedSuggestions, activityPreferences, isOnboarded]);
 
   // ========================================
   // EFFECTS
@@ -278,7 +297,9 @@ export function UserProvider({ children }) {
   // CONTEXT VALUE
   // ========================================
 
-  const value = {
+  // Memoize context value to prevent unnecessary re-renders
+  // Only recreate when actual dependencies change
+  const value = useMemo(() => ({
     // Raw state
     studentId,
     schedule,
@@ -298,7 +319,7 @@ export function UserProvider({ children }) {
     activeSuggestions,
     hasCompletedOnboarding,
 
-    // Setters
+    // Setters (stable - from useState)
     setStudentId,
     setSchedule,
     setScheduleId,
@@ -310,7 +331,7 @@ export function UserProvider({ children }) {
     setActivityPreferences,
     setIsOnboarded,
 
-    // Helper functions
+    // Helper functions (memoized with useCallback)
     clearUserData,
     assignBuildingToClass,
     unassignBuildingFromClass,
@@ -320,7 +341,35 @@ export function UserProvider({ children }) {
     getBuildingById,
     getBuildingName,
     debugState,
-  };
+  }), [
+    // Dependencies - only recreate when these change
+    studentId,
+    schedule,
+    scheduleId,
+    buildings,
+    selectedBuildings,
+    suggestions,
+    acceptedSuggestions,
+    rejectedSuggestions,
+    activityPreferences,
+    isOnboarded,
+    // Derived state
+    totalClasses,
+    assignedClassesCount,
+    allClassesAssigned,
+    activeSuggestions,
+    hasCompletedOnboarding,
+    // Memoized functions (stable references, but include for completeness)
+    clearUserData,
+    assignBuildingToClass,
+    unassignBuildingFromClass,
+    acceptSuggestion,
+    rejectSuggestion,
+    updateActivityPreferences,
+    getBuildingById,
+    getBuildingName,
+    debugState,
+  ]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

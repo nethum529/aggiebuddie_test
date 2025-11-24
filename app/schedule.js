@@ -545,17 +545,33 @@ export default function ScheduleScreen() {
                     return (
                       <View key={event.id} style={[styles.eventCard, { top: offsetTop, height, backgroundColor: event.color }]}>
                         <View style={styles.eventHeader}>
-                          <Text style={styles.eventTitle}>{event.title}</Text>
+                          <Text 
+                            style={styles.eventTitle}
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                          >
+                            {event.title}
+                          </Text>
                           <TouchableOpacity onPress={() => handleViewDetails(event)}>
                             <Feather name="eye" size={16} color="#333" />
                           </TouchableOpacity>
                         </View>
-                        <Text style={styles.eventTime}>
+                        <Text 
+                          style={styles.eventTime}
+                          numberOfLines={1}
+                          ellipsizeMode="tail"
+                        >
                           {formatClockLabel(startMinutes)} - {formatClockLabel(endMinutes)}
                         </Text>
                         <View style={styles.locationRow}>
                           <Ionicons name="location-outline" size={14} color="#333" style={styles.locationIcon} />
-                          <Text style={styles.locationText}>{event.location}</Text>
+                          <Text 
+                            style={styles.locationText}
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                          >
+                            {event.location}
+                          </Text>
                         </View>
                         {event.isAccepted && (
                           <View style={styles.acceptedBadge}>
@@ -833,6 +849,7 @@ const styles = StyleSheet.create({
     right: 8,
     borderRadius: 16,
     padding: 12,
+    overflow: 'hidden',  // Prevent content from spilling outside
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 4,
