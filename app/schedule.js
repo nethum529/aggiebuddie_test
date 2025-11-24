@@ -76,6 +76,26 @@ const groupSuggestionsByTimeBlock = (suggestions) => {
   return grouped;
 };
 
+/**
+ * Get unique identifier for a suggestion
+ * Uses existing ID if available, otherwise creates from date + time + location
+ * 
+ * @param {Object} suggestion - Suggestion object
+ * @returns {string} Unique identifier
+ */
+const getSuggestionId = (suggestion) => {
+  // Use existing ID if available
+  if (suggestion.id) {
+    return String(suggestion.id);
+  }
+  
+  // Create unique ID from date + time + location
+  const date = suggestion.date || '';
+  const start = suggestion.start_time || suggestion.start || '';
+  const location = suggestion.location_name || suggestion.location_id || '';
+  return `${date}_${start}_${location}`;
+};
+
 const scheduleEvents = [
   {
     id: 'gym',
@@ -277,7 +297,22 @@ const scheduleEvents = [
 ];
 
 const minutesFromStart = (timeString) => {
-  const [hours, minutes] = timeString.split(':').map(Number);
+  // Handle null/undefined
+  if (!timeString || typeof timeString !== 'string') {
+    console.warn('⚠️ [schedule] minutesFromStart: Invalid timeString:', timeString);
+    return 0; // Return 0 as safe default
+  }
+  
+  // Parse time
+  const parts = timeString.split(':');
+  if (parts.length < 2) {
+    console.warn('⚠️ [schedule] minutesFromStart: Invalid format:', timeString);
+    return 0;
+  }
+  
+  const hours = parseInt(parts[0], 10) || 0;
+  const minutes = parseInt(parts[1], 10) || 0;
+  
   return hours * 60 + minutes;
 };
 
@@ -297,6 +332,97 @@ const formatTimelineLabel = (hour24) => {
 
 const sameDay = (a, b) =>
   a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+
+/**
+ * Get building name for a class, checking multiple sources
+ * 
+ * Priority:
+ * 1. building_id in class object (from backend)
+ * 2. selectedBuildings[course_id] (from UserContext)
+ * 3. Raw location from ICS (cls.location)
+ * 4. 'TBD' as last resort
+ * 
+ * @param {Object} cls - Class object from schedule
+ * @param {Object} selectedBuildings - Map of course_id to building_id
+ * @param {Array} buildings - Array of building objects
+ * @returns {string} Building name or fallback
+ */
+const getBuildingNameForClass = (cls, selectedBuildings, buildings) => {
+  // Priority 1: Check building_id in class object (from backend)
+  let buildingId = cls.building_id;
+
+  // Priority 2: Check selectedBuildings (from UserContext)
+  if (!buildingId && cls.course_id && selectedBuildings) {
+    buildingId = selectedBuildings[cls.course_id];
+  }
+
+  // If we have a building_id, look up the building name
+  if (buildingId && buildings && Array.isArray(buildings)) {
+    const building = buildings.find(b => b.id === buildingId);
+    if (building && building.name) {
+      return building.name;
+    }
+  }
+
+  // Fallback 1: Use raw location from ICS (e.g., "ZACH")
+  if (cls.location && cls.location !== 'TBD' && cls.location.trim() !== '') {
+    return cls.location;
+  }
+
+  // Fallback 2: Return 'TBD' as last resort
+  return 'TBD';
+};
+
+/**
+ * Extract and normalize time from a suggestion object
+ * 
+ * Checks multiple possible fields in priority order:
+ * 1. start_time / end_time (standard suggestion fields)
+ * 2. time_block.start / time_block.end (if time_block exists)
+ * 3. start / end (fallback, rarely used)
+ * 
+ * Also handles datetime strings by extracting time portion.
+ * 
+ * @param {Object} sugg - Suggestion object
+ * @param {string} type - 'start' or 'end'
+ * @returns {string|null} Time in "HH:MM" format, or null if not found
+ */
+const normalizeTimeFromSuggestion = (sugg, type) => {
+  if (!sugg) return null;
+  
+  // Priority 1: Check start_time/end_time (standard fields)
+  let time = type === 'start' 
+    ? (sugg.start_time || sugg.time_block?.start_time)
+    : (sugg.end_time || sugg.time_block?.end_time);
+  
+  // Priority 2: Check time_block.start/end
+  if (!time && sugg.time_block) {
+    time = type === 'start' ? sugg.time_block.start : sugg.time_block.end;
+  }
+  
+  // Priority 3: Check start/end (fallback)
+  if (!time) {
+    time = type === 'start' ? sugg.start : sugg.end;
+  }
+  
+  // If time is already in "HH:MM" format, return it
+  if (time && typeof time === 'string') {
+    // Check if it's "HH:MM" format
+    if (/^\d{1,2}:\d{2}$/.test(time)) {
+      return time;
+    }
+    
+    // If it's a datetime string, extract time part
+    // e.g., "2024-11-24T10:45:00" → "10:45"
+    const datetimeMatch = time.match(/T(\d{2}):(\d{2})/);
+    if (datetimeMatch) {
+      return `${datetimeMatch[1]}:${datetimeMatch[2]}`;
+    }
+  }
+  
+  // Return null if time not found or invalid
+  return null;
+};
 
 const getInitialDate = () => {
   const today = new Date();
@@ -319,17 +445,19 @@ export default function ScheduleScreen() {
   const router = useRouter();
   
   // Global state from UserContext
-  const {
-    schedule,
-    suggestions,
-    acceptedSuggestions,
-    rejectedSuggestions,
+  const { 
+    schedule, 
+    suggestions, 
+    acceptedSuggestions, 
     acceptSuggestion,
-    rejectSuggestion,
+    selectedBuildings,  // Building assignments
+    buildings,          // Building list for name lookup
   } = useUser();
   
   const [selectedDate, setSelectedDate] = useState(getInitialDate);
   const [currentTime, setCurrentTime] = useState(new Date());
+  // Local state for rejected suggestions (Set for O(1) lookup)
+  const [rejectedSuggestionIds, setRejectedSuggestionIds] = useState(new Set());
 
   /**
    * Handle back navigation
@@ -367,7 +495,7 @@ export default function ScheduleScreen() {
             title: cls.name || cls.title,
             start: cls.start,
             end: cls.end,
-            location: cls.location || 'TBD',
+            location: getBuildingNameForClass(cls, selectedBuildings, buildings),
             color: '#BDEAB5', // Green for classes
             isSuggestion: false,
           }))
@@ -382,20 +510,41 @@ export default function ScheduleScreen() {
           }
           return true;
         })
-        .map(sugg => ({
-          id: `accepted-${sugg.id || sugg.location_name}`,
-          title: `Gym - ${sugg.location_name}`,
-          start: sugg.time_block?.start || sugg.start,
-          end: sugg.time_block?.end || sugg.end,
-          location: sugg.location_name,
-          color: Colors.accepted.background,
-          isSuggestion: false,
-          isAccepted: true,
-        }));
+        .map(sugg => {
+          const startTime = normalizeTimeFromSuggestion(sugg, 'start');
+          const endTime = normalizeTimeFromSuggestion(sugg, 'end');
+          
+          // Skip if times are missing (shouldn't happen, but safety check)
+          if (!startTime || !endTime) {
+            console.warn('⚠️ [schedule] Accepted suggestion missing times:', sugg);
+            return null;
+          }
+          
+          return {
+            id: `accepted-${sugg.id || sugg.location_name || getSuggestionId(sugg)}`,
+            title: `Gym - ${sugg.location_name}`,
+            start: startTime,  // Normalized "HH:MM" format
+            end: endTime,      // Normalized "HH:MM" format
+            location: sugg.location_name,
+            color: Colors.accepted.background,
+            isSuggestion: false,  // Renders as solid card
+            isAccepted: true,
+          };
+        })
+        .filter(event => event !== null);  // Remove null entries
+      
       events = [...events, ...acceptedEvents];
     }
     
-    return events.sort((a, b) => minutesFromStart(a.start) - minutesFromStart(b.start));
+    // Sort events by start time, filtering out invalid events
+    return events
+      .filter(event => event.start && event.end)  // Filter out invalid events
+      .sort((a, b) => {
+        // Safe sorting with fallback
+        const aTime = minutesFromStart(a.start || '00:00');
+        const bTime = minutesFromStart(b.start || '00:00');
+        return aTime - bTime;
+      });
   }, [selectedDate, schedule, acceptedSuggestions]);
   
   // Get visible suggestions (only top-ranked per time block)
@@ -437,16 +586,9 @@ export default function ScheduleScreen() {
         return false;
       });
       
-      const isRejected = rejectedSuggestions?.some(rej => {
-        // Match by ID or location_name
-        if (rej.id && top.id) {
-          return rej.id === top.id;
-        }
-        if (rej.location_name && top.location_name) {
-          return rej.location_name === top.location_name;
-        }
-        return false;
-      });
+      // Check if rejected using simple Set lookup
+      const topId = getSuggestionId(top);
+      const isRejected = rejectedSuggestionIds.has(topId);
       
       // Only include if not accepted and not rejected
       if (!isAccepted && !isRejected) {
@@ -455,7 +597,7 @@ export default function ScheduleScreen() {
     });
     
     return topRanked;
-  }, [suggestions, acceptedSuggestions, rejectedSuggestions, selectedDate]);
+  }, [suggestions, acceptedSuggestions, rejectedSuggestionIds, selectedDate]);
 
   // DIAGNOSTIC: Log suggestions state
   useEffect(() => {
@@ -464,7 +606,7 @@ export default function ScheduleScreen() {
       suggestionsCount: suggestions?.length || 0,
       suggestionsType: Array.isArray(suggestions) ? 'array' : typeof suggestions,
       acceptedCount: acceptedSuggestions?.length || 0,
-      rejectedCount: rejectedSuggestions?.length || 0,
+      rejectedCount: rejectedSuggestionIds.size,
       selectedDate: selectedDate.toISOString().split('T')[0],
       visibleSuggestionsCount: visibleSuggestions.length,
       visibleSuggestions: visibleSuggestions,
@@ -504,11 +646,11 @@ export default function ScheduleScreen() {
         firstSuggestionDate: suggestions[0]?.date,
         dateMatch: suggestions[0]?.date === selectedDate.toISOString().split('T')[0],
         acceptedIds: acceptedSuggestions,
-        rejectedIds: rejectedSuggestions,
+        rejectedIds: Array.from(rejectedSuggestionIds),
         firstSuggestion: suggestions[0],
       });
     }
-  }, [suggestions, visibleSuggestions, selectedDate, acceptedSuggestions, rejectedSuggestions]);
+  }, [suggestions, visibleSuggestions, selectedDate, acceptedSuggestions, rejectedSuggestionIds]);
 
   const nowIndicatorTop = useMemo(() => {
     const startMinutes = DAY_START_HOUR * 60;
@@ -550,6 +692,9 @@ export default function ScheduleScreen() {
    * If this is the last suggestion, hide the entire block
    */
   const handleRejectSuggestion = (suggestion) => {
+    // Get unique ID for this suggestion
+    const suggestionId = getSuggestionId(suggestion);
+    
     // Group suggestions to find remaining options
     const grouped = groupSuggestionsByTimeBlock(suggestions);
     const blockKey = `${suggestion.date || ''}_${suggestion.start_time || suggestion.start || ''}_${suggestion.end_time || suggestion.end || ''}`;
@@ -557,15 +702,8 @@ export default function ScheduleScreen() {
     
     // Filter out already rejected suggestions
     const remainingSuggestions = blockSuggestions.filter(s => {
-      const isRejected = rejectedSuggestions?.some(rej => {
-        if (rej.id && s.id) return rej.id === s.id;
-        if (rej.location_name && s.location_name) return rej.location_name === s.location_name;
-        return false;
-      });
-      // Also exclude the current suggestion being rejected
-      const isCurrent = (s.id && suggestion.id && s.id === suggestion.id) ||
-                        (s.location_name && suggestion.location_name && s.location_name === suggestion.location_name);
-      return !isRejected && !isCurrent;
+      const sId = getSuggestionId(s);
+      return !rejectedSuggestionIds.has(sId) && sId !== suggestionId;
     });
     
     // Determine message based on remaining options
@@ -583,8 +721,9 @@ export default function ScheduleScreen() {
           text: 'Hide', 
           style: 'destructive',
           onPress: () => {
-            rejectSuggestion(suggestion);
-            // Next ranked suggestion will automatically appear via useMemo
+            // Immediately add to rejected Set
+            setRejectedSuggestionIds(prev => new Set([...prev, suggestionId]));
+            // Card disappears immediately via useMemo, next suggestion appears automatically
           }
         },
       ]
@@ -645,7 +784,7 @@ export default function ScheduleScreen() {
             Accepted: {acceptedSuggestions?.length || 0}
           </Text>
           <Text style={styles.debugText}>
-            Rejected: {rejectedSuggestions?.length || 0}
+            Rejected: {rejectedSuggestionIds.size}
           </Text>
           {visibleSuggestions.length === 0 && suggestions?.length > 0 && (
             <Text style={styles.debugError}>
@@ -781,11 +920,49 @@ export default function ScheduleScreen() {
                       return null;
                     }
                     
-                    const startMinutes = minutesFromStart(start);
-                    const endMinutes = minutesFromStart(end);
+                    // Clamp times to calendar bounds
+                    let startMinutes = minutesFromStart(start);
+                    let endMinutes = minutesFromStart(end);
+                    
+                    // Clamp to calendar start/end times
+                    startMinutes = Math.max(startMinutes, DAY_START_HOUR * 60);
+                    endMinutes = Math.min(endMinutes, DAY_END_HOUR * 60);
+                    
+                    // Validate range - skip if completely outside calendar
+                    if (startMinutes >= DAY_END_HOUR * 60 || endMinutes <= DAY_START_HOUR * 60) {
+                      console.warn('⚠️ [schedule] Suggestion outside calendar bounds:', {
+                        suggestion,
+                        start_time: suggestion.start_time || suggestion.start,
+                        end_time: suggestion.end_time || suggestion.end,
+                        startMinutes,
+                        endMinutes,
+                      });
+                      return null; // Don't render if outside visible calendar
+                    }
+                    
+                    // Additional validation: Check if times are reasonable
+                    if (endMinutes <= startMinutes) {
+                      console.error(`❌ [schedule] RENDER: Invalid time range (end <= start):`, {
+                        suggestion,
+                        start,
+                        end,
+                        startMinutes,
+                        endMinutes,
+                      });
+                      return null; // Skip invalid time ranges
+                    }
+                    
+                    // Calculate position and height
                     const offsetTop = (startMinutes - DAY_START_HOUR * 60) * PIXELS_PER_MINUTE;
                     const duration = endMinutes - startMinutes;
-                    const height = Math.max(duration * PIXELS_PER_MINUTE - 8, 80);
+                    
+                    // Calculate height with maximum constraint
+                    const maxHeight = TIMELINE_HEIGHT - offsetTop; // Don't exceed calendar
+                    const calculatedHeight = duration * PIXELS_PER_MINUTE - 8;
+                    const height = Math.min(
+                      Math.max(calculatedHeight, 80), // Minimum 80px
+                      maxHeight // Maximum: don't exceed calendar bounds
+                    );
                     
                     // Offset multiple suggestions slightly
                     const leftOffset = index * 4;
