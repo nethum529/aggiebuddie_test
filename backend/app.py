@@ -533,13 +533,14 @@ def generate_suggestions():
         }
         
         # Generate suggestions using AI service
-        suggestions = ai_service.generate_suggestions(ai_input)
+        suggestions_result = ai_service.generate_suggestions(ai_input)
+        suggestions_array = suggestions_result.get('suggestions', [])
         
         return jsonify({
             'success': True,
-            'message': f'Generated {len(suggestions)} suggestions',
+            'message': f'Generated {len(suggestions_array)} suggestions',
             'studentId': student_id,
-            'suggestions': suggestions,
+            'suggestions': suggestions_array,
             'parameters': {
                 'start_of_day': start_of_day,
                 'end_of_day': end_of_day,
