@@ -1,50 +1,51 @@
-# Welcome to your Expo app 👋
+# AggieBuddy
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A smart campus activity planner for Texas A&M students that helps students optimize the gaps in their schedule.
 
-## Get started
+## What It Does
 
-1. Install dependencies
+- **Upload your schedule** — Import your class schedule via `.ics` file
+- **Assign buildings** — Map your classes to campus buildings
+- **Get smart suggestions** — AI-powered recommendations that fit your free time blocks
 
-   ```bash
-   npm install
-   ```
+The app calculates optimal locations based on where your classes are, how much free time you have, and your activity preferences with no GPS tracking.
 
-2. Start the app
+## Tech Stack
 
-   ```bash
-   npx expo start
-   ```
+**Frontend:** React Native + Expo  
+**Backend:** Flask (Python)  
+**AI:** DeepSeek API (with rule-based fallback)
 
-In the output, you'll find options to open the app in a
+## Getting Started
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Prerequisites
+- Node.js
+- Python 3.8+
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Install & Run
 
 ```bash
-npm run reset-project
+# Install frontend dependencies
+npm install
+
+# Install backend dependencies
+cd backend
+pip install -r requirements.txt
+cd ..
+
+# Run both frontend and backend
+npm run dev
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Or run separately:
+```bash
+# Frontend only
+npm run web
 
-## Learn more
+# Backend only
+cd backend && python app.py
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## License
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+MIT
